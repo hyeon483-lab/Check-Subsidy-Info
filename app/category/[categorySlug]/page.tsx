@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getBenefits, getCategories, getCategoryBySlug, getRegions } from "@/lib/data";
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
+import { getCategoryStyle } from "@/lib/categoryStyle";
 
 export const revalidate = 3600;
 
@@ -36,24 +37,40 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     getBenefits({ categorySlug }),
   ]);
 
+  const style = getCategoryStyle(category.slug);
+  const Icon = style.icon;
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="mb-2 text-2xl font-bold text-gray-900 md:text-3xl">{category.name} 지원금·혜택</h1>
-      {category.description && <p className="mb-8 text-gray-600">{category.description}</p>}
-
-      <FilterBar regions={regions} categories={categories} activeCategorySlug={category.slug} />
-
-      {benefits.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-gray-500">
-          등록된 지원금이 아직 없습니다.
-        </p>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {benefits.map((benefit) => (
-            <BenefitCard key={benefit.id} benefit={benefit} />
-          ))}
+    <div>
+      <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
+        <div className="mx-auto max-w-5xl px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
+          <span
+            className={`mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl ${style.iconWrap}`}
+          >
+            <Icon className="h-5 w-5" />
+          </span>
+          <h1 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{category.name} 지원금·혜택</h1>
+          {category.description && <p className="text-[15px] text-slate-500">{category.description}</p>}
         </div>
-      )}
+      </section>
+
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        <div className="mb-8 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100">
+          <FilterBar regions={regions} categories={categories} activeCategorySlug={category.slug} />
+        </div>
+
+        {benefits.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
+            등록된 지원금이 아직 없습니다.
+          </p>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {benefits.map((benefit) => (
+              <BenefitCard key={benefit.id} benefit={benefit} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

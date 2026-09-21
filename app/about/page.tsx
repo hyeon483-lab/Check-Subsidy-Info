@@ -7,9 +7,9 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 text-gray-700">
-      <h1 className="mb-6 text-2xl font-bold text-gray-900">사이트 소개</h1>
-      <div className="space-y-4 leading-relaxed">
+    <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+      <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">사이트 소개</h1>
+      <div className="space-y-4 rounded-2xl bg-white p-6 text-[15px] leading-relaxed text-slate-600 shadow-card ring-1 ring-slate-100 sm:p-8">
         <p>
           &lsquo;내 지원금 찾기&rsquo;는 전국 지자체가 운영하는 결혼, 출산·육아, 청년, 주거 관련 지원 제도를
           한곳에서 비교하고 확인할 수 있도록 정리하는 정보 서비스입니다.

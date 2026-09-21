@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getAllBenefitSlugs, getBenefitBySlug } from "@/lib/data";
+import { getCategoryStyle } from "@/lib/categoryStyle";
+import { BuildingIcon, CheckIcon, DocumentIcon, RegionIcon } from "@/components/icons";
 
 export const revalidate = 3600;
 
@@ -40,109 +42,137 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
   if (!benefit) notFound();
 
   const conditionTags = formatCondition(benefit);
+  const style = getCategoryStyle(benefit.category?.slug);
+  const Icon = style.icon;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <nav className="mb-6 flex gap-2 text-sm text-gray-500">
-        {benefit.region && (
-          <Link href={`/region/${benefit.region.slug}`} className="hover:text-brand-600">
-            {benefit.region.name}
-          </Link>
-        )}
-        {benefit.category && (
-          <>
-            <span>/</span>
-            <Link href={`/category/${benefit.category.slug}`} className="hover:text-brand-600">
-              {benefit.category.name}
-            </Link>
-          </>
-        )}
-      </nav>
+    <div>
+      <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
+        <div className="mx-auto max-w-3xl px-4 pb-10 pt-10 sm:px-6">
+          <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
+            {benefit.region && (
+              <Link href={`/region/${benefit.region.slug}`} className="inline-flex items-center gap-1 hover:text-brand-700">
+                <RegionIcon className="h-3.5 w-3.5" />
+                {benefit.region.name}
+              </Link>
+            )}
+            {benefit.category && (
+              <>
+                <span className="text-slate-300">/</span>
+                <Link href={`/category/${benefit.category.slug}`} className="hover:text-brand-700">
+                  {benefit.category.name}
+                </Link>
+              </>
+            )}
+          </nav>
 
-      <h1 className="mb-3 text-2xl font-bold text-gray-900 md:text-3xl">{benefit.title}</h1>
-      <p className="mb-6 text-gray-600">{benefit.summary}</p>
-
-      {conditionTags.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          {conditionTags.map((tag) => (
-            <span key={tag} className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              {tag}
+          <div className="mb-4 flex items-center gap-3">
+            <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${style.iconWrap}`}>
+              <Icon className="h-6 w-6" />
             </span>
-          ))}
+            <h1 className="text-2xl font-bold leading-snug tracking-tight text-slate-900 sm:text-3xl">
+              {benefit.title}
+            </h1>
+          </div>
+          <p className="mb-5 text-[15px] leading-relaxed text-slate-500">{benefit.summary}</p>
+
+          {conditionTags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {conditionTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-200"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-      )}
-
-      <section className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-        <h2 className="mb-2 text-lg font-semibold text-gray-900">지원 대상</h2>
-        <p className="whitespace-pre-line text-gray-700">{benefit.eligibility}</p>
       </section>
 
-      <section className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-        <h2 className="mb-2 text-lg font-semibold text-gray-900">지원 내용</h2>
-        <p className="whitespace-pre-line text-gray-700">{benefit.support_content}</p>
-      </section>
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+        <section className="mb-5 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
+          <h2 className="mb-2.5 text-base font-bold text-slate-900">지원 대상</h2>
+          <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.eligibility}</p>
+        </section>
 
-      <section className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-        <h2 className="mb-2 text-lg font-semibold text-gray-900">신청 방법</h2>
-        <p className="whitespace-pre-line text-gray-700">{benefit.application_method}</p>
-        {benefit.required_documents.length > 0 && (
-          <>
-            <h3 className="mb-1 mt-4 font-medium text-gray-900">필요 서류</h3>
-            <ul className="list-inside list-disc text-gray-700">
-              {benefit.required_documents.map((doc) => (
-                <li key={doc}>{doc}</li>
+        <section className="mb-5 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
+          <h2 className="mb-2.5 text-base font-bold text-slate-900">지원 내용</h2>
+          <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.support_content}</p>
+        </section>
+
+        <section className="mb-5 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
+          <h2 className="mb-2.5 text-base font-bold text-slate-900">신청 방법</h2>
+          <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.application_method}</p>
+          {benefit.required_documents.length > 0 && (
+            <div className="mt-4 border-t border-slate-100 pt-4">
+              <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-700">
+                <DocumentIcon className="h-4 w-4 text-slate-400" />
+                필요 서류
+              </h3>
+              <ul className="space-y-1.5">
+                {benefit.required_documents.map((doc) => (
+                  <li key={doc} className="flex items-start gap-2 text-sm text-slate-600">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-300" />
+                    {doc}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+
+        {benefit.checklist.length > 0 && (
+          <section className="mb-5 rounded-2xl bg-brand-50/60 p-6 ring-1 ring-inset ring-brand-100">
+            <h2 className="mb-3 text-base font-bold text-brand-900">신청 전 체크리스트</h2>
+            <ul className="space-y-2.5">
+              {benefit.checklist.map((item) => (
+                <li key={item} className="flex items-start gap-2 text-[15px] text-slate-700">
+                  <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
+                  {item}
+                </li>
               ))}
             </ul>
-          </>
+          </section>
         )}
-      </section>
 
-      {benefit.checklist.length > 0 && (
-        <section className="mb-8 rounded-lg border border-brand-100 bg-brand-50 p-6">
-          <h2 className="mb-2 text-lg font-semibold text-brand-700">신청 전 체크리스트</h2>
-          <ul className="list-inside list-disc text-gray-700">
-            {benefit.checklist.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-      )}
+        {benefit.faq.length > 0 && (
+          <section className="mb-5">
+            <h2 className="mb-3 text-base font-bold text-slate-900">자주 묻는 질문</h2>
+            <div className="space-y-2.5">
+              {benefit.faq.map((item) => (
+                <div key={item.question} className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-slate-100">
+                  <p className="mb-1 text-sm font-semibold text-slate-900">Q. {item.question}</p>
+                  <p className="text-sm leading-relaxed text-slate-600">A. {item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
-      {benefit.faq.length > 0 && (
-        <section className="mb-8">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">자주 묻는 질문</h2>
-          <div className="space-y-3">
-            {benefit.faq.map((item) => (
-              <div key={item.question} className="rounded-lg border border-gray-200 bg-white p-4">
-                <p className="mb-1 font-medium text-gray-900">Q. {item.question}</p>
-                <p className="text-gray-700">A. {item.answer}</p>
-              </div>
-            ))}
+        <section className="rounded-2xl border border-slate-200 bg-white p-6">
+          <div className="mb-1 flex items-center gap-2 text-sm text-slate-600">
+            <BuildingIcon className="h-4 w-4 text-slate-400" />
+            담당 기관: {benefit.agency_name}
           </div>
-        </section>
-      )}
-
-      <section className="mb-8 rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-600">
-        <p>담당 기관: {benefit.agency_name}</p>
-        {benefit.agency_url && (
-          <p className="mt-1">
-            공식 안내:{" "}
+          {benefit.agency_url && (
             <a
               href={benefit.agency_url}
               target="_blank"
               rel="noopener noreferrer nofollow"
-              className="text-brand-600 underline"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-700"
             >
-              공식 페이지 바로가기
+              공식 페이지에서 확인하기
             </a>
+          )}
+          <p className="mt-4 text-xs leading-relaxed text-slate-400">
+            출처: {benefit.source_name}
+            {benefit.source_updated_at ? ` · ${benefit.source_updated_at} 기준` : ""}. 정확한 최신 기준은 반드시
+            공식 안내를 다시 확인하세요.
           </p>
-        )}
-        <p className="mt-3 text-xs text-gray-400">
-          출처: {benefit.source_name}
-          {benefit.source_updated_at ? ` · ${benefit.source_updated_at} 기준` : ""}. 정확한 최신 기준은 반드시
-          공식 안내를 다시 확인하세요.
-        </p>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

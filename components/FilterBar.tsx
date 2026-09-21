@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Category, Region } from "@/lib/types";
+import { getCategoryStyle } from "@/lib/categoryStyle";
+import { RegionIcon } from "./icons";
 
 export default function FilterBar({
   regions,
@@ -23,52 +25,72 @@ export default function FilterBar({
   }
 
   return (
-    <div className="mb-8 space-y-3">
-      <div className="flex flex-wrap gap-2">
-        <Link
-          href={buildHref(undefined, activeCategorySlug)}
-          className={`rounded-full border px-3 py-1 text-sm ${
-            !activeRegionSlug ? "border-brand-500 bg-brand-50 text-brand-700" : "border-gray-200 text-gray-600"
-          }`}
-        >
-          전체 지역
-        </Link>
-        {sidoRegions.map((region) => (
+    <div className="space-y-4">
+      <div>
+        <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
+          <RegionIcon className="h-3.5 w-3.5" />
+          지역
+        </p>
+        <div className="flex flex-wrap gap-2">
           <Link
-            key={region.id}
-            href={buildHref(region.slug, activeCategorySlug)}
-            className={`rounded-full border px-3 py-1 text-sm ${
-              activeRegionSlug === region.slug
-                ? "border-brand-500 bg-brand-50 text-brand-700"
-                : "border-gray-200 text-gray-600"
+            href={buildHref(undefined, activeCategorySlug)}
+            className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
+              !activeRegionSlug
+                ? "bg-brand-600 text-white shadow-sm"
+                : "bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
             }`}
           >
-            {region.name}
+            전체 지역
           </Link>
-        ))}
+          {sidoRegions.map((region) => (
+            <Link
+              key={region.id}
+              href={buildHref(region.slug, activeCategorySlug)}
+              className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
+                activeRegionSlug === region.slug
+                  ? "bg-brand-600 text-white shadow-sm"
+                  : "bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
+              }`}
+            >
+              {region.name}
+            </Link>
+          ))}
+        </div>
       </div>
-      <div className="flex flex-wrap gap-2">
-        <Link
-          href={buildHref(activeRegionSlug, undefined)}
-          className={`rounded-full border px-3 py-1 text-sm ${
-            !activeCategorySlug ? "border-brand-500 bg-brand-50 text-brand-700" : "border-gray-200 text-gray-600"
-          }`}
-        >
-          전체 카테고리
-        </Link>
-        {categories.map((category) => (
+
+      <div>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">카테고리</p>
+        <div className="flex flex-wrap gap-2">
           <Link
-            key={category.id}
-            href={buildHref(activeRegionSlug, category.slug)}
-            className={`rounded-full border px-3 py-1 text-sm ${
-              activeCategorySlug === category.slug
-                ? "border-brand-500 bg-brand-50 text-brand-700"
-                : "border-gray-200 text-gray-600"
+            href={buildHref(activeRegionSlug, undefined)}
+            className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
+              !activeCategorySlug
+                ? "bg-slate-900 text-white shadow-sm"
+                : "bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
             }`}
           >
-            {category.name}
+            전체 카테고리
           </Link>
-        ))}
+          {categories.map((category) => {
+            const style = getCategoryStyle(category.slug);
+            const Icon = style.icon;
+            const active = activeCategorySlug === category.slug;
+            return (
+              <Link
+                key={category.id}
+                href={buildHref(activeRegionSlug, category.slug)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
+                  active
+                    ? "bg-slate-900 text-white shadow-sm"
+                    : "bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                <Icon className={`h-3.5 w-3.5 ${active ? "text-white" : "text-slate-400"}`} />
+                {category.name}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

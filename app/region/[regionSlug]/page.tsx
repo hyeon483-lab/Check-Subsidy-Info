@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getBenefits, getCategories, getRegionBySlug, getRegions } from "@/lib/data";
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
+import { RegionIcon } from "@/components/icons";
 
 export const revalidate = 3600;
 
@@ -37,25 +38,37 @@ export default async function RegionPage({ params }: { params: Promise<{ regionS
   ]);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="mb-2 text-2xl font-bold text-gray-900 md:text-3xl">{region.name} 지원금·혜택</h1>
-      <p className="mb-8 text-gray-600">
-        {region.name}에서 신청할 수 있는 지원 제도를 카테고리별로 확인하세요.
-      </p>
-
-      <FilterBar regions={regions} categories={categories} activeRegionSlug={region.slug} />
-
-      {benefits.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-gray-500">
-          {region.name}에 등록된 지원금이 아직 없습니다.
-        </p>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {benefits.map((benefit) => (
-            <BenefitCard key={benefit.id} benefit={benefit} />
-          ))}
+    <div>
+      <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
+        <div className="mx-auto max-w-5xl px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
+          <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-inset ring-brand-100">
+            <RegionIcon className="h-3.5 w-3.5" />
+            지역별 지원금
+          </span>
+          <h1 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{region.name} 지원금·혜택</h1>
+          <p className="text-[15px] text-slate-500">
+            {region.name}에서 신청할 수 있는 지원 제도를 카테고리별로 확인하세요.
+          </p>
         </div>
-      )}
+      </section>
+
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        <div className="mb-8 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100">
+          <FilterBar regions={regions} categories={categories} activeRegionSlug={region.slug} />
+        </div>
+
+        {benefits.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
+            {region.name}에 등록된 지원금이 아직 없습니다.
+          </p>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {benefits.map((benefit) => (
+              <BenefitCard key={benefit.id} benefit={benefit} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
