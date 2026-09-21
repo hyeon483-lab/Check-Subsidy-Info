@@ -3,8 +3,8 @@ import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { siteUrl } from "@/lib/site";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
 export const metadata: Metadata = {

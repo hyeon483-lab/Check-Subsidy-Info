@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllBenefitSlugs, getCategories, getRegions } from "@/lib/data";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+import { siteUrl } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [regions, categories, benefitSlugs] = await Promise.all([
