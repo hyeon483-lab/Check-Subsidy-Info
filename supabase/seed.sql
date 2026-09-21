@@ -38,14 +38,15 @@ insert into benefits (
   checklist, faq, agency_name, agency_url,
   income_condition, age_min, age_max, household_type,
   application_start_date, application_end_date, is_ongoing,
-  source_name, source_updated_at, is_published
+  source_name, source_updated_at, is_published,
+  program_slug, fiscal_year, is_current
 )
 select
   'seoul-youth-rent-support',
   '서울시 청년 월세 지원',
   '서울에 거주하는 무주택 청년의 월세 부담을 줄여주는 서울시 지원 제도입니다.',
   r.id, c.id,
-  '신청일 기준 서울시 주민등록을 둔 만 19~39세 무주택 1인가구 청년으로, 부모와 따로 거주 중이며 가구 기준 중위소득 48% 초과 150% 이하여야 합니다. 임차보증금 8천만원 이하·월세 60만원 이하 주택(또는 보증금 환산액과 월세 합계 93만원 이하) 거주자만 해당하며, 국토부 청년월세 한시특별지원 수령자·공공임대주택 거주자·부모 소유 주택 임차인은 제외됩니다.',
+  '신청일 기준 서울시 주민등록을 둔 만 19~39세 무주택 청년으로, 부모와 따로 거주 중이며 가구 기준 중위소득 48% 초과 150% 이하여야 합니다. 임차보증금 8천만원 이하·월세 60만원 이하 주택(또는 보증금 환산액과 월세 합계 93만원 이하) 거주자만 해당하며, 국토부 청년월세 한시특별지원 수령자·공공임대주택 거주자·부모 소유 주택 임차인은 제외됩니다. 2026년부터는 1인가구 청년뿐 아니라 무자녀 신혼부부, 청년 한부모가족, 전세사기피해 청년까지 지원 대상이 확대되었습니다.',
   '월 최대 20만원씩 최장 12개월(생애 1회, 최대 240만원)을 지원합니다. 월세가 20만원보다 적으면 실제 월세만큼만 지급됩니다.',
   '서울주거포털(housing.seoul.go.kr) "청년월세지원" 메뉴에서 자가진단 후 온라인으로 접수합니다. 연중 상시가 아니라 별도 모집 공고 기간에만 신청할 수 있으니 공지사항을 미리 확인해야 합니다.',
   array['임대차계약서', '월세 이체 내역', '가족관계증명서', '소득 증빙서류'],
@@ -56,7 +57,8 @@ select
   '기준 중위소득 48% 초과 150% 이하',
   19, 39, '1인가구',
   null, null, false,
-  '서울주거포털 공고 및 언론 보도 기준 정리', current_date, true
+  '서울주거포털 공고 및 언론 보도 기준 정리', current_date, true,
+  'seoul-youth-rent-support', 2026, true
 from regions r, categories c
 where r.slug = 'seoul' and c.slug = 'housing'
 on conflict (slug) do update set
@@ -68,7 +70,8 @@ on conflict (slug) do update set
   income_condition = excluded.income_condition, age_min = excluded.age_min, age_max = excluded.age_max,
   household_type = excluded.household_type, is_ongoing = excluded.is_ongoing,
   source_name = excluded.source_name, source_updated_at = excluded.source_updated_at,
-  is_published = excluded.is_published;
+  is_published = excluded.is_published,
+  program_slug = excluded.program_slug, fiscal_year = excluded.fiscal_year, is_current = excluded.is_current;
 
 insert into benefits (
   slug, title, summary, region_id, category_id,
@@ -76,7 +79,8 @@ insert into benefits (
   checklist, faq, agency_name, agency_url,
   income_condition, age_min, age_max, household_type,
   application_start_date, application_end_date, is_ongoing,
-  source_name, source_updated_at, is_published
+  source_name, source_updated_at, is_published,
+  program_slug, fiscal_year, is_current
 )
 select
   'seoul-newlywed-loan-interest',
@@ -94,7 +98,8 @@ select
   '부부합산 연소득 1억 3천만원 이하',
   null, null, '신혼부부',
   null, null, true,
-  '서울주거포털 공고 및 언론 보도 기준 정리', current_date, true
+  '서울주거포털 공고 및 언론 보도 기준 정리', current_date, true,
+  'seoul-newlywed-loan-interest', 2026, true
 from regions r, categories c
 where r.slug = 'seoul' and c.slug = 'marriage'
 on conflict (slug) do update set
@@ -105,7 +110,8 @@ on conflict (slug) do update set
   agency_name = excluded.agency_name, agency_url = excluded.agency_url,
   income_condition = excluded.income_condition, household_type = excluded.household_type,
   is_ongoing = excluded.is_ongoing, source_name = excluded.source_name,
-  source_updated_at = excluded.source_updated_at, is_published = excluded.is_published;
+  source_updated_at = excluded.source_updated_at, is_published = excluded.is_published,
+  program_slug = excluded.program_slug, fiscal_year = excluded.fiscal_year, is_current = excluded.is_current;
 
 insert into benefits (
   slug, title, summary, region_id, category_id,
@@ -113,7 +119,8 @@ insert into benefits (
   checklist, faq, agency_name, agency_url,
   income_condition, age_min, age_max, household_type,
   application_start_date, application_end_date, is_ongoing,
-  source_name, source_updated_at, is_published
+  source_name, source_updated_at, is_published,
+  program_slug, fiscal_year, is_current
 )
 select
   'gyeonggi-basic-income-youth',
@@ -131,7 +138,8 @@ select
   null,
   24, 24, '무관',
   null, null, true,
-  '경기청년포털 공고 기준 정리', current_date, true
+  '경기청년포털 공고 기준 정리', current_date, true,
+  'gyeonggi-basic-income-youth', 2026, true
 from regions r, categories c
 where r.slug = 'gyeonggi' and c.slug = 'youth'
 on conflict (slug) do update set
@@ -142,7 +150,8 @@ on conflict (slug) do update set
   agency_name = excluded.agency_name, agency_url = excluded.agency_url,
   age_min = excluded.age_min, age_max = excluded.age_max, household_type = excluded.household_type,
   is_ongoing = excluded.is_ongoing, source_name = excluded.source_name,
-  source_updated_at = excluded.source_updated_at, is_published = excluded.is_published;
+  source_updated_at = excluded.source_updated_at, is_published = excluded.is_published,
+  program_slug = excluded.program_slug, fiscal_year = excluded.fiscal_year, is_current = excluded.is_current;
 
 -- 기존 예시 데이터였던 incheon-birth-grant는 아래 실제 제도로 대체합니다.
 delete from benefits where slug = 'incheon-birth-grant';
@@ -153,7 +162,8 @@ insert into benefits (
   checklist, faq, agency_name, agency_url,
   income_condition, age_min, age_max, household_type,
   application_start_date, application_end_date, is_ongoing,
-  source_name, source_updated_at, is_published
+  source_name, source_updated_at, is_published,
+  program_slug, fiscal_year, is_current
 )
 select
   'incheon-postpartum-care-support',
@@ -171,7 +181,8 @@ select
   '기초생활수급자·차상위계층 등 취약계층 기준',
   null, null, null,
   null, null, true,
-  '인천광역시청 공식 홈페이지 기준 정리', current_date, true
+  '인천광역시청 공식 홈페이지 기준 정리', current_date, true,
+  'incheon-postpartum-care-support', 2026, true
 from regions r, categories c
 where r.slug = 'incheon' and c.slug = 'birth'
 on conflict (slug) do update set
@@ -182,4 +193,5 @@ on conflict (slug) do update set
   agency_name = excluded.agency_name, agency_url = excluded.agency_url,
   income_condition = excluded.income_condition, is_ongoing = excluded.is_ongoing,
   source_name = excluded.source_name, source_updated_at = excluded.source_updated_at,
-  is_published = excluded.is_published;
+  is_published = excluded.is_published,
+  program_slug = excluded.program_slug, fiscal_year = excluded.fiscal_year, is_current = excluded.is_current;

@@ -43,7 +43,7 @@ export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit
   const supabase = getSupabaseClient();
 
   if (!supabase) {
-    let results = seedBenefits.filter((b) => b.is_published);
+    let results = seedBenefits.filter((b) => b.is_published && b.is_current);
     if (filters.regionSlug) {
       const region = regions.find((r) => r.slug === filters.regionSlug);
       results = results.filter((b) => b.region_id === region?.id);
@@ -55,7 +55,7 @@ export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit
     return results.map((b) => attachRelations(b, regions, categories));
   }
 
-  let query = supabase.from("benefits").select("*").eq("is_published", true);
+  let query = supabase.from("benefits").select("*").eq("is_published", true).eq("is_current", true);
 
   if (filters.regionSlug) {
     const region = regions.find((r) => r.slug === filters.regionSlug);
@@ -67,6 +67,29 @@ export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit
   }
 
   const { data, error } = await query.order("created_at", { ascending: false });
+  if (error || !data) return [];
+  return (data as Benefit[]).map((b) => attachRelations(b, regions, categories));
+}
+
+/** 같은 제도의 연도별 버전을 최신순으로 반환합니다 (히스토리 표시용). */
+export async function getBenefitHistory(programSlug: string): Promise<Benefit[]> {
+  const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return seedBenefits
+      .filter((b) => b.is_published && b.program_slug === programSlug)
+      .sort((a, b) => b.fiscal_year - a.fiscal_year)
+      .map((b) => attachRelations(b, regions, categories));
+  }
+
+  const { data, error } = await supabase
+    .from("benefits")
+    .select("*")
+    .eq("is_published", true)
+    .eq("program_slug", programSlug)
+    .order("fiscal_year", { ascending: false });
+
   if (error || !data) return [];
   return (data as Benefit[]).map((b) => attachRelations(b, regions, categories));
 }
@@ -91,7 +114,15 @@ export async function getBenefitBySlug(slug: string): Promise<Benefit | undefine
   return attachRelations(data as Benefit, regions, categories);
 }
 
+/** sitemap/generateStaticParams용: 현재 연도뿐 아니라 히스토리 페이지까지 전부 포함합니다. */
 export async function getAllBenefitSlugs(): Promise<string[]> {
-  const benefits = await getBenefits();
-  return benefits.map((b) => b.slug);
+  const supabase = getSupabaseClient();
+
+  if (!supabase) {
+    return seedBenefits.filter((b) => b.is_published).map((b) => b.slug);
+  }
+
+  const { data, error } = await supabase.from("benefits").select("slug").eq("is_published", true);
+  if (error || !data) return [];
+  return (data as { slug: string }[]).map((b) => b.slug);
 }

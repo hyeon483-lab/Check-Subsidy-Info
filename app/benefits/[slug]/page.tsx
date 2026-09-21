@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAllBenefitSlugs, getBenefitBySlug } from "@/lib/data";
+import { getAllBenefitSlugs, getBenefitBySlug, getBenefitHistory } from "@/lib/data";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { BuildingIcon, CheckIcon, DocumentIcon, RegionIcon } from "@/components/icons";
 
@@ -44,9 +44,22 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
   const conditionTags = formatCondition(benefit);
   const style = getCategoryStyle(benefit.category?.slug);
   const Icon = style.icon;
+  const history = await getBenefitHistory(benefit.program_slug);
+  const currentVersion = history.find((h) => h.is_current);
 
   return (
     <div>
+      {!benefit.is_current && currentVersion && (
+        <div className="bg-amber-50">
+          <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm text-amber-800 sm:px-6">
+            <span>이 페이지는 {benefit.fiscal_year}년도 종료된 정보입니다. 신청에는 사용할 수 없습니다.</span>
+            <Link href={`/benefits/${currentVersion.slug}`} className="shrink-0 font-semibold underline">
+              최신({currentVersion.fiscal_year}년) 정보 보기 →
+            </Link>
+          </div>
+        </div>
+      )}
+
       <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
         <div className="mx-auto max-w-3xl px-4 pb-10 pt-10 sm:px-6">
           <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
@@ -77,7 +90,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
           <p className="mb-5 text-[15px] leading-relaxed text-slate-500">{benefit.summary}</p>
 
           {conditionTags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="mb-4 flex flex-wrap gap-2">
               {conditionTags.map((tag) => (
                 <span
                   key={tag}
@@ -86,6 +99,28 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
                   {tag}
                 </span>
               ))}
+            </div>
+          )}
+
+          {history.length > 1 && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">연도별 보기</span>
+              {history.map((h) => {
+                const active = h.slug === benefit.slug;
+                return (
+                  <Link
+                    key={h.slug}
+                    href={`/benefits/${h.slug}`}
+                    className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
+                      active
+                        ? "bg-slate-900 text-white"
+                        : "bg-white text-slate-500 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
+                    }`}
+                  >
+                    {h.fiscal_year}년
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>

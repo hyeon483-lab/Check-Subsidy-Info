@@ -52,6 +52,10 @@ export interface Benefit {
   source_updated_at: string | null;
   is_published: boolean;
 
+  fiscal_year: number;
+  program_slug: string;
+  is_current: boolean;
+
   // joined convenience fields (populated by the data layer)
   region?: Region;
   category?: Category;
