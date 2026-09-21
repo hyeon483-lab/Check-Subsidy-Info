@@ -1,8 +1,7 @@
 -- =============================================================================
--- 샘플/예시 시드 데이터입니다.
--- 실제 서비스 오픈 전 공공데이터포털 "지자체복지서비스" API 등에서 받은
--- 검증된 데이터로 반드시 교체하세요. (source_name = '예시 데이터'로 표시된 항목)
--- 개발 중 UI/쿼리 구조를 확인하기 위한 용도입니다.
+-- 실제 지원금 데이터 (2026년 9월 기준, 공식 홈페이지/공고문 기준 정리)
+-- 제도는 예산 소진, 조례 개정 등으로 수시로 바뀔 수 있습니다.
+-- 반드시 agency_url의 공식 페이지에서 최신 기준을 다시 확인한 뒤 안내하세요.
 -- =============================================================================
 
 -- regions --------------------------------------------------------------------
@@ -32,7 +31,7 @@ insert into categories (slug, name, description, sort_order) values
   ('housing', '주거', '전월세, 주택 구입 관련 지원 제도', 4)
 on conflict (slug) do nothing;
 
--- benefits (예시 데이터) ---------------------------------------------------
+-- benefits (실제 데이터) ---------------------------------------------------
 insert into benefits (
   slug, title, summary, region_id, category_id,
   eligibility, support_content, application_method, required_documents,
@@ -43,24 +42,33 @@ insert into benefits (
 )
 select
   'seoul-youth-rent-support',
-  '서울시 청년 월세 지원 (예시)',
-  '서울에 거주하는 무주택 청년의 월세 부담을 줄여주기 위한 지원 제도입니다.',
+  '서울시 청년 월세 지원',
+  '서울에 거주하는 무주택 청년의 월세 부담을 줄여주는 서울시 지원 제도입니다.',
   r.id, c.id,
-  '서울시에 주민등록이 되어 있고, 부모와 별도로 거주하는 만 19~39세 무주택 청년이면 신청할 수 있습니다.',
-  '월 최대 20만원, 최장 12개월까지 월세를 지원합니다. (예시 금액이며 실제 공고 기준 확인 필요)',
-  '서울주거포털 또는 정부24에서 온라인으로 신청합니다. 접수 기간 중에만 신청이 가능합니다.',
-  array['임대차계약서', '주민등록등본', '통장 사본', '소득 증빙 서류'],
-  array['본인 명의 임대차계약서인지 확인하세요', '부모와 세대가 분리되어 있는지 확인하세요', '기존에 다른 주거 지원을 받고 있지 않은지 확인하세요'],
-  '[{"question": "재학생도 신청할 수 있나요?", "answer": "재학 여부와 관계없이 연령·거주 요건을 충족하면 신청할 수 있는 경우가 많습니다. 공고문에서 정확한 기준을 확인하세요."}]'::jsonb,
+  '신청일 기준 서울시 주민등록을 둔 만 19~39세 무주택 1인가구 청년으로, 부모와 따로 거주 중이며 가구 기준 중위소득 48% 초과 150% 이하여야 합니다. 임차보증금 8천만원 이하·월세 60만원 이하 주택(또는 보증금 환산액과 월세 합계 93만원 이하) 거주자만 해당하며, 국토부 청년월세 한시특별지원 수령자·공공임대주택 거주자·부모 소유 주택 임차인은 제외됩니다.',
+  '월 최대 20만원씩 최장 12개월(생애 1회, 최대 240만원)을 지원합니다. 월세가 20만원보다 적으면 실제 월세만큼만 지급됩니다.',
+  '서울주거포털(housing.seoul.go.kr) "청년월세지원" 메뉴에서 자가진단 후 온라인으로 접수합니다. 연중 상시가 아니라 별도 모집 공고 기간에만 신청할 수 있으니 공지사항을 미리 확인해야 합니다.',
+  array['임대차계약서', '월세 이체 내역', '가족관계증명서', '소득 증빙서류'],
+  array['임대차계약서가 본인 명의인지 확인하세요', '부모 소유 주택에 거주 중이라면 대상이 아닙니다', '국토부 청년월세 한시특별지원을 이미 받았다면 중복 신청이 불가능합니다', '공공임대주택 거주자는 제외 대상입니다'],
+  '[{"question": "월세가 20만원보다 적으면 어떻게 되나요?", "answer": "실제 월세 금액만큼만 지원됩니다."}, {"question": "신청 기간이 정해져 있나요?", "answer": "네, 상시 신청이 아니라 서울시가 공고하는 모집 기간에만 신청할 수 있습니다. 서울주거포털 공지사항을 확인하세요."}]'::jsonb,
   '서울시 청년정책담당관',
-  null,
-  '기준 중위소득 150% 이하 (예시)',
+  'https://housing.seoul.go.kr/',
+  '기준 중위소득 48% 초과 150% 이하',
   19, 39, '1인가구',
-  null, null, true,
-  '예시 데이터', null, true
+  null, null, false,
+  '서울주거포털 공고 및 언론 보도 기준 정리', current_date, true
 from regions r, categories c
 where r.slug = 'seoul' and c.slug = 'housing'
-on conflict (slug) do nothing;
+on conflict (slug) do update set
+  title = excluded.title, summary = excluded.summary,
+  eligibility = excluded.eligibility, support_content = excluded.support_content,
+  application_method = excluded.application_method, required_documents = excluded.required_documents,
+  checklist = excluded.checklist, faq = excluded.faq,
+  agency_name = excluded.agency_name, agency_url = excluded.agency_url,
+  income_condition = excluded.income_condition, age_min = excluded.age_min, age_max = excluded.age_max,
+  household_type = excluded.household_type, is_ongoing = excluded.is_ongoing,
+  source_name = excluded.source_name, source_updated_at = excluded.source_updated_at,
+  is_published = excluded.is_published;
 
 insert into benefits (
   slug, title, summary, region_id, category_id,
@@ -72,24 +80,32 @@ insert into benefits (
 )
 select
   'seoul-newlywed-loan-interest',
-  '서울시 신혼부부 전세자금 대출이자 지원 (예시)',
-  '전세자금 대출을 받은 서울 거주 신혼부부에게 이자의 일부를 지원합니다.',
+  '서울시 신혼부부 임차보증금 이자지원',
+  '전세자금 대출을 받은 서울 거주 신혼(예비)부부에게 이자를 지원하는 제도입니다.',
   r.id, c.id,
-  '혼인신고 후 7년 이내이거나 3개월 내 결혼 예정인 부부로, 서울시에 거주(예정)해야 합니다.',
-  '대출금 최대 2억원에 대해 연 최대 3.0%p 이내로 이자를 지원합니다. (예시 수치)',
-  '서울주거포털에서 온라인 신청 후 서류 심사를 거칩니다.',
-  array['혼인관계증명서', '전세임대차계약서', '대출 관련 서류', '소득 증빙 서류'],
-  array['부부합산 소득 기준을 충족하는지 확인하세요', '보증금 및 대출한도 기준을 확인하세요'],
-  '[]'::jsonb,
+  '대출신청일 기준 혼인신고 7년 이내이거나 6개월 이내 결혼 예정인 신혼(예비)부부로, 부부합산 연소득 1억 3천만원 이하이며 본인과 배우자 모두 무주택자여야 합니다. 서울시민이거나 대출 후 1개월 이내 서울로 전입할 예정이어야 합니다.',
+  '임차보증금 7억원 이하 주택(주거용 오피스텔·노인복지주택 포함)에 대해 보증금의 90% 이내, 최대 3억원까지 대출 이자를 지원합니다. 부부 1쌍당 생애 최초 1회 지원되며, 조건 충족 시 연장을 통해 최장 10년까지 이용할 수 있습니다.',
+  '서울주거포털에서 대상자 여부를 먼저 확인한 뒤, 협약은행을 방문해 대출을 신청합니다.',
+  array['혼인관계증명서(또는 예비부부 증빙 서류)', '임대차계약서', '부부합산 소득 증빙서류', '무주택 확인서류'],
+  array['부부합산 연소득이 1억 3천만원을 넘지 않는지 확인하세요', '본인과 배우자 모두 무주택자여야 합니다', '임차보증금이 7억원을 넘지 않는 주택인지 확인하세요', '생애 1회만 지원되니 이전에 받은 적이 있는지 확인하세요'],
+  '[{"question": "결혼 준비 중인데도 신청할 수 있나요?", "answer": "대출신청일로부터 6개월 이내 결혼식 예정인 예비부부도 신청할 수 있습니다."}]'::jsonb,
   '서울시 주택정책과',
-  null,
-  '부부합산 연소득 1억 3천만원 이하 (예시)',
+  'https://housing.seoul.go.kr/site/main/content/sh01_0400800',
+  '부부합산 연소득 1억 3천만원 이하',
   null, null, '신혼부부',
   null, null, true,
-  '예시 데이터', null, true
+  '서울주거포털 공고 및 언론 보도 기준 정리', current_date, true
 from regions r, categories c
 where r.slug = 'seoul' and c.slug = 'marriage'
-on conflict (slug) do nothing;
+on conflict (slug) do update set
+  title = excluded.title, summary = excluded.summary,
+  eligibility = excluded.eligibility, support_content = excluded.support_content,
+  application_method = excluded.application_method, required_documents = excluded.required_documents,
+  checklist = excluded.checklist, faq = excluded.faq,
+  agency_name = excluded.agency_name, agency_url = excluded.agency_url,
+  income_condition = excluded.income_condition, household_type = excluded.household_type,
+  is_ongoing = excluded.is_ongoing, source_name = excluded.source_name,
+  source_updated_at = excluded.source_updated_at, is_published = excluded.is_published;
 
 insert into benefits (
   slug, title, summary, region_id, category_id,
@@ -101,24 +117,35 @@ insert into benefits (
 )
 select
   'gyeonggi-basic-income-youth',
-  '경기도 청년 기본소득 (예시)',
-  '경기도에 일정 기간 거주한 청년에게 분기별 지역화폐를 지급합니다.',
+  '경기도 청년기본소득',
+  '경기도에 일정 기간 거주한 만 24세 청년에게 분기별로 지역화폐를 지급하는 제도입니다.',
   r.id, c.id,
-  '신청일 기준 경기도에 3년 이상 계속 거주했거나 합산 10년 이상 거주한 만 24세 청년입니다.',
-  '분기별 25만원(연 최대 100만원)을 해당 시군 지역화폐로 지급합니다. (예시 수치)',
-  '경기민원24 홈페이지에서 온라인으로 신청합니다.',
-  array['주민등록초본(주소이력 포함)'],
-  array['거주 이력이 요건을 충족하는지 초본으로 미리 확인하세요', '분기별 신청 기간을 놓치지 않도록 알림을 설정하세요'],
-  '[]'::jsonb,
+  '신청일 기준 경기도에 주민등록을 둔 만 24세 청년 중 최근 3년 이상 계속 거주했거나 합산 10년 이상 거주한 경우 신청할 수 있습니다. 다만 성남시는 관련 조례가 폐지되었고 고양시는 예산이 편성되지 않아 두 지역은 신청 대상에서 제외됩니다.',
+  '분기별 25만원씩 연 최대 100만원을 지역화폐로 지급합니다.',
+  '경기청년포털과 연계된 "잡아바 어플라이"에서 온라인으로 신청합니다. 로그인 후 "청년기본소득" 메뉴에서 신청서를 작성하며, 마이데이터 서비스에 동의하면 주민등록초본이 별도 발급 없이 자동 제출됩니다. 신청 기간은 분기마다 다르게 공지됩니다.',
+  array['신분증(본인 확인용)', '주민등록초본(마이데이터 미동의 시)'],
+  array['거주 중인 시군이 성남시·고양시 등 제외 지역이 아닌지 확인하세요', '해당 분기에 만 24세인지 확인하세요', '최근 3년 계속 거주 또는 합산 10년 거주 요건 중 하나를 충족해야 합니다', '분기별로 각각 신청해야 하며 놓친 분기는 지급되지 않습니다'],
+  '[{"question": "한 번 신청하면 4번 다 받을 수 있나요?", "answer": "아니요, 분기마다 별도로 신청해야 하며 신청하지 않은 분기는 지급되지 않습니다."}]'::jsonb,
   '경기도 청년복지정책과',
-  null,
+  'https://youth.gg.go.kr/',
   null,
   24, 24, '무관',
   null, null, true,
-  '예시 데이터', null, true
+  '경기청년포털 공고 기준 정리', current_date, true
 from regions r, categories c
 where r.slug = 'gyeonggi' and c.slug = 'youth'
-on conflict (slug) do nothing;
+on conflict (slug) do update set
+  title = excluded.title, summary = excluded.summary,
+  eligibility = excluded.eligibility, support_content = excluded.support_content,
+  application_method = excluded.application_method, required_documents = excluded.required_documents,
+  checklist = excluded.checklist, faq = excluded.faq,
+  agency_name = excluded.agency_name, agency_url = excluded.agency_url,
+  age_min = excluded.age_min, age_max = excluded.age_max, household_type = excluded.household_type,
+  is_ongoing = excluded.is_ongoing, source_name = excluded.source_name,
+  source_updated_at = excluded.source_updated_at, is_published = excluded.is_published;
+
+-- 기존 예시 데이터였던 incheon-birth-grant는 아래 실제 제도로 대체합니다.
+delete from benefits where slug = 'incheon-birth-grant';
 
 insert into benefits (
   slug, title, summary, region_id, category_id,
@@ -129,22 +156,30 @@ insert into benefits (
   source_name, source_updated_at, is_published
 )
 select
-  'incheon-birth-grant',
-  '인천시 출산장려금 (예시)',
-  '인천에 거주하며 출산한 가정에 첫째부터 장려금을 지급합니다.',
+  'incheon-postpartum-care-support',
+  '인천시 맘편한 산후조리비 지원',
+  '인천에 거주하는 취약계층 산모에게 산후조리비를 지역화폐로 지원하는 제도입니다.',
   r.id, c.id,
-  '출생일 기준 인천시에 주민등록을 두고 있는 가정이면 신청할 수 있습니다.',
-  '첫째 100만원, 둘째 이상은 금액이 상향됩니다. (예시 수치이며 자치구별로 다를 수 있음)',
-  '거주지 주민센터 방문 또는 정부24 온라인 신청이 가능합니다.',
-  array['출생신고 관련 서류', '주민등록등본', '통장 사본'],
-  array['출생신고를 먼저 완료했는지 확인하세요', '거주 중인 구청/군청의 별도 조례 지원금도 함께 확인하세요'],
-  '[]'::jsonb,
-  '인천시 아동보육과',
-  null,
-  null,
-  null, null, '무관',
+  '신청일 기준 인천시에 1년 이상 계속 주민등록을 두고 거주 중인 취약계층 산모(기초생활수급자, 차상위계층, 한부모가족, 장애인 등)가 대상입니다. 중앙육아종합지원센터의 부모교육(e-러닝) 이수가 필수 조건입니다.',
+  '산모 1인당 150만원을 인천e음 지역화폐 포인트로 지급합니다. 이는 인천시 통합 지원이며, 거주 중인 자치구에 따라 별도의 추가 산후조리비 지원사업이 있을 수 있습니다.',
+  '임신 32주부터 출산 후 90일 이내에 거주지 관할 보건소를 통해 신청합니다.',
+  array['산모수첩 또는 임신확인서(임신 중 신청 시)', '출생신고 관련 서류(출산 후 신청 시)', '취약계층 증빙서류', '부모교육 이수 확인서'],
+  array['신청일 기준 인천시에 1년 이상 계속 거주했는지 확인하세요', '중앙육아종합지원센터 부모교육을 미리 이수해두세요', '임신 32주~출산 후 90일 이내 신청 기간을 놓치지 마세요', '거주 중인 구청 보건소의 추가 자체 지원사업도 함께 확인하세요'],
+  '[{"question": "취약계층이 아니어도 받을 수 있나요?", "answer": "이 통합 지원은 기초생활수급자, 차상위계층, 한부모가족, 장애인 등 취약계층 산모를 대상으로 합니다. 해당하지 않는다면 거주 중인 자치구의 별도 산후조리비 지원사업을 확인해보세요."}]'::jsonb,
+  '인천시 여성가족과 / 관할 보건소',
+  'https://www.incheon.go.kr/welfare/WE020355',
+  '기초생활수급자·차상위계층 등 취약계층 기준',
+  null, null, null,
   null, null, true,
-  '예시 데이터', null, true
+  '인천광역시청 공식 홈페이지 기준 정리', current_date, true
 from regions r, categories c
 where r.slug = 'incheon' and c.slug = 'birth'
-on conflict (slug) do nothing;
+on conflict (slug) do update set
+  title = excluded.title, summary = excluded.summary,
+  eligibility = excluded.eligibility, support_content = excluded.support_content,
+  application_method = excluded.application_method, required_documents = excluded.required_documents,
+  checklist = excluded.checklist, faq = excluded.faq,
+  agency_name = excluded.agency_name, agency_url = excluded.agency_url,
+  income_condition = excluded.income_condition, is_ongoing = excluded.is_ongoing,
+  source_name = excluded.source_name, source_updated_at = excluded.source_updated_at,
+  is_published = excluded.is_published;
