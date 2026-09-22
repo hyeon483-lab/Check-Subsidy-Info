@@ -38,12 +38,15 @@ export default async function Image() {
               height: 84,
               borderRadius: 24,
               backgroundColor: "#2563eb",
-              color: "#ffffff",
-              fontSize: 38,
-              fontWeight: 700,
             }}
           >
-            내
+            <svg width="46" height="46" viewBox="0 0 24 24">
+              <path
+                d="M12 21s7-7.373 7-12a7 7 0 1 0-14 0c0 4.627 7 12 7 12z"
+                fill="white"
+              />
+              <circle cx="12" cy="9" r="2.6" fill="#2563eb" />
+            </svg>
           </div>
           <div style={{ display: "flex", fontSize: 48, fontWeight: 700, color: "#0f172a" }}>내 지원금 찾기</div>
         </div>

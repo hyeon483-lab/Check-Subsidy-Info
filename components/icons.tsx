@@ -1,5 +1,17 @@
 type IconProps = { className?: string };
 
+export function LogoMark({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path
+        d="M12 21s7-7.373 7-12a7 7 0 1 0-14 0c0 4.627 7 12 7 12z"
+        fill="white"
+      />
+      <circle cx="12" cy="9" r="2.6" fill="#2563eb" />
+    </svg>
+  );
+}
+
 export function MarriageIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">

@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { FilterIcon, SearchIcon } from "./icons";
+import { FilterIcon, LogoMark, SearchIcon } from "./icons";
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">
-            내
+          <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-brand-600">
+            <LogoMark className="h-[18px] w-[18px]" />
           </span>
           <span className="text-[15px] font-bold tracking-tight text-slate-900 sm:hidden">내지원금</span>
           <span className="hidden text-[15px] font-bold tracking-tight text-slate-900 sm:inline">
