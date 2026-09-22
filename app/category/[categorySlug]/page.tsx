@@ -5,12 +5,9 @@ import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 
-export const revalidate = 3600;
-
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((c) => ({ categorySlug: c.slug }));
-}
+// Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
+// 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

@@ -1,16 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAllBenefitSlugs, getBenefitBySlug, getBenefitHistory } from "@/lib/data";
+import { getBenefitBySlug, getBenefitHistory } from "@/lib/data";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { BuildingIcon, CheckIcon, DocumentIcon, RegionIcon } from "@/components/icons";
 
-export const revalidate = 3600;
-
-export async function generateStaticParams() {
-  const slugs = await getAllBenefitSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
+// Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
+// 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
