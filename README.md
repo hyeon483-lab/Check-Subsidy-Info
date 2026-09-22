@@ -40,6 +40,8 @@ npm run dev
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `NEXT_PUBLIC_SITE_URL` (개발 중엔 `https://<project>.vercel.app`)
    - `NEXT_PUBLIC_ADSENSE_CLIENT_ID` (AdSense 승인 후 발급되는 `ca-pub-...` 값)
+   - `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE`, `NEXT_PUBLIC_ADSENSE_SLOT_LISTING` (AdSense에서 만든 광고 단위 ID, 선택)
+   - `NEXT_PUBLIC_GA_MEASUREMENT_ID` (GA4 측정 ID `G-...`, 선택)
 3. 커스텀 도메인을 구입하면 Vercel의 Domains 설정에서 연결하고, `NEXT_PUBLIC_SITE_URL`을 새 도메인으로 업데이트합니다.
 4. 도메인 전환 시:
    - Supabase Auth를 나중에 추가한다면 Redirect URL을 새 도메인으로 갱신해야 합니다.
