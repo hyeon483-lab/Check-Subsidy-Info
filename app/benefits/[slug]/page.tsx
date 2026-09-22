@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getBenefitBySlug, getBenefitHistory } from "@/lib/data";
+import { getBenefitBySlug, getBenefitHistory, getRelatedBenefits } from "@/lib/data";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { BuildingIcon, CheckIcon, DocumentIcon, RegionIcon } from "@/components/icons";
 import { siteUrl } from "@/lib/site";
 import TableOfContents from "@/components/TableOfContents";
 import ScrollTopButton from "@/components/ScrollTopButton";
 import AdSlot from "@/components/AdSlot";
+import BenefitCard from "@/components/BenefitCard";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       modifiedTime: benefit.source_updated_at ?? undefined,
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: benefit.title,
       description: benefit.summary,
     },
@@ -63,6 +64,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
   const Icon = style.icon;
   const history = await getBenefitHistory(benefit.program_slug);
   const currentVersion = history.find((h) => h.is_current);
+  const relatedBenefits = benefit.is_current ? await getRelatedBenefits(benefit) : [];
   const pageUrl = `${siteUrl}/benefits/${benefit.slug}`;
 
   const tocItems = [
@@ -273,6 +275,19 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
                   <p className="mb-1 text-sm font-semibold text-slate-900">Q. {item.question}</p>
                   <p className="text-sm leading-relaxed text-slate-600">A. {item.answer}</p>
                 </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {relatedBenefits.length > 0 && (
+          <section className="mb-5">
+            <h2 className="mb-3 text-base font-bold text-slate-900">
+              {benefit.region ? `${benefit.region.name}의 다른 지원금` : "관련 지원금"}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {relatedBenefits.map((related) => (
+                <BenefitCard key={related.id} benefit={related} />
               ))}
             </div>
           </section>

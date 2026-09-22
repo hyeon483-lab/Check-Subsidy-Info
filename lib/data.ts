@@ -130,6 +130,29 @@ export async function getBenefitBySlug(slug: string): Promise<Benefit | undefine
   return attachRelations(data as Benefit, regions, categories);
 }
 
+/**
+ * 지원금 상세 페이지 하단의 "관련 지원금" 추천용입니다. 같은 지역의 다른
+ * 제도를 우선 채우고, 부족하면 같은 카테고리의 다른 지역 제도로 채웁니다.
+ */
+export async function getRelatedBenefits(benefit: Benefit, limit = 4): Promise<Benefit[]> {
+  const [byRegion, byCategory] = await Promise.all([
+    benefit.region ? getBenefits({ regionSlug: benefit.region.slug }) : Promise.resolve([]),
+    benefit.category ? getBenefits({ categorySlug: benefit.category.slug }) : Promise.resolve([]),
+  ]);
+
+  const seen = new Set([benefit.slug]);
+  const related: Benefit[] = [];
+
+  for (const b of [...byRegion, ...byCategory]) {
+    if (related.length >= limit) break;
+    if (seen.has(b.slug)) continue;
+    seen.add(b.slug);
+    related.push(b);
+  }
+
+  return related;
+}
+
 /** sitemap/generateStaticParams용: 현재 연도뿐 아니라 히스토리 페이지까지 전부 포함합니다. */
 export async function getAllBenefitSlugs(): Promise<string[]> {
   const meta = await getAllBenefitsMeta();

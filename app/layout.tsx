@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     url: siteUrl,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${siteName} | 지역별 정부·지자체 지원금 모음`,
     description: siteDescription,
   },
