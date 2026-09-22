@@ -106,12 +106,10 @@ export function ListIcon({ className }: IconProps) {
   );
 }
 
-export function CalculatorIcon({ className }: IconProps) {
+export function FilterIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
-      <path d="M8 7h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M4 5h16L14 13v6l-4 2v-8L4 5z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
     </svg>
   );
 }

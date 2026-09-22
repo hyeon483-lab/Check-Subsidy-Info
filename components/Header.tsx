@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalculatorIcon, SearchIcon } from "./icons";
+import { FilterIcon, SearchIcon } from "./icons";
 
 export default function Header() {
   return (
@@ -35,11 +35,11 @@ export default function Header() {
             <SearchIcon className="h-5 w-5" />
           </Link>
           <Link
-            href="/calculator"
+            href="/finder"
             className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition hover:bg-slate-100 hover:text-slate-900"
           >
-            <CalculatorIcon className="h-4 w-4" />
-            <span className="hidden sm:inline">계산기</span>
+            <FilterIcon className="h-4 w-4" />
+            <span className="hidden sm:inline">맞춤 찾기</span>
           </Link>
           <Link
             href="/about"

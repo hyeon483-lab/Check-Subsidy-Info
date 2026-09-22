@@ -6,7 +6,7 @@ import BenefitCard from "./BenefitCard";
 
 const HOUSEHOLD_OPTIONS = ["전체", "1인가구", "신혼부부"];
 
-export default function CalculatorClient({
+export default function FinderClient({
   benefits,
   regions,
   categories,
@@ -80,11 +80,11 @@ export default function CalculatorClient({
         className="space-y-5 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100"
       >
         <div>
-          <label htmlFor="calc-region" className="mb-1.5 block text-sm font-semibold text-slate-700">
+          <label htmlFor="finder-region" className="mb-1.5 block text-sm font-semibold text-slate-700">
             거주 지역
           </label>
           <select
-            id="calc-region"
+            id="finder-region"
             value={regionSlug}
             onChange={(e) => setRegionSlug(e.target.value)}
             className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-700 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
@@ -106,11 +106,11 @@ export default function CalculatorClient({
         </div>
 
         <div>
-          <label htmlFor="calc-age" className="mb-1.5 block text-sm font-semibold text-slate-700">
+          <label htmlFor="finder-age" className="mb-1.5 block text-sm font-semibold text-slate-700">
             나이 (선택)
           </label>
           <input
-            id="calc-age"
+            id="finder-age"
             type="number"
             inputMode="numeric"
             min={0}
