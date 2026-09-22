@@ -4,6 +4,7 @@ import { getBenefits, getCategories, getCategoryBySlug, getRegions } from "@/lib
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
 import { getCategoryStyle } from "@/lib/categoryStyle";
+import { siteUrl } from "@/lib/site";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -17,9 +18,14 @@ export async function generateMetadata({
   const { categorySlug } = await params;
   const category = await getCategoryBySlug(categorySlug);
   if (!category) return {};
+  const title = `${category.name} 지원금·혜택 모음`;
+  const description = category.description ?? `${category.name} 관련 지원 제도를 정리했습니다.`;
+  const url = `${siteUrl}/category/${category.slug}`;
   return {
-    title: `${category.name} 지원금·혜택 모음`,
-    description: category.description ?? `${category.name} 관련 지원 제도를 정리했습니다.`,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title, description, url },
   };
 }
 

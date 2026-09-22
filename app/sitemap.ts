@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
-import { getAllBenefitSlugs, getCategories, getRegions } from "@/lib/data";
+import { getAllBenefitsMeta, getCategories, getRegions } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [regions, categories, benefitSlugs] = await Promise.all([
+  const [regions, categories, benefitsMeta] = await Promise.all([
     getRegions(),
     getCategories(),
-    getAllBenefitSlugs(),
+    getAllBenefitsMeta(),
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -29,8 +29,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const benefitRoutes: MetadataRoute.Sitemap = benefitSlugs.map((slug) => ({
-    url: `${siteUrl}/benefits/${slug}`,
+  const benefitRoutes: MetadataRoute.Sitemap = benefitsMeta.map((b) => ({
+    url: `${siteUrl}/benefits/${b.slug}`,
+    lastModified: b.updatedAt ?? undefined,
     changeFrequency: "weekly",
     priority: 0.8,
   }));

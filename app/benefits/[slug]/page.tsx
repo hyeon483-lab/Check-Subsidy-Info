@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { getBenefitBySlug, getBenefitHistory } from "@/lib/data";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { BuildingIcon, CheckIcon, DocumentIcon, RegionIcon } from "@/components/icons";
+import { siteUrl } from "@/lib/site";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -13,9 +14,23 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const benefit = await getBenefitBySlug(slug);
   if (!benefit) return {};
+  const url = `${siteUrl}/benefits/${benefit.slug}`;
   return {
     title: benefit.title,
     description: benefit.summary,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      title: benefit.title,
+      description: benefit.summary,
+      url,
+      modifiedTime: benefit.source_updated_at ?? undefined,
+    },
+    twitter: {
+      card: "summary",
+      title: benefit.title,
+      description: benefit.summary,
+    },
   };
 }
 
@@ -43,9 +58,74 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
   const Icon = style.icon;
   const history = await getBenefitHistory(benefit.program_slug);
   const currentVersion = history.find((h) => h.is_current);
+  const pageUrl = `${siteUrl}/benefits/${benefit.slug}`;
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "홈", item: siteUrl },
+      ...(benefit.region
+        ? [{ "@type": "ListItem", position: 2, name: benefit.region.name, item: `${siteUrl}/region/${benefit.region.slug}` }]
+        : []),
+      ...(benefit.category
+        ? [
+            {
+              "@type": "ListItem",
+              position: benefit.region ? 3 : 2,
+              name: benefit.category.name,
+              item: `${siteUrl}/category/${benefit.category.slug}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: (benefit.region ? 1 : 0) + (benefit.category ? 1 : 0) + 2,
+        name: benefit.title,
+        item: pageUrl,
+      },
+    ],
+  };
+
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "GovernmentService",
+    name: benefit.title,
+    description: benefit.summary,
+    url: pageUrl,
+    serviceType: benefit.category?.name,
+    areaServed: benefit.region
+      ? { "@type": "AdministrativeArea", name: benefit.region.name }
+      : undefined,
+    provider: {
+      "@type": "GovernmentOrganization",
+      name: benefit.agency_name,
+      url: benefit.agency_url ?? undefined,
+    },
+  };
+
+  const faqJsonLd =
+    benefit.faq.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: benefit.faq.map((item) => ({
+            "@type": "Question",
+            name: item.question,
+            acceptedAnswer: { "@type": "Answer", text: item.answer },
+          })),
+        }
+      : null;
 
   return (
     <div>
+      {/* next/script defers injection to the client; JSON-LD must be in the
+          initial HTML for crawlers that don't execute JS, so use plain tags. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
+      {faqJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      )}
       {!benefit.is_current && currentVersion && (
         <div className="bg-amber-50">
           <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm text-amber-800 sm:px-6">

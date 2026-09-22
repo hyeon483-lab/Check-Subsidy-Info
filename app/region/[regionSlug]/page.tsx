@@ -4,6 +4,7 @@ import { getBenefits, getCategories, getRegionBySlug, getRegions } from "@/lib/d
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
 import { RegionIcon } from "@/components/icons";
+import { siteUrl } from "@/lib/site";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -17,9 +18,14 @@ export async function generateMetadata({
   const { regionSlug } = await params;
   const region = await getRegionBySlug(regionSlug);
   if (!region) return {};
+  const title = `${region.name} 지원금·혜택 모음`;
+  const description = `${region.name}에서 받을 수 있는 정부·지자체 지원금과 혜택을 정리했습니다.`;
+  const url = `${siteUrl}/region/${region.slug}`;
   return {
-    title: `${region.name} 지원금·혜택 모음`,
-    description: `${region.name}에서 받을 수 있는 정부·지자체 지원금과 혜택을 정리했습니다.`,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title, description, url },
   };
 }
 

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "이용약관",
   description: "내 지원금 찾기의 이용약관입니다.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

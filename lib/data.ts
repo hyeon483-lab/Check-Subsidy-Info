@@ -116,13 +116,27 @@ export async function getBenefitBySlug(slug: string): Promise<Benefit | undefine
 
 /** sitemap/generateStaticParams용: 현재 연도뿐 아니라 히스토리 페이지까지 전부 포함합니다. */
 export async function getAllBenefitSlugs(): Promise<string[]> {
+  const meta = await getAllBenefitsMeta();
+  return meta.map((b) => b.slug);
+}
+
+/** sitemap의 lastModified용: slug와 최근 갱신일을 함께 반환합니다. */
+export async function getAllBenefitsMeta(): Promise<{ slug: string; updatedAt: string | null }[]> {
   const supabase = getSupabaseClient();
 
   if (!supabase) {
-    return seedBenefits.filter((b) => b.is_published).map((b) => b.slug);
+    return seedBenefits
+      .filter((b) => b.is_published)
+      .map((b) => ({ slug: b.slug, updatedAt: b.source_updated_at }));
   }
 
-  const { data, error } = await supabase.from("benefits").select("slug").eq("is_published", true);
+  const { data, error } = await supabase
+    .from("benefits")
+    .select("slug, source_updated_at")
+    .eq("is_published", true);
   if (error || !data) return [];
-  return (data as { slug: string }[]).map((b) => b.slug);
+  return (data as { slug: string; source_updated_at: string | null }[]).map((b) => ({
+    slug: b.slug,
+    updatedAt: b.source_updated_at,
+  }));
 }

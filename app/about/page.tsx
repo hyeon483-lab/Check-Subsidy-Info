@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "사이트 소개",
   description: "내 지원금 찾기 서비스 소개 페이지입니다.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
