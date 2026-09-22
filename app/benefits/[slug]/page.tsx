@@ -5,6 +5,8 @@ import { getBenefitBySlug, getBenefitHistory } from "@/lib/data";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { BuildingIcon, CheckIcon, DocumentIcon, RegionIcon } from "@/components/icons";
 import { siteUrl } from "@/lib/site";
+import TableOfContents from "@/components/TableOfContents";
+import ScrollTopButton from "@/components/ScrollTopButton";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -61,6 +63,14 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
   const history = await getBenefitHistory(benefit.program_slug);
   const currentVersion = history.find((h) => h.is_current);
   const pageUrl = `${siteUrl}/benefits/${benefit.slug}`;
+
+  const tocItems = [
+    { id: "eligibility", label: "지원 대상" },
+    { id: "support-content", label: "지원 내용" },
+    { id: "application-method", label: "신청 방법" },
+    ...(benefit.checklist.length > 0 ? [{ id: "checklist", label: "신청 전 체크리스트" }] : []),
+    ...(benefit.faq.length > 0 ? [{ id: "faq", label: "자주 묻는 질문" }] : []),
+  ];
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -206,17 +216,19 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
       </section>
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-        <section className="mb-5 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
+        <TableOfContents items={tocItems} />
+
+        <section id="eligibility" className="mb-5 scroll-mt-24 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
           <h2 className="mb-2.5 text-base font-bold text-slate-900">지원 대상</h2>
           <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.eligibility}</p>
         </section>
 
-        <section className="mb-5 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
+        <section id="support-content" className="mb-5 scroll-mt-24 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
           <h2 className="mb-2.5 text-base font-bold text-slate-900">지원 내용</h2>
           <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.support_content}</p>
         </section>
 
-        <section className="mb-5 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
+        <section id="application-method" className="mb-5 scroll-mt-24 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
           <h2 className="mb-2.5 text-base font-bold text-slate-900">신청 방법</h2>
           <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.application_method}</p>
           {benefit.required_documents.length > 0 && (
@@ -238,7 +250,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
         </section>
 
         {benefit.checklist.length > 0 && (
-          <section className="mb-5 rounded-2xl bg-brand-50/60 p-6 ring-1 ring-inset ring-brand-100">
+          <section id="checklist" className="mb-5 scroll-mt-24 rounded-2xl bg-brand-50/60 p-6 ring-1 ring-inset ring-brand-100">
             <h2 className="mb-3 text-base font-bold text-brand-900">신청 전 체크리스트</h2>
             <ul className="space-y-2.5">
               {benefit.checklist.map((item) => (
@@ -252,7 +264,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
         )}
 
         {benefit.faq.length > 0 && (
-          <section className="mb-5">
+          <section id="faq" className="mb-5 scroll-mt-24">
             <h2 className="mb-3 text-base font-bold text-slate-900">자주 묻는 질문</h2>
             <div className="space-y-2.5">
               {benefit.faq.map((item) => (
@@ -287,6 +299,8 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
           </p>
         </section>
       </div>
+
+      <ScrollTopButton />
     </div>
   );
 }

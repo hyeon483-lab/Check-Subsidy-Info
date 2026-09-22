@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getBenefits, getCategories, getCategoryBySlug, getRegions } from "@/lib/data";
+import { paginate } from "@/lib/paginate";
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
+import Pagination from "@/components/Pagination";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { siteUrl } from "@/lib/site";
 
@@ -29,8 +31,15 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryPage({ params }: { params: Promise<{ categorySlug: string }> }) {
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ categorySlug: string }>;
+  searchParams: Promise<{ page?: string }>;
+}) {
   const { categorySlug } = await params;
+  const { page } = await searchParams;
   const category = await getCategoryBySlug(categorySlug);
   if (!category) notFound();
 
@@ -39,6 +48,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     getCategories(),
     getBenefits({ categorySlug }),
   ]);
+  const { items, currentPage, totalPages } = paginate(benefits, Number(page) || 1);
 
   const style = getCategoryStyle(category.slug);
   const Icon = style.icon;
@@ -67,11 +77,14 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
             등록된 지원금이 아직 없습니다.
           </p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {benefits.map((benefit) => (
-              <BenefitCard key={benefit.id} benefit={benefit} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {items.map((benefit) => (
+                <BenefitCard key={benefit.id} benefit={benefit} />
+              ))}
+            </div>
+            <Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/category/${category.slug}`} />
+          </>
         )}
       </div>
     </div>

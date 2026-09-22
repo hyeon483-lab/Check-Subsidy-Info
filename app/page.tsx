@@ -1,20 +1,23 @@
 import { getBenefits, getCategories, getRegions } from "@/lib/data";
+import { paginate } from "@/lib/paginate";
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
+import Pagination from "@/components/Pagination";
 
 export const revalidate = 3600;
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ region?: string; category?: string }>;
+  searchParams: Promise<{ region?: string; category?: string; page?: string }>;
 }) {
-  const { region, category } = await searchParams;
+  const { region, category, page } = await searchParams;
   const [regions, categories, benefits] = await Promise.all([
     getRegions(),
     getCategories(),
     getBenefits({ regionSlug: region, categorySlug: category }),
   ]);
+  const { items, currentPage, totalPages } = paginate(benefits, Number(page) || 1);
 
   return (
     <div>
@@ -49,11 +52,19 @@ export default async function HomePage({
             조건에 맞는 지원금이 아직 등록되지 않았습니다.
           </p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {benefits.map((benefit) => (
-              <BenefitCard key={benefit.id} benefit={benefit} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {items.map((benefit) => (
+                <BenefitCard key={benefit.id} benefit={benefit} />
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              basePath="/"
+              searchParams={{ region, category }}
+            />
+          </>
         )}
       </div>
     </div>
