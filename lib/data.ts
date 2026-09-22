@@ -10,6 +10,22 @@ function attachRelations(benefit: Benefit, regions: Region[], categories: Catego
   };
 }
 
+/**
+ * 시·도를 선택하면 그 하위 시·군·구 전용 제도까지, 시·군·구를 선택하면
+ * 그 지역이 속한 시·도 전역 제도까지 함께 보여주기 위한 region_id 목록입니다.
+ */
+function matchingRegionIds(regionSlug: string, regions: Region[]): string[] {
+  const selected = regions.find((r) => r.slug === regionSlug);
+  if (!selected) return [];
+
+  if (selected.level === "sido") {
+    const childIds = regions.filter((r) => r.parent_id === selected.id).map((r) => r.id);
+    return [selected.id, ...childIds];
+  }
+
+  return selected.parent_id ? [selected.id, selected.parent_id] : [selected.id];
+}
+
 export async function getRegions(): Promise<Region[]> {
   const supabase = getSupabaseClient();
   if (!supabase) return seedRegions;
@@ -45,8 +61,8 @@ export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit
   if (!supabase) {
     let results = seedBenefits.filter((b) => b.is_published && b.is_current);
     if (filters.regionSlug) {
-      const region = regions.find((r) => r.slug === filters.regionSlug);
-      results = results.filter((b) => b.region_id === region?.id);
+      const ids = matchingRegionIds(filters.regionSlug, regions);
+      results = results.filter((b) => ids.includes(b.region_id));
     }
     if (filters.categorySlug) {
       const category = categories.find((c) => c.slug === filters.categorySlug);
@@ -58,8 +74,8 @@ export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit
   let query = supabase.from("benefits").select("*").eq("is_published", true).eq("is_current", true);
 
   if (filters.regionSlug) {
-    const region = regions.find((r) => r.slug === filters.regionSlug);
-    if (region) query = query.eq("region_id", region.id);
+    const ids = matchingRegionIds(filters.regionSlug, regions);
+    if (ids.length > 0) query = query.in("region_id", ids);
   }
   if (filters.categorySlug) {
     const category = categories.find((c) => c.slug === filters.categorySlug);
