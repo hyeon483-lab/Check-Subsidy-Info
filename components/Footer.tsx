@@ -22,6 +22,12 @@ export default function Footer() {
             <span className="text-sm font-semibold text-white">내 지원금 찾기</span>
           </div>
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <Link href="/finder" className="transition hover:text-white">
+              맞춤 지원금 찾기
+            </Link>
+            <Link href="/search" className="transition hover:text-white">
+              검색
+            </Link>
             <Link href="/about" className="transition hover:text-white">
               사이트 소개
             </Link>

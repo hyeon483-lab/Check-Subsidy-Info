@@ -1,15 +1,41 @@
+import type { Metadata } from "next";
 import { getBenefits, getCategories, getRegions } from "@/lib/data";
 import { paginate } from "@/lib/paginate";
+import { paginationMetadata } from "@/lib/paginationMeta";
+import { siteUrl } from "@/lib/site";
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
 import Pagination from "@/components/Pagination";
+import AdSlot from "@/components/AdSlot";
 
 export const revalidate = 3600;
+
+type HomeSearchParams = { region?: string; category?: string; page?: string };
+
+const homeTitle = "내 지원금 찾기 | 지역별 정부·지자체 지원금 모음";
+const homeDescription =
+  "결혼, 출산, 청년, 주거 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<HomeSearchParams>;
+}): Promise<Metadata> {
+  const { region, category, page } = await searchParams;
+  const benefits = await getBenefits({ regionSlug: region, categorySlug: category });
+  const { currentPage } = paginate(benefits, Number(page) || 1);
+  return {
+    title: homeTitle,
+    description: homeDescription,
+    openGraph: { title: homeTitle, description: homeDescription, url: siteUrl },
+    ...paginationMetadata("/", { region, category }, currentPage),
+  };
+}
 
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ region?: string; category?: string; page?: string }>;
+  searchParams: Promise<HomeSearchParams>;
 }) {
   const { region, category, page } = await searchParams;
   const [regions, categories, benefits] = await Promise.all([
@@ -58,6 +84,7 @@ export default async function HomePage({
                 <BenefitCard key={benefit.id} benefit={benefit} />
               ))}
             </div>
+            <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING} className="mt-6" />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

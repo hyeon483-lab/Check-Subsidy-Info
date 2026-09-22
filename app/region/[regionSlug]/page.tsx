@@ -2,9 +2,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getBenefits, getCategories, getRegionBySlug, getRegions } from "@/lib/data";
 import { paginate } from "@/lib/paginate";
+import { paginationMetadata } from "@/lib/paginationMeta";
 import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
 import Pagination from "@/components/Pagination";
+import AdSlot from "@/components/AdSlot";
 import { RegionIcon } from "@/components/icons";
 import { siteUrl } from "@/lib/site";
 
@@ -14,20 +16,24 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ regionSlug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }): Promise<Metadata> {
   const { regionSlug } = await params;
+  const { page } = await searchParams;
   const region = await getRegionBySlug(regionSlug);
   if (!region) return {};
   const title = `${region.name} 지원금·혜택 모음`;
   const description = `${region.name}에서 받을 수 있는 정부·지자체 지원금과 혜택을 정리했습니다.`;
-  const url = `${siteUrl}/region/${region.slug}`;
+  const benefits = await getBenefits({ regionSlug });
+  const { currentPage } = paginate(benefits, Number(page) || 1);
   return {
     title,
     description,
-    alternates: { canonical: url },
-    openGraph: { title, description, url },
+    openGraph: { title, description, url: `${siteUrl}/region/${region.slug}` },
+    ...paginationMetadata(`/region/${region.slug}`, {}, currentPage),
   };
 }
 
@@ -81,6 +87,7 @@ export default async function RegionPage({
                 <BenefitCard key={benefit.id} benefit={benefit} />
               ))}
             </div>
+            <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING} className="mt-6" />
             <Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/region/${region.slug}`} />
           </>
         )}

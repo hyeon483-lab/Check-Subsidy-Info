@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { siteUrl } from "@/lib/site";
 
 const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const siteName = "내 지원금 찾기";
 const siteDescription =
@@ -69,6 +70,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             crossOrigin="anonymous"
             strategy="afterInteractive"
           />
+        )}
+        {gaMeasurementId && (
+          <>
+            <Script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaMeasurementId}');`}
+            </Script>
+          </>
         )}
       </head>
       <body className="flex min-h-screen flex-col font-sans antialiased">

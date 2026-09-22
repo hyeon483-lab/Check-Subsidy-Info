@@ -7,6 +7,7 @@ import { BuildingIcon, CheckIcon, DocumentIcon, RegionIcon } from "@/components/
 import { siteUrl } from "@/lib/site";
 import TableOfContents from "@/components/TableOfContents";
 import ScrollTopButton from "@/components/ScrollTopButton";
+import AdSlot from "@/components/AdSlot";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -276,6 +277,8 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
             </div>
           </section>
         )}
+
+        <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE} className="mb-5" />
 
         <section className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="mb-1 flex items-center gap-2 text-sm text-slate-600">
