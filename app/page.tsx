@@ -7,6 +7,10 @@ import FilterBar from "@/components/FilterBar";
 import BenefitCard from "@/components/BenefitCard";
 import Pagination from "@/components/Pagination";
 import AdSlot from "@/components/AdSlot";
+import StatsBar from "@/components/StatsBar";
+import ToolsShowcase from "@/components/ToolsShowcase";
+import CategoryGrid from "@/components/CategoryGrid";
+import OfficialLinks from "@/components/OfficialLinks";
 
 export const revalidate = 3600;
 
@@ -38,12 +42,25 @@ export default async function HomePage({
   searchParams: Promise<HomeSearchParams>;
 }) {
   const { region, category, page } = await searchParams;
-  const [regions, categories, benefits] = await Promise.all([
+  const [regions, categories, benefits, allBenefits] = await Promise.all([
     getRegions(),
     getCategories(),
     getBenefits({ regionSlug: region, categorySlug: category }),
+    getBenefits({}),
   ]);
   const { items, currentPage, totalPages } = paginate(benefits, Number(page) || 1);
+
+  const sidoCount = regions.filter((r) => r.level === "sido").length;
+  const categoriesWithCount = categories.map((c) => ({
+    ...c,
+    count: allBenefits.filter((b) => b.category_id === c.id).length,
+  }));
+  const stats = [
+    { label: "등록된 지원금", value: `${allBenefits.length}+` },
+    { label: "커버 지역(시·도)", value: `${sidoCount}개` },
+    { label: "카테고리", value: `${categories.length}개` },
+    { label: "이용 요금", value: "100% 무료" },
+  ];
 
   return (
     <div>
@@ -64,7 +81,19 @@ export default async function HomePage({
       </section>
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-        <div className="mb-8 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100 sm:-mt-6">
+        <div className="mb-12 sm:-mt-10">
+          <StatsBar stats={stats} />
+        </div>
+
+        <div className="mb-12">
+          <ToolsShowcase />
+        </div>
+
+        <div className="mb-12">
+          <CategoryGrid categories={categoriesWithCount} />
+        </div>
+
+        <div id="benefits-list" className="mb-8 scroll-mt-20 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100">
           <FilterBar
             regions={regions}
             categories={categories}
@@ -93,6 +122,10 @@ export default async function HomePage({
             />
           </>
         )}
+
+        <div className="mt-16">
+          <OfficialLinks />
+        </div>
       </div>
     </div>
   );
