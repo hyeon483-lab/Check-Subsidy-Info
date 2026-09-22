@@ -10,6 +10,7 @@ import AdSlot from "@/components/AdSlot";
 import ToolsShowcase from "@/components/ToolsShowcase";
 import CategoryGrid from "@/components/CategoryGrid";
 import OfficialLinks from "@/components/OfficialLinks";
+import RecentlyViewedSection from "@/components/RecentlyViewedSection";
 
 export const revalidate = 3600;
 
@@ -76,6 +77,8 @@ export default async function HomePage({
         <div className="mb-12">
           <ToolsShowcase />
         </div>
+
+        <RecentlyViewedSection />
 
         <div className="mb-12">
           <CategoryGrid categories={categoriesWithCount} />

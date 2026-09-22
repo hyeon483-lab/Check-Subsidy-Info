@@ -9,6 +9,8 @@ import TableOfContents from "@/components/TableOfContents";
 import ScrollTopButton from "@/components/ScrollTopButton";
 import AdSlot from "@/components/AdSlot";
 import BenefitCard from "@/components/BenefitCard";
+import ShareButton from "@/components/ShareButton";
+import RecordRecentlyViewed from "@/components/RecordRecentlyViewed";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -154,22 +156,25 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
 
       <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
         <div className="mx-auto max-w-3xl px-4 pb-10 pt-10 sm:px-6">
-          <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
-            {benefit.region && (
-              <Link href={`/region/${benefit.region.slug}`} className="inline-flex items-center gap-1 hover:text-brand-700">
-                <RegionIcon className="h-3.5 w-3.5" />
-                {benefit.region.name}
-              </Link>
-            )}
-            {benefit.category && (
-              <>
-                <span className="text-slate-300">/</span>
-                <Link href={`/category/${benefit.category.slug}`} className="hover:text-brand-700">
-                  {benefit.category.name}
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <nav className="flex items-center gap-2 text-sm text-slate-500">
+              {benefit.region && (
+                <Link href={`/region/${benefit.region.slug}`} className="inline-flex items-center gap-1 hover:text-brand-700">
+                  <RegionIcon className="h-3.5 w-3.5" />
+                  {benefit.region.name}
                 </Link>
-              </>
-            )}
-          </nav>
+              )}
+              {benefit.category && (
+                <>
+                  <span className="text-slate-300">/</span>
+                  <Link href={`/category/${benefit.category.slug}`} className="hover:text-brand-700">
+                    {benefit.category.name}
+                  </Link>
+                </>
+              )}
+            </nav>
+            <ShareButton title={benefit.title} url={pageUrl} />
+          </div>
 
           <div className="mb-4 flex items-center gap-3">
             <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${style.iconWrap}`}>
@@ -319,6 +324,12 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
       </div>
 
       <ScrollTopButton />
+      <RecordRecentlyViewed
+        slug={benefit.slug}
+        title={benefit.title}
+        categoryName={benefit.category?.name}
+        regionName={benefit.region?.name}
+      />
     </div>
   );
 }

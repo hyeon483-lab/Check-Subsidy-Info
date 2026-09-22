@@ -9,6 +9,7 @@ export default function Header() {
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">
             내
           </span>
+          <span className="text-[15px] font-bold tracking-tight text-slate-900 sm:hidden">내지원금</span>
           <span className="hidden text-[15px] font-bold tracking-tight text-slate-900 sm:inline">
             내 지원금 찾기
           </span>
