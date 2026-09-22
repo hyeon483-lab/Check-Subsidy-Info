@@ -36,11 +36,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 function formatCondition(benefit: NonNullable<Awaited<ReturnType<typeof getBenefitBySlug>>>) {
   const parts: string[] = [];
-  if (benefit.age_min || benefit.age_max) {
-    if (benefit.age_min && benefit.age_max && benefit.age_min !== benefit.age_max) {
+  const hasMin = benefit.age_min !== null && benefit.age_min !== undefined;
+  const hasMax = benefit.age_max !== null && benefit.age_max !== undefined;
+  if (hasMin || hasMax) {
+    if (hasMin && hasMax && benefit.age_min !== benefit.age_max) {
       parts.push(`만 ${benefit.age_min}~${benefit.age_max}세`);
     } else {
-      parts.push(`만 ${benefit.age_min ?? benefit.age_max}세`);
+      parts.push(`만 ${hasMin ? benefit.age_min : benefit.age_max}세`);
     }
   }
   if (benefit.household_type) parts.push(benefit.household_type);
