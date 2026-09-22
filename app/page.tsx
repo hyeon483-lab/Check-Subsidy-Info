@@ -11,6 +11,7 @@ import ToolsShowcase from "@/components/ToolsShowcase";
 import CategoryGrid from "@/components/CategoryGrid";
 import OfficialLinks from "@/components/OfficialLinks";
 import RecentlyViewedSection from "@/components/RecentlyViewedSection";
+import HomeIntro from "@/components/HomeIntro";
 
 export const revalidate = 3600;
 
@@ -115,6 +116,7 @@ export default async function HomePage({
         )}
 
         <div className="mt-16">
+          <HomeIntro />
           <OfficialLinks />
         </div>
       </div>
