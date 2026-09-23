@@ -10,7 +10,7 @@ const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const siteName = "내 지원금 찾기";
 const siteDescription =
-  "결혼, 출산, 아동·청소년, 청년, 주거, 어르신 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.";
+  "결혼, 출산, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 const siteName = "내 지원금 찾기";
-const feedDescription = "결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신 등 지역별 정부·지자체 지원금 최신 정보";
+const feedDescription = "결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 등 지역별 정부·지자체 지원금 최신 정보";
 
 function escapeXml(text: string): string {
   return text
