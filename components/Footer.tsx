@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { InfoIcon } from "./icons";
+import { InfoIcon, LogoMark } from "./icons";
 import { getCategories } from "@/lib/data";
 
 export default async function Footer() {
@@ -20,8 +20,8 @@ export default async function Footer() {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div>
             <div className="mb-3 flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white/10 text-xs font-bold text-white">
-                내
+              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600">
+                <LogoMark className="h-4 w-4" />
               </span>
               <span className="text-sm font-semibold text-white">내 지원금 찾기</span>
             </div>
