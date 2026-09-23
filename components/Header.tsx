@@ -5,12 +5,14 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-2">
+        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="내 지원금 찾기">
           <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-brand-600">
             <LogoMark className="h-[18px] w-[18px]" />
           </span>
-          <span className="text-[15px] font-bold tracking-tight text-slate-900 sm:hidden">내지원금</span>
-          <span className="hidden text-[15px] font-bold tracking-tight text-slate-900 sm:inline">
+          <span aria-hidden="true" className="text-[15px] font-bold tracking-tight text-slate-900 sm:hidden">
+            내지원금
+          </span>
+          <span aria-hidden="true" className="hidden text-[15px] font-bold tracking-tight text-slate-900 sm:inline">
             내 지원금 찾기
           </span>
         </Link>
