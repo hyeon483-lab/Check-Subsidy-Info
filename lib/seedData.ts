@@ -58,6 +58,7 @@ export const seedCategories: Category[] = [
   { id: "c-birth", slug: "birth", name: "출산·육아", description: "임신, 출산, 양육과 관련된 지원 제도", sort_order: 2 },
   { id: "c-youth", slug: "youth", name: "청년", description: "청년(만 19~39세 내외) 대상 지원 제도", sort_order: 3 },
   { id: "c-housing", slug: "housing", name: "주거", description: "전월세, 주택 구입 관련 지원 제도", sort_order: 4 },
+  { id: "c-senior", slug: "senior", name: "어르신", description: "만 65세 이상 어르신을 위한 지원 제도", sort_order: 5 },
 ];
 
 export const seedBenefits: Benefit[] = [

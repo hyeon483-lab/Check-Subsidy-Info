@@ -26,7 +26,7 @@ export default async function Footer() {
               <span className="text-sm font-semibold text-white">내 지원금 찾기</span>
             </div>
             <p className="text-xs leading-relaxed text-slate-500">
-              결혼, 출산, 청년, 주거 등 생애 이벤트별 지원금을 지역별로 한눈에 확인하세요.
+              결혼, 출산, 청년, 주거, 어르신 등 생애 이벤트별 지원금을 지역별로 한눈에 확인하세요.
             </p>
           </div>
 

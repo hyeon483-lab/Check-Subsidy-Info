@@ -19,7 +19,7 @@ type HomeSearchParams = { region?: string; category?: string; page?: string };
 
 const homeTitle = "내 지원금 찾기 | 지역별 정부·지자체 지원금 모음";
 const homeDescription =
-  "결혼, 출산, 청년, 주거 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.";
+  "결혼, 출산, 청년, 주거, 어르신 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.";
 
 export async function generateMetadata({
   searchParams,
@@ -69,7 +69,7 @@ export default async function HomePage({
             한눈에 찾아보세요
           </h1>
           <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-slate-500">
-            결혼, 출산·육아, 청년, 주거 등 생애 이벤트에 맞는 정부·지자체 지원금과 혜택을 지역별로 정리했습니다.
+            결혼, 출산·육아, 청년, 주거, 어르신 등 생애 이벤트에 맞는 정부·지자체 지원금과 혜택을 지역별로 정리했습니다.
           </p>
         </div>
       </section>

@@ -14,7 +14,7 @@ export default function HomeLoading() {
             한눈에 찾아보세요
           </h1>
           <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-slate-500">
-            결혼, 출산·육아, 청년, 주거 등 생애 이벤트에 맞는 정부·지자체 지원금과 혜택을 지역별로 정리했습니다.
+            결혼, 출산·육아, 청년, 주거, 어르신 등 생애 이벤트에 맞는 정부·지자체 지원금과 혜택을 지역별로 정리했습니다.
           </p>
         </div>
       </section>
