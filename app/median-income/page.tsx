@@ -87,7 +87,17 @@ export default function MedianIncomePage() {
         </p>
       </div>
 
-      <p className="text-xs text-slate-400">출처: 보건복지부 {medianIncomeYear}년도 기준 중위소득 고시</p>
+      <p className="text-xs text-slate-400">
+        출처: 보건복지부 {medianIncomeYear}년도 기준 중위소득 고시{" "}
+        <a
+          href="https://www.mohw.go.kr/board.es?mid=a10503010100&bid=0027&act=view&list_no=1487098"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          className="font-medium text-brand-600 hover:underline"
+        >
+          링크
+        </a>
+      </p>
     </div>
   );
 }
