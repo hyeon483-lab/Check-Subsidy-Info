@@ -9,10 +9,9 @@ export default function Header() {
           <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-brand-600">
             <LogoMark className="h-[18px] w-[18px]" />
           </span>
-          <span aria-hidden="true" className="text-[15px] font-bold tracking-tight text-slate-900 sm:hidden">
-            내지원금
-          </span>
-          <span aria-hidden="true" className="hidden text-[15px] font-bold tracking-tight text-slate-900 sm:inline">
+          {/* 모바일은 공간이 좁아 아이콘만 보여주고, 이 텍스트 하나만 DOM에 둬서
+              (반응형 대체 텍스트를 따로 두지 않음) 원문 추출 도구에서 중복 노출되지 않게 합니다. */}
+          <span className="hidden text-[15px] font-bold tracking-tight text-slate-900 sm:inline">
             내 지원금 찾기
           </span>
         </Link>
