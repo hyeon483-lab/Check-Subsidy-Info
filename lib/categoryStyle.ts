@@ -1,4 +1,4 @@
-import { BirthIcon, HousingIcon, MarriageIcon, SeniorIcon, YouthIcon } from "@/components/icons";
+import { BirthIcon, ChildYouthIcon, HousingIcon, MarriageIcon, SeniorIcon, YouthIcon } from "@/components/icons";
 
 export interface CategoryStyle {
   icon: typeof MarriageIcon;
@@ -16,6 +16,11 @@ const styles: Record<string, CategoryStyle> = {
     icon: BirthIcon,
     chip: "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-100",
     iconWrap: "bg-amber-50 text-amber-600",
+  },
+  "child-youth": {
+    icon: ChildYouthIcon,
+    chip: "bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-100",
+    iconWrap: "bg-sky-50 text-sky-600",
   },
   youth: {
     icon: YouthIcon,

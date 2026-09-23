@@ -51,7 +51,7 @@ export default async function Image() {
           <div style={{ display: "flex", fontSize: 48, fontWeight: 700, color: "#0f172a" }}>내 지원금 찾기</div>
         </div>
         <div style={{ display: "flex", fontSize: 30, color: "#475569", textAlign: "center", maxWidth: 860 }}>
-          결혼·출산·청년·주거·어르신 지원금을 지역별로 한눈에 찾아보세요
+          결혼·출산·아동청소년·청년·주거·어르신 지원금을 지역별로 한눈에 찾아보세요
         </div>
       </div>
     ),

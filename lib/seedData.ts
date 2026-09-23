@@ -69,9 +69,10 @@ export const seedRegions: Region[] = [
 export const seedCategories: Category[] = [
   { id: "c-marriage", slug: "marriage", name: "결혼", description: "결혼 준비·신혼부부를 위한 지원 제도", sort_order: 1 },
   { id: "c-birth", slug: "birth", name: "출산·육아", description: "임신, 출산, 양육과 관련된 지원 제도", sort_order: 2 },
-  { id: "c-youth", slug: "youth", name: "청년", description: "청년(만 19~39세 내외) 대상 지원 제도", sort_order: 3 },
-  { id: "c-housing", slug: "housing", name: "주거", description: "전월세, 주택 구입 관련 지원 제도", sort_order: 4 },
-  { id: "c-senior", slug: "senior", name: "어르신", description: "만 65세 이상 어르신을 위한 지원 제도", sort_order: 5 },
+  { id: "c-child-youth", slug: "child-youth", name: "아동·청소년", description: "만 7~18세 아동·청소년과 그 가정을 위한 지원 제도", sort_order: 3 },
+  { id: "c-youth", slug: "youth", name: "청년", description: "청년(만 19~39세 내외) 대상 지원 제도", sort_order: 4 },
+  { id: "c-housing", slug: "housing", name: "주거", description: "전월세, 주택 구입 관련 지원 제도", sort_order: 5 },
+  { id: "c-senior", slug: "senior", name: "어르신", description: "만 65세 이상 어르신을 위한 지원 제도", sort_order: 6 },
 ];
 
 export const seedBenefits: Benefit[] = [
