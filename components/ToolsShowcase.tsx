@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FilterIcon, SearchIcon } from "./icons";
+import { FilterIcon, SearchIcon, TableIcon } from "./icons";
 
 const tools = [
   {
@@ -16,13 +16,20 @@ const tools = [
     description: "지역·나이·가구 형태를 입력하면 조건에 맞는 지원금을 골라드려요.",
     color: "bg-brand-50 text-brand-600",
   },
+  {
+    href: "/median-income",
+    icon: TableIcon,
+    title: "기준 중위소득표",
+    description: "가구원수·비율별 기준 중위소득 금액을 한 번에 확인하세요.",
+    color: "bg-emerald-50 text-emerald-600",
+  },
 ];
 
 export default function ToolsShowcase() {
   return (
     <section>
       <h2 className="mb-4 text-lg font-bold text-slate-900">무료 도구</h2>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => {
           const Icon = tool.icon;
           return (

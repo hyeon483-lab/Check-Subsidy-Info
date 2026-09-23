@@ -56,6 +56,11 @@ export default async function Footer() {
                   맞춤 지원금 찾기
                 </Link>
               </li>
+              <li>
+                <Link href="/median-income" className="transition hover:text-white">
+                  기준 중위소득표
+                </Link>
+              </li>
             </ul>
           </div>
 
