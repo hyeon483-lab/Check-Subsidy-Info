@@ -23,7 +23,13 @@ export default function Pagination({
     return qs ? `${basePath}?${qs}` : basePath;
   }
 
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const maxVisible = 10;
+  const windowStart = Math.min(
+    Math.max(1, currentPage - Math.floor(maxVisible / 2)),
+    Math.max(1, totalPages - maxVisible + 1)
+  );
+  const windowEnd = Math.min(totalPages, windowStart + maxVisible - 1);
+  const pages = Array.from({ length: windowEnd - windowStart + 1 }, (_, i) => windowStart + i);
 
   return (
     <nav aria-label="페이지 네비게이션" className="mt-8 flex flex-wrap items-center justify-center gap-1.5">
@@ -39,6 +45,11 @@ export default function Pagination({
       >
         이전
       </Link>
+      {windowStart > 1 && (
+        <span className="px-1 text-sm text-slate-300" aria-hidden="true">
+          …
+        </span>
+      )}
       {pages.map((page) => (
         <Link
           key={page}
@@ -53,6 +64,11 @@ export default function Pagination({
           {page}
         </Link>
       ))}
+      {windowEnd < totalPages && (
+        <span className="px-1 text-sm text-slate-300" aria-hidden="true">
+          …
+        </span>
+      )}
       <Link
         href={buildHref(Math.min(totalPages, currentPage + 1))}
         aria-disabled={currentPage === totalPages}
