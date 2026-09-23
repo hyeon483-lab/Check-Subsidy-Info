@@ -13,7 +13,7 @@ import OfficialLinks from "@/components/OfficialLinks";
 import RecentlyViewedSection from "@/components/RecentlyViewedSection";
 import HomeIntro from "@/components/HomeIntro";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 type HomeSearchParams = { region?: string; category?: string; page?: string };
 
