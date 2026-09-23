@@ -13,17 +13,22 @@ function attachRelations(benefit: Benefit, regions: Region[], categories: Catego
 /**
  * 시·도를 선택하면 그 하위 시·군·구 전용 제도까지, 시·군·구를 선택하면
  * 그 지역이 속한 시·도 전역 제도까지 함께 보여주기 위한 region_id 목록입니다.
+ * 어느 지역을 선택하든 "전국" 단위 제도는 항상 함께 노출됩니다.
  */
 function matchingRegionIds(regionSlug: string, regions: Region[]): string[] {
   const selected = regions.find((r) => r.slug === regionSlug);
   if (!selected) return [];
 
-  if (selected.level === "sido") {
-    const childIds = regions.filter((r) => r.parent_id === selected.id).map((r) => r.id);
-    return [selected.id, ...childIds];
-  }
+  const nationwide = regions.find((r) => r.slug === "nationwide");
+  const ids =
+    selected.level === "sido"
+      ? [selected.id, ...regions.filter((r) => r.parent_id === selected.id).map((r) => r.id)]
+      : selected.parent_id
+        ? [selected.id, selected.parent_id]
+        : [selected.id];
 
-  return selected.parent_id ? [selected.id, selected.parent_id] : [selected.id];
+  if (nationwide && !ids.includes(nationwide.id)) ids.push(nationwide.id);
+  return ids;
 }
 
 export async function getRegions(): Promise<Region[]> {
