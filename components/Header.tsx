@@ -62,7 +62,7 @@ export default async function Header() {
           >
             {dict.header.navContact}
           </Link>
-          <LanguageToggle currentLocale={locale} />
+          <LanguageToggle />
         </nav>
       </div>
     </header>

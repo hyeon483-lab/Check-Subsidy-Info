@@ -1,5 +1,5 @@
 import type { Locale } from "./config";
-import { defaultLocale, locales } from "./config";
+import { defaultLocale, isLocale, locales } from "./config";
 
 /** Prefixes an internal path with the locale segment (e.g. "/en/category/marriage"), except for the default locale which keeps its existing unprefixed URLs. */
 export function localizedHref(path: string, locale: Locale): string {
@@ -17,4 +17,10 @@ export function stripLocalePrefix(pathname: string): string {
     return rest;
   }
   return pathname;
+}
+
+/** Reads the active locale directly from a pathname (e.g. "/ja/category/marriage" -> "ja", "/category/marriage" -> "ko"). */
+export function localeFromPathname(pathname: string): Locale {
+  const maybeLocale = pathname.split("/")[1];
+  return isLocale(maybeLocale) ? maybeLocale : defaultLocale;
 }
