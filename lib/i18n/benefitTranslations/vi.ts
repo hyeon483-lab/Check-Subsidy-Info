@@ -390,7 +390,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có hợp đồng thuê nhà, biên lai chi phí chuyển nhà và phí môi giới, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Quỹ Thanh thiếu niên TP. Suwon để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Quỹ Thanh niên TP. Suwon để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "busan-youth-didimdol-card": {
