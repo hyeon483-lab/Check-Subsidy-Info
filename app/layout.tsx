@@ -4,62 +4,83 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { siteUrl } from "@/lib/site";
+import { getLocale } from "@/lib/i18n/getLocale";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localeHtmlLang } from "@/lib/i18n/config";
 
 const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-const siteName = "내 지원금 찾기";
-const siteDescription =
-  "결혼, 출산, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: `${siteName} | 지역별 정부·지자체 지원금 모음`,
-    template: `%s | ${siteName}`,
-  },
-  description: siteDescription,
-  openGraph: {
-    type: "website",
-    locale: "ko_KR",
-    siteName,
-    title: `${siteName} | 지역별 정부·지자체 지원금 모음`,
-    description: siteDescription,
-    url: siteUrl,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${siteName} | 지역별 정부·지자체 지원금 모음`,
-    description: siteDescription,
-  },
-  alternates: {
-    canonical: siteUrl,
-  },
-  verification: {
-    google: "BQvPkZpqL9zX-337FYutBzWqyhFzooV81wrgc7jphug",
-    other: {
-      "naver-site-verification": "96b76c167d7750c2ddf961e8c06db7be595ac214",
-    },
-  },
+const openGraphLocaleMap: Record<string, string> = {
+  ko: "ko_KR",
+  en: "en_US",
+  ja: "ja_JP",
+  zh: "zh_CN",
+  vi: "vi_VN",
+  th: "th_TH",
 };
 
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteName,
-  url: siteUrl,
-  description: siteDescription,
-  inLanguage: "ko-KR",
-  publisher: {
-    "@type": "Organization",
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
+  const siteName = dict.common.siteName;
+  const title = dict.home.metaTitle;
+  const description = dict.home.metaDescription;
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: title,
+      template: `%s | ${siteName}`,
+    },
+    description,
+    openGraph: {
+      type: "website",
+      locale: openGraphLocaleMap[locale] ?? "ko_KR",
+      siteName,
+      title,
+      description,
+      url: siteUrl,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: siteUrl,
+    },
+    verification: {
+      google: "BQvPkZpqL9zX-337FYutBzWqyhFzooV81wrgc7jphug",
+      other: {
+        "naver-site-verification": "96b76c167d7750c2ddf961e8c06db7be595ac214",
+      },
+    },
+  };
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
+  const siteName = dict.common.siteName;
+  const siteDescription = dict.home.metaDescription;
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
     name: siteName,
     url: siteUrl,
-  },
-};
+    description: siteDescription,
+    inLanguage: localeHtmlLang[locale],
+    publisher: {
+      "@type": "Organization",
+      name: siteName,
+      url: siteUrl,
+    },
+  };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang={localeHtmlLang[locale]}>
       <head>
         <link rel="alternate" type="application/rss+xml" title={`${siteName} RSS`} href={`${siteUrl}/rss.xml`} />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />

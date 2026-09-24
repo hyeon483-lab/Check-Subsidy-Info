@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Benefit } from "@/lib/types";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { ArrowRightIcon } from "./icons";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
-export default function BenefitCard({ benefit }: { benefit: Benefit }) {
+export default function BenefitCard({ benefit, dict }: { benefit: Benefit; dict: Dictionary }) {
   const style = getCategoryStyle(benefit.category?.slug);
   const Icon = style.icon;
 
@@ -33,7 +34,7 @@ export default function BenefitCard({ benefit }: { benefit: Benefit }) {
           {benefit.category?.name}
         </span>
         <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-400 transition group-hover:text-brand-600">
-          자세히 보기
+          {dict.benefitCard.detailLink}
           <ArrowRightIcon className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
         </span>
       </div>

@@ -1,11 +1,18 @@
 import Link from "next/link";
 import { Category } from "@/lib/types";
 import { getCategoryStyle } from "@/lib/categoryStyle";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
-export default function CategoryGrid({ categories }: { categories: (Category & { count: number })[] }) {
+export default function CategoryGrid({
+  categories,
+  dict,
+}: {
+  categories: (Category & { count: number })[];
+  dict: Dictionary;
+}) {
   return (
     <section>
-      <h2 className="mb-4 text-lg font-bold text-slate-900">카테고리별로 둘러보기</h2>
+      <h2 className="mb-4 text-lg font-bold text-slate-900">{dict.home.categoriesHeading}</h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {categories.map((category) => {
           const style = getCategoryStyle(category.slug);
@@ -22,7 +29,10 @@ export default function CategoryGrid({ categories }: { categories: (Category & {
               <span className="font-semibold text-slate-900 transition group-hover:text-brand-700">
                 {category.name}
               </span>
-              <span className="text-xs font-medium text-slate-400">{category.count}건</span>
+              <span className="text-xs font-medium text-slate-400">
+                {category.count}
+                {dict.common.caseCountSuffix}
+              </span>
             </Link>
           );
         })}

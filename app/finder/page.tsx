@@ -3,22 +3,29 @@ import { getBenefits, getCategories, getRegions } from "@/lib/data";
 import FinderClient from "@/components/FinderClient";
 import { FilterIcon } from "@/components/icons";
 import { siteUrl } from "@/lib/site";
+import { getLocale } from "@/lib/i18n/getLocale";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localizeBenefits, localizeCategories, localizeRegions } from "@/lib/i18n/localize";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
 export const dynamic = "force-dynamic";
 
-const title = "맞춤 지원금 찾기";
-const description = "거주 지역, 나이, 가구 형태를 입력하면 조건에 맞는 지원금을 바로 찾아드립니다.";
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: `${siteUrl}/finder` },
-  openGraph: { title, description, url: `${siteUrl}/finder` },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dict = getDictionary(await getLocale());
+  const title = dict.finder.metaTitle;
+  const description = dict.finder.metaDescription;
+  return {
+    title,
+    description,
+    alternates: { canonical: `${siteUrl}/finder` },
+    openGraph: { title, description, url: `${siteUrl}/finder` },
+  };
+}
 
 export default async function FinderPage() {
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const [benefits, regions, categories] = await Promise.all([getBenefits({}), getRegions(), getCategories()]);
 
   return (
@@ -28,15 +35,18 @@ export default async function FinderPage() {
           <span className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
             <FilterIcon className="h-5 w-5" />
           </span>
-          <h1 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">맞춤 지원금 찾기</h1>
-          <p className="text-[15px] text-slate-500">
-            거주 지역과 나이, 가구 형태를 입력하면 조건에 맞는 지원금을 바로 찾아드립니다.
-          </p>
+          <h1 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{dict.finder.heading}</h1>
+          <p className="text-[15px] text-slate-500">{dict.finder.description}</p>
         </div>
       </section>
 
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-        <FinderClient benefits={benefits} regions={regions} categories={categories} />
+        <FinderClient
+          benefits={localizeBenefits(benefits, locale)}
+          regions={localizeRegions(regions, locale)}
+          categories={localizeCategories(categories, locale)}
+          dict={dict}
+        />
       </div>
     </div>
   );

@@ -1,30 +1,25 @@
 import type { Metadata } from "next";
+import { getLocale } from "@/lib/i18n/getLocale";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export const metadata: Metadata = {
-  title: "사이트 소개",
-  description: "내 지원금 찾기 서비스 소개 페이지입니다.",
-  alternates: { canonical: "/about" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dict = getDictionary(await getLocale());
+  return {
+    title: dict.aboutPage.metaTitle,
+    description: dict.aboutPage.metaDescription,
+    alternates: { canonical: "/about" },
+  };
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const dict = getDictionary(await getLocale());
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-      <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">사이트 소개</h1>
+      <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{dict.aboutPage.heading}</h1>
       <div className="space-y-4 rounded-2xl bg-white p-6 text-[15px] leading-relaxed text-slate-600 shadow-card ring-1 ring-slate-100 sm:p-8">
-        <p>
-          &lsquo;내 지원금 찾기&rsquo;는 전국 지자체가 운영하는 결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 관련 지원 제도를
-          한곳에서 비교하고 확인할 수 있도록 정리하는 정보 서비스입니다.
-        </p>
-        <p>
-          지자체마다 제도의 이름과 조건이 조금씩 달라 필요한 지원을 놓치는 경우가 많습니다. 저희는 공공데이터를
-          바탕으로 자격 조건, 지원 내용, 신청 방법을 쉬운 말로 요약하고, 신청 전에 확인해야 할 체크리스트를
-          함께 제공합니다.
-        </p>
-        <p>
-          다만 이 사이트는 정부 또는 지자체가 운영하는 공식 사이트가 아닙니다. 게재된 정보는 참고용이며, 실제
-          신청 전에는 반드시 각 제도의 공식 안내 페이지에서 최신 기준을 확인해야 합니다. 정보가 실제와 다르거나
-          최신화가 필요한 경우 문의 페이지를 통해 알려주시면 빠르게 반영하겠습니다.
-        </p>
+        <p>{dict.aboutPage.paragraph1}</p>
+        <p>{dict.aboutPage.paragraph2}</p>
+        <p>{dict.aboutPage.paragraph3}</p>
       </div>
     </div>
   );

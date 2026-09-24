@@ -1,11 +1,14 @@
 import { SearchIcon } from "./icons";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
 export default function SearchBox({
   defaultValue,
   className = "",
+  dict,
 }: {
   defaultValue?: string;
   className?: string;
+  dict: Dictionary;
 }) {
   return (
     <form action="/search" method="GET" role="search" className={className}>
@@ -15,7 +18,7 @@ export default function SearchBox({
           type="search"
           name="q"
           defaultValue={defaultValue}
-          placeholder="지원금, 지역, 제도명으로 검색"
+          placeholder={dict.search.placeholder}
           className="w-full rounded-full border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-700 placeholder:text-slate-400 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
         />
       </div>

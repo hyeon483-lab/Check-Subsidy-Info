@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getRecentlyViewed, RecentlyViewedItem } from "@/lib/recentlyViewed";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
-export default function RecentlyViewedSection() {
+export default function RecentlyViewedSection({ dict }: { dict: Dictionary }) {
   const [items, setItems] = useState<RecentlyViewedItem[]>([]);
 
   useEffect(() => {
@@ -15,7 +16,7 @@ export default function RecentlyViewedSection() {
 
   return (
     <section className="mb-12">
-      <h2 className="mb-4 text-lg font-bold text-slate-900">최근 본 지원금</h2>
+      <h2 className="mb-4 text-lg font-bold text-slate-900">{dict.recentlyViewed.heading}</h2>
       <div className="flex gap-3 overflow-x-auto pb-1">
         {items.map((item) => (
           <Link

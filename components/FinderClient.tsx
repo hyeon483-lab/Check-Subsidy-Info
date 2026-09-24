@@ -3,18 +3,26 @@
 import { useMemo, useState } from "react";
 import { Benefit, Category, Region } from "@/lib/types";
 import BenefitCard from "./BenefitCard";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
-const HOUSEHOLD_OPTIONS = ["전체", "1인가구", "신혼부부"];
+const HOUSEHOLD_OPTIONS = ["전체", "1인가구", "신혼부부"] as const;
 
 export default function FinderClient({
   benefits,
   regions,
   categories,
+  dict,
 }: {
   benefits: Benefit[];
   regions: Region[];
   categories: Category[];
+  dict: Dictionary;
 }) {
+  const householdLabels: Record<(typeof HOUSEHOLD_OPTIONS)[number], string> = {
+    전체: dict.finder.householdAll,
+    "1인가구": dict.finder.householdSingle,
+    신혼부부: dict.finder.householdNewlywed,
+  };
   const sidoRegions = useMemo(
     () => regions.filter((r) => r.level === "sido").sort((a, b) => a.name.localeCompare(b.name, "ko")),
     [regions]
@@ -81,7 +89,7 @@ export default function FinderClient({
       >
         <div>
           <label htmlFor="finder-region" className="mb-1.5 block text-sm font-semibold text-slate-700">
-            거주 지역
+            {dict.finder.regionLabel}
           </label>
           <select
             id="finder-region"
@@ -89,10 +97,13 @@ export default function FinderClient({
             onChange={(e) => setRegionSlug(e.target.value)}
             className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-700 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
           >
-            <option value="">전체 지역</option>
+            <option value="">{dict.finder.allRegions}</option>
             {sidoRegions.map((sido) => (
               <optgroup key={sido.id} label={sido.name}>
-                <option value={sido.slug}>{sido.name} 전체</option>
+                <option value={sido.slug}>
+                  {sido.name}
+                  {dict.finder.regionAllSuffix}
+                </option>
                 {sigunguRegions
                   .filter((s) => s.parent_id === sido.id)
                   .map((s) => (
@@ -107,7 +118,7 @@ export default function FinderClient({
 
         <div>
           <label htmlFor="finder-age" className="mb-1.5 block text-sm font-semibold text-slate-700">
-            나이 (선택)
+            {dict.finder.ageLabel}
           </label>
           <input
             id="finder-age"
@@ -117,13 +128,13 @@ export default function FinderClient({
             max={110}
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            placeholder="예: 28"
+            placeholder={dict.finder.agePlaceholder}
             className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-700 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
           />
         </div>
 
         <div>
-          <p className="mb-1.5 text-sm font-semibold text-slate-700">가구 형태 (선택)</p>
+          <p className="mb-1.5 text-sm font-semibold text-slate-700">{dict.finder.householdLabel}</p>
           <div className="flex flex-wrap gap-2">
             {HOUSEHOLD_OPTIONS.map((opt) => (
               <button
@@ -137,14 +148,14 @@ export default function FinderClient({
                     : "bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
                 }`}
               >
-                {opt}
+                {householdLabels[opt]}
               </button>
             ))}
           </div>
         </div>
 
         <div>
-          <p className="mb-1.5 text-sm font-semibold text-slate-700">관심 카테고리 (선택, 복수 선택 가능)</p>
+          <p className="mb-1.5 text-sm font-semibold text-slate-700">{dict.finder.categoryLabel}</p>
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
               const active = selectedCategories.includes(category.slug);
@@ -171,29 +182,32 @@ export default function FinderClient({
           type="submit"
           className="w-full rounded-xl bg-brand-600 py-3 text-sm font-semibold text-white transition hover:bg-brand-700"
         >
-          내 지원금 확인하기
+          {dict.finder.submitButton}
         </button>
       </form>
 
       {submitted && (
         <div className="mt-8">
-          <p className="mb-4 text-sm font-semibold text-slate-700">조건에 맞는 지원금 {results.length}건</p>
+          <p className="mb-4 text-sm font-semibold text-slate-700">
+            {dict.finder.resultsCountPrefix}
+            {results.length}
+            {dict.finder.resultsCountSuffix}
+          </p>
 
           {results.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
-              입력하신 조건에 맞는 지원금을 찾지 못했습니다. 지역이나 나이 조건을 다시 확인해보세요.
+              {dict.finder.noResults}
             </p>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {results.map((benefit) => (
-                <BenefitCard key={benefit.id} benefit={benefit} />
+                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} />
               ))}
             </div>
           )}
 
           <p className="mt-6 rounded-xl bg-amber-50 p-4 text-xs leading-relaxed text-amber-800">
-            이 결과는 지역·나이·가구 형태 조건만으로 1차 필터링한 참고용입니다. 소득 기준 등 세부 조건은
-            각 지원금 상세 페이지에서 반드시 다시 확인하세요.
+            {dict.finder.disclaimer}
           </p>
         </div>
       )}

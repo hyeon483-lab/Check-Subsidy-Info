@@ -1,21 +1,22 @@
 import { BenefitGridSkeleton, FilterBarSkeleton } from "@/components/skeletons";
+import { getLocale } from "@/lib/i18n/getLocale";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
-export default function HomeLoading() {
+export default async function HomeLoading() {
+  const dict = getDictionary(await getLocale());
   return (
     <div>
       <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
         <div className="mx-auto max-w-5xl px-4 pb-10 pt-14 text-center sm:px-6 sm:pt-20">
           <span className="mb-4 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-inset ring-brand-100">
-            지역별 · 생애주기별 지원금 정보
+            {dict.home.eyebrow}
           </span>
           <h1 className="mx-auto mb-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl">
-            우리 동네 지원금,
+            {dict.home.heroTitleLine1}
             <br />
-            한눈에 찾아보세요
+            {dict.home.heroTitleLine2}
           </h1>
-          <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-slate-500">
-            결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트에 맞는 정부·지자체 지원금과 혜택을 지역별로 정리했습니다.
-          </p>
+          <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-slate-500">{dict.home.heroDescription}</p>
         </div>
       </section>
 

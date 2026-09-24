@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { CheckIcon, ShareIcon } from "./icons";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
-export default function ShareButton({ title, url }: { title: string; url: string }) {
+export default function ShareButton({ title, url, dict }: { title: string; url: string; dict: Dictionary }) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
@@ -34,12 +35,12 @@ export default function ShareButton({ title, url }: { title: string; url: string
       {copied ? (
         <>
           <CheckIcon className="h-3.5 w-3.5 text-brand-600" />
-          링크 복사됨
+          {dict.benefitDetail.shareCopied}
         </>
       ) : (
         <>
           <ShareIcon className="h-3.5 w-3.5" />
-          공유하기
+          {dict.benefitDetail.shareButton}
         </>
       )}
     </button>

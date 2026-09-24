@@ -12,14 +12,13 @@ import CategoryGrid from "@/components/CategoryGrid";
 import OfficialLinks from "@/components/OfficialLinks";
 import RecentlyViewedSection from "@/components/RecentlyViewedSection";
 import HomeIntro from "@/components/HomeIntro";
+import { getLocale } from "@/lib/i18n/getLocale";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localizeBenefits, localizeCategories, localizeRegions } from "@/lib/i18n/localize";
 
 export const dynamic = "force-dynamic";
 
 type HomeSearchParams = { region?: string; category?: string; page?: string };
-
-const homeTitle = "내 지원금 찾기 | 지역별 정부·지자체 지원금 모음";
-const homeDescription =
-  "결혼, 출산, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.";
 
 export async function generateMetadata({
   searchParams,
@@ -27,12 +26,14 @@ export async function generateMetadata({
   searchParams: Promise<HomeSearchParams>;
 }): Promise<Metadata> {
   const { region, category, page } = await searchParams;
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const benefits = await getBenefits({ regionSlug: region, categorySlug: category });
   const { currentPage } = paginate(benefits, Number(page) || 1);
   return {
-    title: homeTitle,
-    description: homeDescription,
-    openGraph: { title: homeTitle, description: homeDescription, url: siteUrl },
+    title: dict.home.metaTitle,
+    description: dict.home.metaDescription,
+    openGraph: { title: dict.home.metaTitle, description: dict.home.metaDescription, url: siteUrl },
     ...paginationMetadata("/", { region, category }, currentPage),
   };
 }
@@ -43,6 +44,8 @@ export default async function HomePage({
   searchParams: Promise<HomeSearchParams>;
 }) {
   const { region, category, page } = await searchParams;
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const [regions, categories, benefits, allBenefits] = await Promise.all([
     getRegions(),
     getCategories(),
@@ -56,53 +59,60 @@ export default async function HomePage({
     count: allBenefits.filter((b) => b.category_id === c.id).length,
   }));
 
+  const localizedRegions = localizeRegions(regions, locale);
+  const localizedCategories = localizeCategories(categories, locale);
+  const localizedCategoriesWithCount = localizeCategories(categoriesWithCount, locale).map((c, i) => ({
+    ...c,
+    count: categoriesWithCount[i].count,
+  }));
+  const localizedItems = localizeBenefits(items, locale);
+
   return (
     <div>
       <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
         <div className="mx-auto max-w-5xl px-4 pb-10 pt-14 text-center sm:px-6 sm:pt-20">
           <span className="mb-4 inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-inset ring-brand-100">
-            지역별 · 생애주기별 지원금 정보
+            {dict.home.eyebrow}
           </span>
           <h1 className="mx-auto mb-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl">
-            우리 동네 지원금,
+            {dict.home.heroTitleLine1}
             <br />
-            한눈에 찾아보세요
+            {dict.home.heroTitleLine2}
           </h1>
-          <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-slate-500">
-            결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트에 맞는 정부·지자체 지원금과 혜택을 지역별로 정리했습니다.
-          </p>
+          <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-slate-500">{dict.home.heroDescription}</p>
         </div>
       </section>
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
         <div className="mb-12">
-          <ToolsShowcase />
+          <ToolsShowcase dict={dict} />
         </div>
 
-        <RecentlyViewedSection />
+        <RecentlyViewedSection dict={dict} />
 
         <div className="mb-12">
-          <CategoryGrid categories={categoriesWithCount} />
+          <CategoryGrid categories={localizedCategoriesWithCount} dict={dict} />
         </div>
 
         <div id="benefits-list" className="mb-8 scroll-mt-20 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100">
           <FilterBar
-            regions={regions}
-            categories={categories}
+            regions={localizedRegions}
+            categories={localizedCategories}
             activeRegionSlug={region}
             activeCategorySlug={category}
+            dict={dict}
           />
         </div>
 
         {benefits.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
-            조건에 맞는 지원금이 아직 등록되지 않았습니다.
+            {dict.home.filterEmpty}
           </p>
         ) : (
           <>
             <div className="grid gap-4 sm:grid-cols-2">
-              {items.map((benefit) => (
-                <BenefitCard key={benefit.id} benefit={benefit} />
+              {localizedItems.map((benefit) => (
+                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} />
               ))}
             </div>
             <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING} className="mt-6" />
@@ -111,13 +121,14 @@ export default async function HomePage({
               totalPages={totalPages}
               basePath="/"
               searchParams={{ region, category }}
+              dict={dict}
             />
           </>
         )}
 
         <div className="mt-16">
-          <HomeIntro />
-          <OfficialLinks />
+          <HomeIntro dict={dict} />
+          <OfficialLinks dict={dict} />
         </div>
       </div>
     </div>

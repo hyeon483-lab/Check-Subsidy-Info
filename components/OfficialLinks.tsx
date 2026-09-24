@@ -1,31 +1,32 @@
 import { BuildingIcon, ExternalLinkIcon, HeartIcon, YouthIcon } from "./icons";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
-const links = [
-  {
-    href: "https://www.bokjiro.go.kr",
-    icon: HeartIcon,
-    title: "복지로",
-    description: "복지 서비스 통합 검색 및 온라인 신청",
-  },
-  {
-    href: "https://www.gov.kr",
-    icon: BuildingIcon,
-    title: "정부24",
-    description: "정부 민원·서비스 통합 포털",
-  },
-  {
-    href: "https://www.youthcenter.go.kr",
-    icon: YouthIcon,
-    title: "온통청년",
-    description: "청년정책 통합 정보 플랫폼",
-  },
-];
+export default function OfficialLinks({ dict }: { dict: Dictionary }) {
+  const links = [
+    {
+      href: "https://www.bokjiro.go.kr",
+      icon: HeartIcon,
+      title: dict.officialLinks.bokjiroTitle,
+      description: dict.officialLinks.bokjiroDescription,
+    },
+    {
+      href: "https://www.gov.kr",
+      icon: BuildingIcon,
+      title: dict.officialLinks.gov24Title,
+      description: dict.officialLinks.gov24Description,
+    },
+    {
+      href: "https://www.youthcenter.go.kr",
+      icon: YouthIcon,
+      title: dict.officialLinks.youthCenterTitle,
+      description: dict.officialLinks.youthCenterDescription,
+    },
+  ];
 
-export default function OfficialLinks() {
   return (
     <section>
-      <h2 className="mb-1 text-lg font-bold text-slate-900">공식 사이트 바로가기</h2>
-      <p className="mb-4 text-sm text-slate-500">정부 지원금 확인을 위한 공식 포털 사이트입니다.</p>
+      <h2 className="mb-1 text-lg font-bold text-slate-900">{dict.home.officialLinksHeading}</h2>
+      <p className="mb-4 text-sm text-slate-500">{dict.home.officialLinksDescription}</p>
       <div className="grid gap-4 sm:grid-cols-3">
         {links.map((link) => {
           const Icon = link.icon;

@@ -11,6 +11,11 @@ import AdSlot from "@/components/AdSlot";
 import BenefitCard from "@/components/BenefitCard";
 import ShareButton from "@/components/ShareButton";
 import RecordRecentlyViewed from "@/components/RecordRecentlyViewed";
+import { getLocale } from "@/lib/i18n/getLocale";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localizeBenefit, localizeBenefits } from "@/lib/i18n/localize";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
+import type { Benefit } from "@/lib/types";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -18,8 +23,10 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const benefit = await getBenefitBySlug(slug);
-  if (!benefit) return {};
+  const raw = await getBenefitBySlug(slug);
+  if (!raw) return {};
+  const locale = await getLocale();
+  const benefit = localizeBenefit(raw, locale);
   const url = `${siteUrl}/benefits/${benefit.slug}`;
   return {
     title: benefit.title,
@@ -40,15 +47,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-function formatCondition(benefit: NonNullable<Awaited<ReturnType<typeof getBenefitBySlug>>>) {
+function formatCondition(benefit: Benefit, dict: Dictionary) {
   const parts: string[] = [];
   const hasMin = benefit.age_min !== null && benefit.age_min !== undefined;
   const hasMax = benefit.age_max !== null && benefit.age_max !== undefined;
   if (hasMin || hasMax) {
     if (hasMin && hasMax && benefit.age_min !== benefit.age_max) {
-      parts.push(`만 ${benefit.age_min}~${benefit.age_max}세`);
+      parts.push(
+        dict.benefitDetail.ageRangeTemplate
+          .replace("{min}", String(benefit.age_min))
+          .replace("{max}", String(benefit.age_max))
+      );
     } else {
-      parts.push(`만 ${hasMin ? benefit.age_min : benefit.age_max}세`);
+      parts.push(
+        dict.benefitDetail.ageSingleTemplate.replace("{age}", String(hasMin ? benefit.age_min : benefit.age_max))
+      );
     }
   }
   if (benefit.household_type) parts.push(benefit.household_type);
@@ -58,30 +71,35 @@ function formatCondition(benefit: NonNullable<Awaited<ReturnType<typeof getBenef
 
 export default async function BenefitDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const benefit = await getBenefitBySlug(slug);
-  if (!benefit) notFound();
+  const raw = await getBenefitBySlug(slug);
+  if (!raw) notFound();
 
-  const conditionTags = formatCondition(benefit);
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
+  const benefit = localizeBenefit(raw, locale);
+
+  const conditionTags = formatCondition(benefit, dict);
   const style = getCategoryStyle(benefit.category?.slug);
   const Icon = style.icon;
   const history = await getBenefitHistory(benefit.program_slug);
   const currentVersion = history.find((h) => h.is_current);
-  const relatedBenefits = benefit.is_current ? await getRelatedBenefits(benefit) : [];
+  const relatedBenefitsRaw = raw.is_current ? await getRelatedBenefits(raw) : [];
+  const relatedBenefits = localizeBenefits(relatedBenefitsRaw, locale);
   const pageUrl = `${siteUrl}/benefits/${benefit.slug}`;
 
   const tocItems = [
-    { id: "eligibility", label: "지원 대상" },
-    { id: "support-content", label: "지원 내용" },
-    { id: "application-method", label: "신청 방법" },
-    ...(benefit.checklist.length > 0 ? [{ id: "checklist", label: "신청 전 체크리스트" }] : []),
-    ...(benefit.faq.length > 0 ? [{ id: "faq", label: "자주 묻는 질문" }] : []),
+    { id: "eligibility", label: dict.benefitDetail.tocEligibility },
+    { id: "support-content", label: dict.benefitDetail.tocSupportContent },
+    { id: "application-method", label: dict.benefitDetail.tocApplicationMethod },
+    ...(benefit.checklist.length > 0 ? [{ id: "checklist", label: dict.benefitDetail.tocChecklist }] : []),
+    ...(benefit.faq.length > 0 ? [{ id: "faq", label: dict.benefitDetail.tocFaq }] : []),
   ];
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "홈", item: siteUrl },
+      { "@type": "ListItem", position: 1, name: dict.benefitDetail.breadcrumbHome, item: siteUrl },
       ...(benefit.region
         ? [{ "@type": "ListItem", position: 2, name: benefit.region.name, item: `${siteUrl}/region/${benefit.region.slug}` }]
         : []),
@@ -146,9 +164,13 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
       {!benefit.is_current && currentVersion && (
         <div className="bg-amber-50">
           <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm text-amber-800 sm:px-6">
-            <span>이 페이지는 {benefit.fiscal_year}년도 종료된 정보입니다. 신청에는 사용할 수 없습니다.</span>
+            <span>
+              {dict.benefitDetail.expiredNoticePrefix} {benefit.fiscal_year}
+              {dict.benefitDetail.expiredNoticeSuffix}
+            </span>
             <Link href={`/benefits/${currentVersion.slug}`} className="shrink-0 font-semibold underline">
-              최신({currentVersion.fiscal_year}년) 정보 보기 →
+              {dict.benefitDetail.expiredNoticeLink} ({currentVersion.fiscal_year}
+              {dict.benefitDetail.yearSuffix}) →
             </Link>
           </div>
         </div>
@@ -173,7 +195,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
                 </>
               )}
             </nav>
-            <ShareButton title={benefit.title} url={pageUrl} />
+            <ShareButton title={benefit.title} url={pageUrl} dict={dict} />
           </div>
 
           <div className="mb-4 flex items-center gap-3">
@@ -201,7 +223,9 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
 
           {history.length > 1 && (
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">연도별 보기</span>
+              <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                {dict.benefitDetail.yearlyViewLabel}
+              </span>
               {history.map((h) => {
                 const active = h.slug === benefit.slug;
                 return (
@@ -214,7 +238,8 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
                         : "bg-white text-slate-500 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
                     }`}
                   >
-                    {h.fiscal_year}년
+                    {h.fiscal_year}
+                    {dict.benefitDetail.yearSuffix}
                   </Link>
                 );
               })}
@@ -224,26 +249,26 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
       </section>
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-        <TableOfContents items={tocItems} />
+        <TableOfContents items={tocItems} dict={dict} />
 
         <section id="eligibility" className="mb-5 scroll-mt-24 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
-          <h2 className="mb-2.5 text-base font-bold text-slate-900">지원 대상</h2>
+          <h2 className="mb-2.5 text-base font-bold text-slate-900">{dict.benefitDetail.eligibilityHeading}</h2>
           <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.eligibility}</p>
         </section>
 
         <section id="support-content" className="mb-5 scroll-mt-24 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
-          <h2 className="mb-2.5 text-base font-bold text-slate-900">지원 내용</h2>
+          <h2 className="mb-2.5 text-base font-bold text-slate-900">{dict.benefitDetail.supportContentHeading}</h2>
           <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.support_content}</p>
         </section>
 
         <section id="application-method" className="mb-5 scroll-mt-24 rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-100">
-          <h2 className="mb-2.5 text-base font-bold text-slate-900">신청 방법</h2>
+          <h2 className="mb-2.5 text-base font-bold text-slate-900">{dict.benefitDetail.applicationMethodHeading}</h2>
           <p className="whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{benefit.application_method}</p>
           {benefit.required_documents.length > 0 && (
             <div className="mt-4 border-t border-slate-100 pt-4">
               <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-700">
                 <DocumentIcon className="h-4 w-4 text-slate-400" />
-                필요 서류
+                {dict.benefitDetail.requiredDocumentsHeading}
               </h3>
               <ul className="space-y-1.5">
                 {benefit.required_documents.map((doc) => (
@@ -259,7 +284,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
 
         {benefit.checklist.length > 0 && (
           <section id="checklist" className="mb-5 scroll-mt-24 rounded-2xl bg-brand-50/60 p-6 ring-1 ring-inset ring-brand-100">
-            <h2 className="mb-3 text-base font-bold text-brand-900">신청 전 체크리스트</h2>
+            <h2 className="mb-3 text-base font-bold text-brand-900">{dict.benefitDetail.checklistHeading}</h2>
             <ul className="space-y-2.5">
               {benefit.checklist.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-[15px] text-slate-700">
@@ -273,7 +298,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
 
         {benefit.faq.length > 0 && (
           <section id="faq" className="mb-5 scroll-mt-24">
-            <h2 className="mb-3 text-base font-bold text-slate-900">자주 묻는 질문</h2>
+            <h2 className="mb-3 text-base font-bold text-slate-900">{dict.benefitDetail.faqHeading}</h2>
             <div className="space-y-2.5">
               {benefit.faq.map((item) => (
                 <div key={item.question} className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-slate-100">
@@ -288,11 +313,13 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
         {relatedBenefits.length > 0 && (
           <section className="mb-5">
             <h2 className="mb-3 text-base font-bold text-slate-900">
-              {benefit.region ? `${benefit.region.name}의 다른 지원금` : "관련 지원금"}
+              {benefit.region
+                ? `${benefit.region.name}${dict.benefitDetail.relatedBenefitsHeadingRegionSuffix}`
+                : dict.benefitDetail.relatedBenefitsHeadingDefault}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               {relatedBenefits.map((related) => (
-                <BenefitCard key={related.id} benefit={related} />
+                <BenefitCard key={related.id} benefit={related} dict={dict} />
               ))}
             </div>
           </section>
@@ -303,7 +330,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
         <section className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="mb-1 flex items-center gap-2 text-sm text-slate-600">
             <BuildingIcon className="h-4 w-4 text-slate-400" />
-            담당 기관: {benefit.agency_name}
+            {dict.benefitDetail.agencyLabel} {benefit.agency_name}
           </div>
           {benefit.agency_url && (
             <a
@@ -312,13 +339,13 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
               rel="noopener noreferrer nofollow"
               className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-700"
             >
-              공식 페이지에서 확인하기
+              {dict.benefitDetail.officialLinkButton}
             </a>
           )}
           <p className="mt-4 text-xs leading-relaxed text-slate-400">
-            출처: {benefit.source_name}
-            {benefit.source_updated_at ? ` · ${benefit.source_updated_at} 기준` : ""}. 정확한 최신 기준은 반드시
-            공식 안내를 다시 확인하세요.
+            {dict.benefitDetail.sourcePrefix} {benefit.source_name}
+            {benefit.source_updated_at ? ` · ${benefit.source_updated_at} ${dict.benefitDetail.sourceUpdatedSuffix}` : ""}.{" "}
+            {dict.benefitDetail.sourceDisclaimer}
           </p>
         </section>
       </div>

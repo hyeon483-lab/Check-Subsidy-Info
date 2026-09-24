@@ -1,15 +1,18 @@
 import Link from "next/link";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
 export default function Pagination({
   currentPage,
   totalPages,
   basePath,
   searchParams = {},
+  dict,
 }: {
   currentPage: number;
   totalPages: number;
   basePath: string;
   searchParams?: Record<string, string | undefined>;
+  dict: Dictionary;
 }) {
   if (totalPages <= 1) return null;
 
@@ -32,7 +35,7 @@ export default function Pagination({
   const pages = Array.from({ length: windowEnd - windowStart + 1 }, (_, i) => windowStart + i);
 
   return (
-    <nav aria-label="페이지 네비게이션" className="mt-8 flex flex-wrap items-center justify-center gap-1.5">
+    <nav aria-label={dict.pagination.ariaLabel} className="mt-8 flex flex-wrap items-center justify-center gap-1.5">
       <Link
         href={buildHref(Math.max(1, currentPage - 1))}
         aria-disabled={currentPage === 1}
@@ -43,7 +46,7 @@ export default function Pagination({
             : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
         }`}
       >
-        이전
+        {dict.pagination.previous}
       </Link>
       {windowStart > 1 && (
         <span className="px-1 text-sm text-slate-300" aria-hidden="true">
@@ -79,7 +82,7 @@ export default function Pagination({
             : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
         }`}
       >
-        다음
+        {dict.pagination.next}
       </Link>
     </nav>
   );

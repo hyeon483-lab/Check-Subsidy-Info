@@ -1,18 +1,19 @@
 import { ListIcon } from "./icons";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
 export interface TocItem {
   id: string;
   label: string;
 }
 
-export default function TableOfContents({ items }: { items: TocItem[] }) {
+export default function TableOfContents({ items, dict }: { items: TocItem[]; dict: Dictionary }) {
   if (items.length === 0) return null;
 
   return (
-    <nav aria-label="목차" className="mb-5 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100">
+    <nav aria-label={dict.benefitDetail.tocLabel} className="mb-5 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100">
       <p className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
         <ListIcon className="h-3.5 w-3.5" />
-        목차
+        {dict.benefitDetail.tocLabel}
       </p>
       <ol className="space-y-2">
         {items.map((item, index) => (

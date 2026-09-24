@@ -1,34 +1,35 @@
 import Link from "next/link";
 import { FilterIcon, SearchIcon, TableIcon } from "./icons";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
-const tools = [
-  {
-    href: "/search",
-    icon: SearchIcon,
-    title: "지원금 검색",
-    description: "제도명, 지역, 키워드로 원하는 지원금을 바로 찾아보세요.",
-    color: "bg-blue-50 text-blue-600",
-  },
-  {
-    href: "/finder",
-    icon: FilterIcon,
-    title: "맞춤 지원금 찾기",
-    description: "지역·나이·가구 형태를 입력하면 조건에 맞는 지원금을 골라드려요.",
-    color: "bg-brand-50 text-brand-600",
-  },
-  {
-    href: "/median-income",
-    icon: TableIcon,
-    title: "기준 중위소득표",
-    description: "가구원수·비율별 기준 중위소득 금액을 한 번에 확인하세요.",
-    color: "bg-emerald-50 text-emerald-600",
-  },
-];
+export default function ToolsShowcase({ dict }: { dict: Dictionary }) {
+  const tools = [
+    {
+      href: "/search",
+      icon: SearchIcon,
+      title: dict.tools.searchTitle,
+      description: dict.tools.searchDescription,
+      color: "bg-blue-50 text-blue-600",
+    },
+    {
+      href: "/finder",
+      icon: FilterIcon,
+      title: dict.tools.finderTitle,
+      description: dict.tools.finderDescription,
+      color: "bg-brand-50 text-brand-600",
+    },
+    {
+      href: "/median-income",
+      icon: TableIcon,
+      title: dict.tools.medianIncomeTitle,
+      description: dict.tools.medianIncomeDescription,
+      color: "bg-emerald-50 text-emerald-600",
+    },
+  ];
 
-export default function ToolsShowcase() {
   return (
     <section>
-      <h2 className="mb-4 text-lg font-bold text-slate-900">무료 도구</h2>
+      <h2 className="mb-4 text-lg font-bold text-slate-900">{dict.home.toolsHeading}</h2>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => {
           const Icon = tool.icon;

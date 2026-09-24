@@ -1,0 +1,243 @@
+import type { Dictionary } from "../dictionaryType";
+
+const ko: Dictionary = {
+  common: {
+    siteName: "내 지원금 찾기",
+    home: "홈",
+    loading: "불러오는 중...",
+    detailLink: "자세히 보기",
+    caseCountSuffix: "건",
+  },
+  header: {
+    searchPlaceholder: "지원금 검색",
+    searchAriaLabel: "검색",
+    navFinder: "맞춤 찾기",
+    navAbout: "소개",
+    navContact: "문의",
+  },
+  footer: {
+    tagline: "결혼, 출산, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트별 지원금을 지역별로 한눈에 확인하세요.",
+    disclaimer:
+      "본 사이트는 정부·지자체 지원 제도를 보기 쉽게 정리해 안내하는 민간 서비스이며, 정부 또는 지자체의 공식 사이트가 아닙니다. 실제 신청은 반드시 각 제도의 공식 안내 페이지에서 최신 정보를 확인한 뒤 진행하세요.",
+    categoriesHeading: "카테고리",
+    toolsHeading: "무료 도구",
+    siteHeading: "사이트",
+    toolSearch: "지원금 검색",
+    toolFinder: "맞춤 지원금 찾기",
+    toolMedianIncome: "기준 중위소득표",
+    linkAbout: "사이트 소개",
+    linkPrivacy: "개인정보처리방침",
+    linkTerms: "이용약관",
+    linkContact: "문의하기",
+    copyrightSuffix: "내 지원금 찾기. All rights reserved.",
+  },
+  home: {
+    metaTitle: "내 지원금 찾기 | 지역별 정부·지자체 지원금 모음",
+    metaDescription:
+      "결혼, 출산, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트와 지역별로 받을 수 있는 정부·지자체 지원금과 혜택을 쉽게 찾아보세요.",
+    eyebrow: "지역별 · 생애주기별 지원금 정보",
+    heroTitleLine1: "우리 동네 지원금,",
+    heroTitleLine2: "한눈에 찾아보세요",
+    heroDescription:
+      "결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 등 생애 이벤트에 맞는 정부·지자체 지원금과 혜택을 지역별로 정리했습니다.",
+    toolsHeading: "무료 도구",
+    categoriesHeading: "카테고리별로 둘러보기",
+    filterEmpty: "조건에 맞는 지원금이 아직 등록되지 않았습니다.",
+    introHeading: "내 지원금 찾기는 이런 서비스입니다",
+    introParagraph1:
+      "전국 17개 시·도와 일부 시·군·구가 운영하는 결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 지원 제도는 지자체마다 이름과 조건이 제각각이라 정작 내가 받을 수 있는 지원금을 놓치기 쉽습니다. 내 지원금 찾기는 각 지자체의 공식 공고와 공공데이터를 바탕으로 자격 조건, 지원 금액, 신청 방법을 쉬운 말로 정리해 한곳에서 비교하고 확인할 수 있도록 만든 정보 서비스입니다.",
+    introParagraph2Pre:
+      "지역과 카테고리로 필터링해 둘러보거나, 검색으로 원하는 제도를 바로 찾을 수 있고, 거주 지역·나이·가구 형태를 입력하면 조건에 맞는 지원금만 골라주는 ",
+    introLinkText: "맞춤 지원금 찾기",
+    introParagraph2Post:
+      " 기능도 무료로 제공합니다. 신청 전 확인할 서류와 체크리스트, 자주 묻는 질문까지 각 지원금 페이지에 함께 정리되어 있어 처음 신청하는 분도 어렵지 않게 준비할 수 있습니다.",
+    introParagraph3:
+      "다만 내 지원금 찾기는 정부나 지자체가 운영하는 공식 사이트가 아닙니다. 지원 제도는 예산 소진이나 조례 개정으로 수시로 바뀔 수 있으니, 실제 신청 전에는 반드시 각 페이지에 안내된 담당 기관의 공식 링크에서 최신 기준을 다시 확인해주세요.",
+    officialLinksHeading: "공식 사이트 바로가기",
+    officialLinksDescription: "정부 지원금 확인을 위한 공식 포털 사이트입니다.",
+  },
+  tools: {
+    searchTitle: "지원금 검색",
+    searchDescription: "제도명, 지역, 키워드로 원하는 지원금을 바로 찾아보세요.",
+    finderTitle: "맞춤 지원금 찾기",
+    finderDescription: "지역·나이·가구 형태를 입력하면 조건에 맞는 지원금을 골라드려요.",
+    medianIncomeTitle: "기준 중위소득표",
+    medianIncomeDescription: "가구원수·비율별 기준 중위소득 금액을 한 번에 확인하세요.",
+  },
+  officialLinks: {
+    bokjiroTitle: "복지로",
+    bokjiroDescription: "복지 서비스 통합 검색 및 온라인 신청",
+    gov24Title: "정부24",
+    gov24Description: "정부 민원·서비스 통합 포털",
+    youthCenterTitle: "온통청년",
+    youthCenterDescription: "청년정책 통합 정보 플랫폼",
+  },
+  recentlyViewed: {
+    heading: "최근 본 지원금",
+  },
+  filterBar: {
+    regionLabel: "지역",
+    allRegions: "전체 지역",
+    categoryLabel: "카테고리",
+    allCategories: "전체 카테고리",
+  },
+  pagination: {
+    ariaLabel: "페이지 네비게이션",
+    previous: "이전",
+    next: "다음",
+  },
+  benefitCard: {
+    detailLink: "자세히 보기",
+  },
+  category: {
+    titleSuffix: "지원금·혜택",
+    metaTitleSuffix: "지원금·혜택 모음",
+    defaultDescriptionSuffix: "관련 지원 제도를 정리했습니다.",
+    emptyList: "등록된 지원금이 아직 없습니다.",
+  },
+  region: {
+    badgeLabel: "지역별 지원금",
+    titleSuffix: "지원금·혜택",
+    description: "에서 신청할 수 있는 지원 제도를 카테고리별로 확인하세요.",
+    emptyListPrefix: "",
+    emptyListSuffix: "에 등록된 지원금이 아직 없습니다.",
+  },
+  search: {
+    metaSearchResultsSuffix: "검색 결과",
+    metaDefaultTitle: "지원금 검색",
+    heading: "지원금 검색",
+    placeholder: "지원금, 지역, 제도명으로 검색",
+    emptyPrompt: "찾고 싶은 지원금, 지역, 제도명을 입력해보세요. (예: 청년월세, 서울, 출산장려금)",
+    noResultsTemplate: '"{query}"에 대한 검색 결과가 없습니다. 다른 검색어나 지역명을 입력해보세요.',
+    resultsTemplate: '"{query}" 검색 결과 {count}건',
+  },
+  finder: {
+    metaTitle: "맞춤 지원금 찾기",
+    metaDescription: "거주 지역, 나이, 가구 형태를 입력하면 조건에 맞는 지원금을 바로 찾아드립니다.",
+    heading: "맞춤 지원금 찾기",
+    description: "거주 지역과 나이, 가구 형태를 입력하면 조건에 맞는 지원금을 바로 찾아드립니다.",
+    regionLabel: "거주 지역",
+    allRegions: "전체 지역",
+    regionAllSuffix: "전체",
+    ageLabel: "나이 (선택)",
+    agePlaceholder: "예: 28",
+    householdLabel: "가구 형태 (선택)",
+    householdAll: "전체",
+    householdSingle: "1인가구",
+    householdNewlywed: "신혼부부",
+    categoryLabel: "관심 카테고리 (선택, 복수 선택 가능)",
+    submitButton: "내 지원금 확인하기",
+    resultsCountPrefix: "조건에 맞는 지원금",
+    resultsCountSuffix: "건",
+    noResults: "입력하신 조건에 맞는 지원금을 찾지 못했습니다. 지역이나 나이 조건을 다시 확인해보세요.",
+    disclaimer:
+      "이 결과는 지역·나이·가구 형태 조건만으로 1차 필터링한 참고용입니다. 소득 기준 등 세부 조건은 각 지원금 상세 페이지에서 반드시 다시 확인하세요.",
+  },
+  medianIncome: {
+    metaTitle: "기준 중위소득표",
+    metaDescriptionTemplate: "년·{year2}년 기준 중위소득을 가구원수·비율별로 한눈에 확인하세요.",
+    heading: "기준 중위소득표",
+    description:
+      '지원금마다 "기준 중위소득 OO% 이하"처럼 소득 조건이 다르게 표시되는데, 이 표에서 가구원수와 비율에 해당하는 실제 월 소득 금액(원)을 바로 확인할 수 있습니다. 기준 중위소득은 매년 새로 고시되는데, 지원금에 따라 공고된 연도(예: {year2}년)의 기준을 그대로 쓰는 경우도 있어 최근 2개 연도를 함께 제공합니다.',
+    tableHeading: "년 기준 중위소득표",
+    householdSizeHeader: "가구원수",
+    householdUnit: "인 가구",
+    sourcePrefix: "출처: 보건복지부",
+    sourceYearSuffix: "년도 기준 중위소득 고시",
+    sourceLinkText: "링크",
+    note9PlusLabel: "9인 이상 가구",
+    note9PlusBody:
+      "는 8인 가구 기준액에 1인 늘어날 때마다 그 해의 1인 증가분(연도별 표 하단 출처 고시에 명시)만큼 더해 계산합니다.",
+    noteDisclaimer:
+      "이 표는 보건복지부가 고시한 연도별 기준 중위소득(100%)을 바탕으로 각 비율을 계산한 참고용 자료입니다. 실제 지원금 심사에 쓰이는 소득인정액은 소득·재산을 환산해 별도로 산정하므로 이 표와 차이가 날 수 있습니다. 정확한 판정은 복지로 모의계산이나 신청하려는 지원금의 담당 기관에 문의해 확인하세요.",
+  },
+  benefitDetail: {
+    ageRangeTemplate: "만 {min}~{max}세",
+    ageSingleTemplate: "만 {age}세",
+    tocEligibility: "지원 대상",
+    tocSupportContent: "지원 내용",
+    tocApplicationMethod: "신청 방법",
+    tocChecklist: "신청 전 체크리스트",
+    tocFaq: "자주 묻는 질문",
+    breadcrumbHome: "홈",
+    expiredNoticePrefix: "이 페이지는",
+    expiredNoticeSuffix: "년도 종료된 정보입니다. 신청에는 사용할 수 없습니다.",
+    expiredNoticeLink: "최신 정보 보기",
+    yearlyViewLabel: "연도별 보기",
+    yearSuffix: "년",
+    eligibilityHeading: "지원 대상",
+    supportContentHeading: "지원 내용",
+    applicationMethodHeading: "신청 방법",
+    requiredDocumentsHeading: "필요 서류",
+    checklistHeading: "신청 전 체크리스트",
+    faqHeading: "자주 묻는 질문",
+    relatedBenefitsHeadingDefault: "관련 지원금",
+    relatedBenefitsHeadingRegionSuffix: "의 다른 지원금",
+    agencyLabel: "담당 기관:",
+    officialLinkButton: "공식 페이지에서 확인하기",
+    sourcePrefix: "출처:",
+    sourceUpdatedSuffix: "기준",
+    sourceDisclaimer: "정확한 최신 기준은 반드시 공식 안내를 다시 확인하세요.",
+    shareButton: "공유하기",
+    shareCopied: "링크 복사됨",
+    tocLabel: "목차",
+  },
+  aboutPage: {
+    metaTitle: "사이트 소개",
+    metaDescription: "내 지원금 찾기 서비스 소개 페이지입니다.",
+    heading: "사이트 소개",
+    paragraph1:
+      "'내 지원금 찾기'는 전국 지자체가 운영하는 결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 관련 지원 제도를 한곳에서 비교하고 확인할 수 있도록 정리하는 정보 서비스입니다.",
+    paragraph2:
+      "지자체마다 제도의 이름과 조건이 조금씩 달라 필요한 지원을 놓치는 경우가 많습니다. 저희는 공공데이터를 바탕으로 자격 조건, 지원 내용, 신청 방법을 쉬운 말로 요약하고, 신청 전에 확인해야 할 체크리스트를 함께 제공합니다.",
+    paragraph3:
+      "다만 이 사이트는 정부 또는 지자체가 운영하는 공식 사이트가 아닙니다. 게재된 정보는 참고용이며, 실제 신청 전에는 반드시 각 제도의 공식 안내 페이지에서 최신 기준을 확인해야 합니다. 정보가 실제와 다르거나 최신화가 필요한 경우 문의 페이지를 통해 알려주시면 빠르게 반영하겠습니다.",
+  },
+  privacyPage: {
+    metaTitle: "개인정보처리방침",
+    metaDescription: "내 지원금 찾기의 개인정보처리방침입니다.",
+    heading: "개인정보처리방침",
+    section1Heading: "1. 수집하는 개인정보 항목",
+    section1Body:
+      "본 사이트는 지원금 조건을 확인하는 과정에서 나이대, 거주 지역, 가구 형태 등을 선택형으로 입력받을 수 있으며, 이러한 입력값은 서버로 전송되거나 저장되지 않고 이용자의 브라우저 안에서만 사용됩니다. 문의하기를 통해 연락처를 남기는 경우에는 답변 목적으로만 해당 정보를 사용합니다.",
+    section2Heading: "2. 쿠키 및 광고",
+    section2Body:
+      "본 사이트는 Google AdSense를 통해 광고를 게재하며, Google 등 제3자 광고 제공업체는 쿠키를 사용해 이용자의 이전 방문 또는 다른 사이트 방문 이력을 기반으로 광고를 게재할 수 있습니다. 이용자는 Google 광고 설정 페이지에서 맞춤 광고를 비활성화할 수 있습니다.",
+    section3Heading: "3. 개인정보의 보유 및 이용 기간",
+    section3Body:
+      "문의를 통해 수집한 정보는 답변 완료 후 지체 없이 파기하며, 별도의 회원가입 및 개인정보 저장 기능은 제공하지 않습니다.",
+    section4Heading: "4. 문의처",
+    section4Body: "개인정보 관련 문의는 문의하기 페이지를 통해 접수해 주세요.",
+    lastUpdated: "최종 수정일: 2026년 9월",
+  },
+  termsPage: {
+    metaTitle: "이용약관",
+    metaDescription: "내 지원금 찾기의 이용약관입니다.",
+    heading: "이용약관",
+    section1Heading: "1. 서비스의 성격",
+    section1Body:
+      "본 사이트는 정부·지자체가 공개한 공공데이터를 바탕으로 지원 제도 정보를 정리해 제공하는 민간 정보 서비스이며, 정부 또는 지자체가 운영하는 공식 사이트가 아닙니다.",
+    section2Heading: "2. 정보의 정확성",
+    section2Body:
+      "게재된 지원금 정보는 참고용이며, 제도 개편이나 예산 소진 등으로 실제 내용과 차이가 있을 수 있습니다. 신청 전에는 반드시 각 제도의 공식 안내 페이지 또는 담당 기관을 통해 최신 정보를 확인해야 하며, 본 사이트 정보만을 근거로 발생한 불이익에 대해 책임지지 않습니다.",
+    section3Heading: "3. 외부 링크",
+    section3Body:
+      "본 사이트는 각 지원 제도의 공식 신청 페이지로 연결되는 외부 링크를 제공할 수 있으며, 외부 사이트의 내용에 대해서는 책임지지 않습니다.",
+    section4Heading: "4. 약관의 변경",
+    section4Body: "본 약관은 서비스 운영상 필요에 따라 사전 고지 후 변경될 수 있습니다.",
+    lastUpdated: "최종 수정일: 2026년 9월",
+  },
+  contactPage: {
+    metaTitle: "문의하기",
+    metaDescription: "정보 오류 제보, 제휴, 광고 문의를 남겨주세요.",
+    heading: "문의하기",
+    body: "지원금 정보 오류 제보, 새로운 지역·제도 추가 요청, 제휴 및 광고 문의는 아래 이메일로 보내주세요.",
+  },
+  notFound: {
+    heading: "페이지를 찾을 수 없습니다",
+    body: "요청하신 지원금 정보가 존재하지 않거나 삭제되었습니다.",
+    homeLink: "홈으로 돌아가기",
+  },
+};
+
+export default ko;

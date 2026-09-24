@@ -2,17 +2,20 @@ import Link from "next/link";
 import { Category, Region } from "@/lib/types";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { RegionIcon } from "./icons";
+import type { Dictionary } from "@/lib/i18n/dictionaryType";
 
 export default function FilterBar({
   regions,
   categories,
   activeRegionSlug,
   activeCategorySlug,
+  dict,
 }: {
   regions: Region[];
   categories: Category[];
   activeRegionSlug?: string;
   activeCategorySlug?: string;
+  dict: Dictionary;
 }) {
   const sidoRegions = regions.filter((r) => r.level === "sido");
 
@@ -29,7 +32,7 @@ export default function FilterBar({
       <div>
         <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
           <RegionIcon className="h-3.5 w-3.5" />
-          지역
+          {dict.filterBar.regionLabel}
         </p>
         <div className="flex flex-wrap gap-2">
           <Link
@@ -40,7 +43,7 @@ export default function FilterBar({
                 : "bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
             }`}
           >
-            전체 지역
+            {dict.filterBar.allRegions}
           </Link>
           {sidoRegions.map((region) => (
             <Link
@@ -59,7 +62,7 @@ export default function FilterBar({
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">카테고리</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">{dict.filterBar.categoryLabel}</p>
         <div className="flex flex-wrap gap-2">
           <Link
             href={buildHref(activeRegionSlug, undefined)}
@@ -69,7 +72,7 @@ export default function FilterBar({
                 : "bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50"
             }`}
           >
-            전체 카테고리
+            {dict.filterBar.allCategories}
           </Link>
           {categories.map((category) => {
             const style = getCategoryStyle(category.slug);
