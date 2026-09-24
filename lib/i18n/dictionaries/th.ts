@@ -71,7 +71,7 @@ const th: Dictionary = {
     gov24Title: "Gov24 (정부24)",
     gov24Description: "พอร์ทัลบริการและงานราชการแบบรวมศูนย์ของรัฐบาล",
     youthCenterTitle: "On-tong Youth (온통청년)",
-    youthCenterDescription: "แพลตฟอร์มข้อมูลนโยบายเยาวชนแบบรวมศูนย์",
+    youthCenterDescription: "แพลตฟอร์มข้อมูลนโยบายคนหนุ่มสาวแบบรวมศูนย์",
   },
   recentlyViewed: {
     heading: "ดูล่าสุด",
