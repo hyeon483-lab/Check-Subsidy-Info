@@ -1193,7 +1193,7 @@ const zh: BenefitTranslationMap = {
   },
   "gimhae-birth-celebration-grant": {
     title: "金海市生育祝贺金",
-    summary: "这是金海市按子女人数分级发放的生育祝贺金制度，2026年全面改编，发放金额已上调。",
+    summary: "这是金海市按子女人数分级发放的生育祝贺金制度，2026年全面改革，发放金额已上调。",
     eligibility: "须为2026年1月1日以后在金海市办理出生申报的家庭。",
     support_content: "第一胎100万韩元、第二胎150万韩元、第三胎200万韩元、第四胎300万韩元、第五胎以上400万韩元，分出生时和出生后满12个月两次发放。",
     application_method: "通过办理出生申报的所辖邑·面·洞行政福祉中心或政府24申请。",
@@ -1570,7 +1570,7 @@ const zh: BenefitTranslationMap = {
     ],
   },
   "hwaseong-marriage-savings-match": {
-    title: "华城市胭脂痣存折",
+    title: "华城市胭脂花钿存折",
     summary: "这是华城市按即将结婚青年储蓄额匹配存入30%的全国首创结婚鼓励型匹配存折制度。",
     eligibility: "遴选公告日基准居住在华城特例市、满19~39周岁、在职、即将结婚的700人。",
     support_content: "每月最高储蓄30万韩元，华城市匹配存入30%(最高9万韩元)。完成准夫妻教育并在2年内结婚者，合计本人储蓄额与匹配金最高可领取936万韩元。",
