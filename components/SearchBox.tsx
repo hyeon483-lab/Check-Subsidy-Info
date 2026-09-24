@@ -1,17 +1,21 @@
 import { SearchIcon } from "./icons";
 import type { Dictionary } from "@/lib/i18n/dictionaryType";
+import type { Locale } from "@/lib/i18n/config";
+import { localizedHref } from "@/lib/i18n/href";
 
 export default function SearchBox({
   defaultValue,
   className = "",
   dict,
+  locale,
 }: {
   defaultValue?: string;
   className?: string;
   dict: Dictionary;
+  locale: Locale;
 }) {
   return (
-    <form action="/search" method="GET" role="search" className={className}>
+    <form action={localizedHref("/search", locale)} method="GET" role="search" className={className}>
       <div className="relative">
         <SearchIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         <input

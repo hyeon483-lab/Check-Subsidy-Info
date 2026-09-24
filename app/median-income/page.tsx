@@ -3,16 +3,19 @@ import { medianIncomeAt, medianIncomeByYear, medianIncomePercents, type MedianIn
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { Dictionary } from "@/lib/i18n/dictionaryType";
+import { localizedHref } from "@/lib/i18n/href";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 const latestYear = medianIncomeByYear[0].year;
 const secondYear = medianIncomeByYear[1]?.year;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const dict = getDictionary(await getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   return {
     title: dict.medianIncome.metaTitle,
     description: `${latestYear}${dict.medianIncome.metaDescriptionTemplate.replace("{year2}", String(secondYear))}`,
-    alternates: { canonical: "/median-income" },
+    alternates: { canonical: localizedHref("/median-income", locale), languages: localeAlternates("/median-income") },
   };
 }
 

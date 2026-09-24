@@ -15,6 +15,8 @@ import HomeIntro from "@/components/HomeIntro";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeBenefits, localizeCategories, localizeRegions } from "@/lib/i18n/localize";
+import { localizedHref } from "@/lib/i18n/href";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -30,11 +32,12 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
   const benefits = await getBenefits({ regionSlug: region, categorySlug: category });
   const { currentPage } = paginate(benefits, Number(page) || 1);
+  const url = `${siteUrl}${localizedHref("/", locale)}`;
   return {
     title: dict.home.metaTitle,
     description: dict.home.metaDescription,
-    openGraph: { title: dict.home.metaTitle, description: dict.home.metaDescription, url: siteUrl },
-    ...paginationMetadata("/", { region, category }, currentPage),
+    openGraph: { title: dict.home.metaTitle, description: dict.home.metaDescription, url },
+    ...paginationMetadata(localizedHref("/", locale), { region, category }, currentPage, localeAlternates("/")),
   };
 }
 
@@ -85,13 +88,13 @@ export default async function HomePage({
 
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
         <div className="mb-12">
-          <ToolsShowcase dict={dict} />
+          <ToolsShowcase dict={dict} locale={locale} />
         </div>
 
-        <RecentlyViewedSection dict={dict} />
+        <RecentlyViewedSection dict={dict} locale={locale} />
 
         <div className="mb-12">
-          <CategoryGrid categories={localizedCategoriesWithCount} dict={dict} />
+          <CategoryGrid categories={localizedCategoriesWithCount} dict={dict} locale={locale} />
         </div>
 
         <div id="benefits-list" className="mb-8 scroll-mt-20 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100">
@@ -101,6 +104,7 @@ export default async function HomePage({
             activeRegionSlug={region}
             activeCategorySlug={category}
             dict={dict}
+            locale={locale}
           />
         </div>
 
@@ -112,14 +116,14 @@ export default async function HomePage({
           <>
             <div className="grid gap-4 sm:grid-cols-2">
               {localizedItems.map((benefit) => (
-                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} />
+                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} locale={locale} />
               ))}
             </div>
             <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING} className="mt-6" />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              basePath="/"
+              basePath={localizedHref("/", locale)}
               searchParams={{ region, category }}
               dict={dict}
             />
@@ -127,7 +131,7 @@ export default async function HomePage({
         )}
 
         <div className="mt-16">
-          <HomeIntro dict={dict} />
+          <HomeIntro dict={dict} locale={locale} />
           <OfficialLinks dict={dict} />
         </div>
       </div>

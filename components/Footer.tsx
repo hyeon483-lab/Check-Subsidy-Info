@@ -4,6 +4,7 @@ import { getCategories } from "@/lib/data";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeCategories } from "@/lib/i18n/localize";
+import { localizedHref } from "@/lib/i18n/href";
 
 export default async function Footer() {
   const locale = await getLocale();
@@ -34,7 +35,7 @@ export default async function Footer() {
             <ul className="space-y-2 text-sm">
               {categories.map((category) => (
                 <li key={category.id}>
-                  <Link href={`/category/${category.slug}`} className="transition hover:text-white">
+                  <Link href={localizedHref(`/category/${category.slug}`, locale)} className="transition hover:text-white">
                     {category.name}
                   </Link>
                 </li>
@@ -46,17 +47,17 @@ export default async function Footer() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">{dict.footer.toolsHeading}</p>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/search" className="transition hover:text-white">
+                <Link href={localizedHref("/search", locale)} className="transition hover:text-white">
                   {dict.footer.toolSearch}
                 </Link>
               </li>
               <li>
-                <Link href="/finder" className="transition hover:text-white">
+                <Link href={localizedHref("/finder", locale)} className="transition hover:text-white">
                   {dict.footer.toolFinder}
                 </Link>
               </li>
               <li>
-                <Link href="/median-income" className="transition hover:text-white">
+                <Link href={localizedHref("/median-income", locale)} className="transition hover:text-white">
                   {dict.footer.toolMedianIncome}
                 </Link>
               </li>
@@ -67,22 +68,22 @@ export default async function Footer() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">{dict.footer.siteHeading}</p>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/about" className="transition hover:text-white">
+                <Link href={localizedHref("/about", locale)} className="transition hover:text-white">
                   {dict.footer.linkAbout}
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="transition hover:text-white">
+                <Link href={localizedHref("/privacy", locale)} className="transition hover:text-white">
                   {dict.footer.linkPrivacy}
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="transition hover:text-white">
+                <Link href={localizedHref("/terms", locale)} className="transition hover:text-white">
                   {dict.footer.linkTerms}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="transition hover:text-white">
+                <Link href={localizedHref("/contact", locale)} className="transition hover:text-white">
                   {dict.footer.linkContact}
                 </Link>
               </li>

@@ -955,7 +955,7 @@ const en: BenefitTranslationMap = {
     title: "South Gyeongsang Province Youth Rent Support Program",
     summary: "A program that supports rent for 12 months for young household heads living in South Gyeongsang Province.",
     eligibility:
-      "Available to young household heads aged 19-39 living in South Gyeongsang Province. Income must be above 60% and at or below 150% of the median income, based on health insurance premium co-payments, and housing must have a lease deposit of KRW 100 million or less and monthly rent of KRW 600,000 or less.",
+      "Available to young household heads aged 19-39 living in South Gyeongsang Province. Income must be above 60% and at or below 150% of the median income, based on health insurance premiums, and housing must have a lease deposit of KRW 100 million or less and monthly rent of KRW 600,000 or less.",
     support_content: "Pays up to KRW 200,000 per month for 12 months (up to KRW 2.4 million total).",
     application_method: "Apply and register through the Gyeongnam Baro Service or your local town/township/neighborhood office; after an eligibility review by your city or county, payment is made around the 25th of each month.",
     required_documents: ["Lease agreement", "Household head verification documents (certified copy of resident registration)", "Health insurance premium payment certificate"],
@@ -2822,7 +2822,7 @@ const en: BenefitTranslationMap = {
     faq: [
       { question: "Can I apply at any time?", answer: "Yes, this program has no special deadline and accepts applications on an ongoing basis. However, it may close early if the budget is exhausted, so it is best to apply as soon as possible." },
       { question: "Do I need to submit any application documents?", answer: "No, you can use the counseling service immediately by phone (1577-1366) or online through the Danuri Portal, with no documents required." },
-      { question: "Can I receive this together with other benefits?", answer: "Whether benefits can be combined varies by program. Contact the Ministry of Gender Equality and Family (→ Ministry of Gender Equality and Family) or the Korean Institute for Healthy Family to check whether this can be received together with other support payments." },
+      { question: "Can I receive this together with other benefits?", answer: "Whether benefits can be combined varies by program. Contact the Ministry of Gender Equality and Family or the Korea Institute for Healthy Family to check whether this can be received together with other support payments." },
     ],
   },
   "multicultural-family-home-visit-education": {

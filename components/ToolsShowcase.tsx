@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { FilterIcon, SearchIcon, TableIcon } from "./icons";
 import type { Dictionary } from "@/lib/i18n/dictionaryType";
+import type { Locale } from "@/lib/i18n/config";
+import { localizedHref } from "@/lib/i18n/href";
 
-export default function ToolsShowcase({ dict }: { dict: Dictionary }) {
+export default function ToolsShowcase({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const tools = [
     {
       href: "/search",
@@ -36,7 +38,7 @@ export default function ToolsShowcase({ dict }: { dict: Dictionary }) {
           return (
             <Link
               key={tool.href}
-              href={tool.href}
+              href={localizedHref(tool.href, locale)}
               className="group flex items-start gap-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100 transition hover:-translate-y-0.5 hover:shadow-card-hover"
             >
               <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${tool.color}`}>

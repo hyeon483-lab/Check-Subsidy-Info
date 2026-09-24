@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localizedHref } from "@/lib/i18n/href";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const dict = getDictionary(await getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   return {
     title: dict.contactPage.metaTitle,
     description: dict.contactPage.metaDescription,
-    alternates: { canonical: "/contact" },
+    alternates: { canonical: localizedHref("/contact", locale), languages: localeAlternates("/contact") },
   };
 }
 

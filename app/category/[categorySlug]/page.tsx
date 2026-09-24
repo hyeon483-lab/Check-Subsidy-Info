@@ -12,6 +12,8 @@ import { siteUrl } from "@/lib/site";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeBenefits, localizeCategories, localizeCategory, localizeRegions } from "@/lib/i18n/localize";
+import { localizedHref } from "@/lib/i18n/href";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -35,11 +37,12 @@ export async function generateMetadata({
   const description = localizedCategory.description ?? `${localizedCategory.name} ${dict.category.defaultDescriptionSuffix}`;
   const benefits = await getBenefits({ categorySlug });
   const { currentPage } = paginate(benefits, Number(page) || 1);
+  const path = localizedHref(`/category/${category.slug}`, locale);
   return {
     title,
     description,
-    openGraph: { title, description, url: `${siteUrl}/category/${category.slug}` },
-    ...paginationMetadata(`/category/${category.slug}`, {}, currentPage),
+    openGraph: { title, description, url: `${siteUrl}${path}` },
+    ...paginationMetadata(path, {}, currentPage, localeAlternates(`/category/${category.slug}`)),
   };
 }
 
@@ -91,6 +94,7 @@ export default async function CategoryPage({
             categories={localizeCategories(categories, locale)}
             activeCategorySlug={category.slug}
             dict={dict}
+            locale={locale}
           />
         </div>
 
@@ -102,11 +106,16 @@ export default async function CategoryPage({
           <>
             <div className="grid gap-4 sm:grid-cols-2">
               {localizeBenefits(items, locale).map((benefit) => (
-                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} />
+                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} locale={locale} />
               ))}
             </div>
             <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING} className="mt-6" />
-            <Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/category/${category.slug}`} dict={dict} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              basePath={localizedHref(`/category/${category.slug}`, locale)}
+              dict={dict}
+            />
           </>
         )}
       </div>

@@ -3,14 +3,16 @@ import { Benefit } from "@/lib/types";
 import { getCategoryStyle } from "@/lib/categoryStyle";
 import { ArrowRightIcon } from "./icons";
 import type { Dictionary } from "@/lib/i18n/dictionaryType";
+import type { Locale } from "@/lib/i18n/config";
+import { localizedHref } from "@/lib/i18n/href";
 
-export default function BenefitCard({ benefit, dict }: { benefit: Benefit; dict: Dictionary }) {
+export default function BenefitCard({ benefit, dict, locale }: { benefit: Benefit; dict: Dictionary; locale: Locale }) {
   const style = getCategoryStyle(benefit.category?.slug);
   const Icon = style.icon;
 
   return (
     <Link
-      href={`/benefits/${benefit.slug}`}
+      href={localizedHref(`/benefits/${benefit.slug}`, locale)}
       className="group flex flex-col rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-100 transition hover:-translate-y-0.5 hover:shadow-card-hover"
     >
       <div className="mb-3 flex items-center justify-between">

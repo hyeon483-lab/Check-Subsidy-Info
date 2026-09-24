@@ -12,7 +12,8 @@ import { siteUrl } from "./site";
 export function paginationMetadata(
   basePath: string,
   params: Record<string, string | undefined>,
-  currentPage: number
+  currentPage: number,
+  languages?: Record<string, string>
 ): Pick<Metadata, "alternates" | "robots"> {
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
@@ -22,7 +23,7 @@ export function paginationMetadata(
   const url = `${siteUrl}${basePath}${qs ? `?${qs}` : ""}`;
 
   return {
-    alternates: { canonical: url },
+    alternates: { canonical: url, languages },
     robots: currentPage > 1 ? { index: false, follow: true } : undefined,
   };
 }

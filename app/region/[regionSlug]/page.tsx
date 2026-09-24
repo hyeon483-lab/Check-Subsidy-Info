@@ -12,6 +12,8 @@ import { siteUrl } from "@/lib/site";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeBenefits, localizeCategories, localizeRegion, localizeRegions } from "@/lib/i18n/localize";
+import { localizedHref } from "@/lib/i18n/href";
+import { localeAlternates } from "@/lib/i18n/metadata";
 
 // Supabase의 데이터가 DB에 반영되는 즉시(재배포 없이) 사이트에 나타나도록
 // 빌드 시점에 굳히는 정적 생성 대신 매 요청마다 새로 렌더링합니다.
@@ -35,11 +37,12 @@ export async function generateMetadata({
   const description = `${localizedRegion.name}${dict.region.description}`;
   const benefits = await getBenefits({ regionSlug });
   const { currentPage } = paginate(benefits, Number(page) || 1);
+  const path = localizedHref(`/region/${region.slug}`, locale);
   return {
     title,
     description,
-    openGraph: { title, description, url: `${siteUrl}/region/${region.slug}` },
-    ...paginationMetadata(`/region/${region.slug}`, {}, currentPage),
+    openGraph: { title, description, url: `${siteUrl}${path}` },
+    ...paginationMetadata(path, {}, currentPage, localeAlternates(`/region/${region.slug}`)),
   };
 }
 
@@ -90,6 +93,7 @@ export default async function RegionPage({
             categories={localizeCategories(categories, locale)}
             activeRegionSlug={region.slug}
             dict={dict}
+            locale={locale}
           />
         </div>
 
@@ -103,11 +107,16 @@ export default async function RegionPage({
           <>
             <div className="grid gap-4 sm:grid-cols-2">
               {localizeBenefits(items, locale).map((benefit) => (
-                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} />
+                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} locale={locale} />
               ))}
             </div>
             <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LISTING} className="mt-6" />
-            <Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/region/${region.slug}`} dict={dict} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              basePath={localizedHref(`/region/${region.slug}`, locale)}
+              dict={dict}
+            />
           </>
         )}
       </div>

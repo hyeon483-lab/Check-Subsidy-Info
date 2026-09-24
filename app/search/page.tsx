@@ -9,6 +9,7 @@ import { siteUrl } from "@/lib/site";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeBenefits } from "@/lib/i18n/localize";
+import { localizedHref } from "@/lib/i18n/href";
 
 // 검색 결과 페이지는 입력값에 따라 내용이 계속 바뀌는 데다, 중복/저가치 콘텐츠로
 // 오인될 수 있어 색인에서는 제외하고(noindex) 내부 탐색 용도로만 사용합니다.
@@ -20,12 +21,13 @@ export async function generateMetadata({
   searchParams: Promise<{ q?: string }>;
 }): Promise<Metadata> {
   const { q } = await searchParams;
-  const dict = getDictionary(await getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const query = (q ?? "").trim();
   const title = query ? `"${query}" ${dict.search.metaSearchResultsSuffix}` : dict.search.metaDefaultTitle;
   return {
     title,
-    alternates: { canonical: `${siteUrl}/search` },
+    alternates: { canonical: `${siteUrl}${localizedHref("/search", locale)}` },
     robots: { index: false, follow: true },
   };
 }
@@ -68,7 +70,7 @@ export default async function SearchPage({
       <section className="border-b border-slate-200 bg-gradient-to-b from-brand-50/70 via-white to-white">
         <div className="mx-auto max-w-3xl px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
           <h1 className="mb-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{dict.search.heading}</h1>
-          <SearchBox defaultValue={query} dict={dict} />
+          <SearchBox defaultValue={query} dict={dict} locale={locale} />
         </div>
       </section>
 
@@ -99,13 +101,13 @@ export default async function SearchPage({
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {localizeBenefits(items, locale).map((benefit) => (
-                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} />
+                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} locale={locale} />
               ))}
             </div>
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              basePath="/search"
+              basePath={localizedHref("/search", locale)}
               searchParams={{ q: query }}
               dict={dict}
             />

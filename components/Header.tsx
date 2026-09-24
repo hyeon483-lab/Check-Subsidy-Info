@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FilterIcon, LogoMark, SearchIcon } from "./icons";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localizedHref } from "@/lib/i18n/href";
 import LanguageToggle from "./LanguageToggle";
 
 export default async function Header() {
@@ -11,7 +12,7 @@ export default async function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label={dict.common.siteName}>
+        <Link href={localizedHref("/", locale)} className="flex shrink-0 items-center gap-2" aria-label={dict.common.siteName}>
           <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-brand-600">
             <LogoMark className="h-[18px] w-[18px]" />
           </span>
@@ -22,7 +23,7 @@ export default async function Header() {
           </span>
         </Link>
 
-        <form action="/search" method="GET" role="search" className="hidden max-w-xs flex-1 sm:block">
+        <form action={localizedHref("/search", locale)} method="GET" role="search" className="hidden max-w-xs flex-1 sm:block">
           <div className="relative">
             <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
@@ -36,27 +37,27 @@ export default async function Header() {
 
         <nav className="flex items-center gap-1 text-sm font-medium text-slate-500">
           <Link
-            href="/search"
+            href={localizedHref("/search", locale)}
             aria-label={dict.header.searchAriaLabel}
             className="rounded-full p-2 transition hover:bg-slate-100 hover:text-slate-900 sm:hidden"
           >
             <SearchIcon className="h-5 w-5" />
           </Link>
           <Link
-            href="/finder"
+            href={localizedHref("/finder", locale)}
             className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition hover:bg-slate-100 hover:text-slate-900"
           >
             <FilterIcon className="h-4 w-4" />
             <span className="hidden sm:inline">{dict.header.navFinder}</span>
           </Link>
           <Link
-            href="/about"
+            href={localizedHref("/about", locale)}
             className="rounded-full px-3 py-1.5 transition hover:bg-slate-100 hover:text-slate-900"
           >
             {dict.header.navAbout}
           </Link>
           <Link
-            href="/contact"
+            href={localizedHref("/contact", locale)}
             className="rounded-full px-3 py-1.5 transition hover:bg-slate-100 hover:text-slate-900"
           >
             {dict.header.navContact}

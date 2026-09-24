@@ -45,8 +45,8 @@ export const categoryNames: Record<Exclude<Locale, "ko">, Record<string, { name:
       description: "妊娠、出産、育児に関する支援制度です。",
     },
     "child-youth": {
-      name: "子供・青少年",
-      description: "満7〜18歳の子供・青少年とその家庭を支援する制度です。",
+      name: "子ども・青少年",
+      description: "満7〜18歳の子ども・青少年とその家庭を支援する制度です。",
     },
     youth: {
       name: "青年",
@@ -91,8 +91,8 @@ export const categoryNames: Record<Exclude<Locale, "ko">, Record<string, { name:
       description: "面向65岁以上老年人的支持项目。",
     },
     multicultural: {
-      name: "多元文化家庭",
-      description: "面向在韩外国人及多元文化家庭的支持项目。",
+      name: "多文化家庭",
+      description: "面向在韩外国人及多文化家庭的支持项目。",
     },
   },
   vi: {

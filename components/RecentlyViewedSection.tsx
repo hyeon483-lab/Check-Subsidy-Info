@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getRecentlyViewed, RecentlyViewedItem } from "@/lib/recentlyViewed";
 import type { Dictionary } from "@/lib/i18n/dictionaryType";
+import type { Locale } from "@/lib/i18n/config";
+import { localizedHref } from "@/lib/i18n/href";
 
-export default function RecentlyViewedSection({ dict }: { dict: Dictionary }) {
+export default function RecentlyViewedSection({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const [items, setItems] = useState<RecentlyViewedItem[]>([]);
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default function RecentlyViewedSection({ dict }: { dict: Dictionary }) {
         {items.map((item) => (
           <Link
             key={item.slug}
-            href={`/benefits/${item.slug}`}
+            href={localizedHref(`/benefits/${item.slug}`, locale)}
             className="w-56 shrink-0 rounded-2xl bg-white p-4 shadow-card ring-1 ring-slate-100 transition hover:-translate-y-0.5 hover:shadow-card-hover"
           >
             {(item.regionName || item.categoryName) && (

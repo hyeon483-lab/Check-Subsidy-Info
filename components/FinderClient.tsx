@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Benefit, Category, Region } from "@/lib/types";
 import BenefitCard from "./BenefitCard";
 import type { Dictionary } from "@/lib/i18n/dictionaryType";
+import type { Locale } from "@/lib/i18n/config";
 
 const HOUSEHOLD_OPTIONS = ["전체", "1인가구", "신혼부부"] as const;
 
@@ -12,11 +13,13 @@ export default function FinderClient({
   regions,
   categories,
   dict,
+  locale,
 }: {
   benefits: Benefit[];
   regions: Region[];
   categories: Category[];
   dict: Dictionary;
+  locale: Locale;
 }) {
   const householdLabels: Record<(typeof HOUSEHOLD_OPTIONS)[number], string> = {
     전체: dict.finder.householdAll,
@@ -201,7 +204,7 @@ export default function FinderClient({
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {results.map((benefit) => (
-                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} />
+                <BenefitCard key={benefit.id} benefit={benefit} dict={dict} locale={locale} />
               ))}
             </div>
           )}

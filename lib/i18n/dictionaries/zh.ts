@@ -65,11 +65,11 @@ const zh: Dictionary = {
     medianIncomeDescription: "一次性查看按家庭人口数、比例划分的基准中位收入金额。",
   },
   officialLinks: {
-    bokjiroTitle: "福祉网(복지로)",
+    bokjiroTitle: "福祉网（복지로）",
     bokjiroDescription: "福利服务综合查询及在线申请",
     gov24Title: "政府24",
-    gov24Description: "政府民愿及服务综合门户",
-    youthCenterTitle: "全青年(온통청년)",
+    gov24Description: "政府政务及服务综合门户",
+    youthCenterTitle: "全青年（온통청년）",
     youthCenterDescription: "青年政策综合信息平台",
   },
   recentlyViewed: {
@@ -98,7 +98,7 @@ const zh: Dictionary = {
   region: {
     badgeLabel: "按地区查看补贴金",
     titleSuffix: "补贴金·福利",
-    description: "地区可申请的支援制度，按分类确认。",
+    description: "地区可申请的支援制度，请按分类查看确认。",
     emptyListPrefix: "",
     emptyListSuffix: "暂无已登记的补贴金。",
   },
@@ -123,7 +123,7 @@ const zh: Dictionary = {
     agePlaceholder: "例：28",
     householdLabel: "家庭类型（可选）",
     householdAll: "全部",
-    householdSingle: "单人家庭",
+    householdSingle: "单人户",
     householdNewlywed: "新婚夫妇",
     categoryLabel: "感兴趣的分类（可选，可多选）",
     submitButton: "查看我的补贴金",

@@ -14,6 +14,8 @@ import RecordRecentlyViewed from "@/components/RecordRecentlyViewed";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeBenefit, localizeBenefits } from "@/lib/i18n/localize";
+import { localizedHref } from "@/lib/i18n/href";
+import { localeAlternates } from "@/lib/i18n/metadata";
 import type { Dictionary } from "@/lib/i18n/dictionaryType";
 import type { Benefit } from "@/lib/types";
 
@@ -27,11 +29,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!raw) return {};
   const locale = await getLocale();
   const benefit = localizeBenefit(raw, locale);
-  const url = `${siteUrl}/benefits/${benefit.slug}`;
+  const url = `${siteUrl}${localizedHref(`/benefits/${benefit.slug}`, locale)}`;
   return {
     title: benefit.title,
     description: benefit.summary,
-    alternates: { canonical: url },
+    alternates: { canonical: url, languages: localeAlternates(`/benefits/${benefit.slug}`) },
     openGraph: {
       type: "article",
       title: benefit.title,
@@ -85,7 +87,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
   const currentVersion = history.find((h) => h.is_current);
   const relatedBenefitsRaw = raw.is_current ? await getRelatedBenefits(raw) : [];
   const relatedBenefits = localizeBenefits(relatedBenefitsRaw, locale);
-  const pageUrl = `${siteUrl}/benefits/${benefit.slug}`;
+  const pageUrl = `${siteUrl}${localizedHref(`/benefits/${benefit.slug}`, locale)}`;
 
   const tocItems = [
     { id: "eligibility", label: dict.benefitDetail.tocEligibility },
@@ -99,9 +101,21 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: dict.benefitDetail.breadcrumbHome, item: siteUrl },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: dict.benefitDetail.breadcrumbHome,
+        item: `${siteUrl}${localizedHref("/", locale)}`,
+      },
       ...(benefit.region
-        ? [{ "@type": "ListItem", position: 2, name: benefit.region.name, item: `${siteUrl}/region/${benefit.region.slug}` }]
+        ? [
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: benefit.region.name,
+              item: `${siteUrl}${localizedHref(`/region/${benefit.region.slug}`, locale)}`,
+            },
+          ]
         : []),
       ...(benefit.category
         ? [
@@ -109,7 +123,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
               "@type": "ListItem",
               position: benefit.region ? 3 : 2,
               name: benefit.category.name,
-              item: `${siteUrl}/category/${benefit.category.slug}`,
+              item: `${siteUrl}${localizedHref(`/category/${benefit.category.slug}`, locale)}`,
             },
           ]
         : []),
@@ -168,7 +182,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
               {dict.benefitDetail.expiredNoticePrefix} {benefit.fiscal_year}
               {dict.benefitDetail.expiredNoticeSuffix}
             </span>
-            <Link href={`/benefits/${currentVersion.slug}`} className="shrink-0 font-semibold underline">
+            <Link href={localizedHref(`/benefits/${currentVersion.slug}`, locale)} className="shrink-0 font-semibold underline">
               {dict.benefitDetail.expiredNoticeLink} ({currentVersion.fiscal_year}
               {dict.benefitDetail.yearSuffix}) →
             </Link>
@@ -181,7 +195,10 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
           <div className="mb-6 flex items-center justify-between gap-3">
             <nav className="flex items-center gap-2 text-sm text-slate-500">
               {benefit.region && (
-                <Link href={`/region/${benefit.region.slug}`} className="inline-flex items-center gap-1 hover:text-brand-700">
+                <Link
+                  href={localizedHref(`/region/${benefit.region.slug}`, locale)}
+                  className="inline-flex items-center gap-1 hover:text-brand-700"
+                >
                   <RegionIcon className="h-3.5 w-3.5" />
                   {benefit.region.name}
                 </Link>
@@ -189,7 +206,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
               {benefit.category && (
                 <>
                   <span className="text-slate-300">/</span>
-                  <Link href={`/category/${benefit.category.slug}`} className="hover:text-brand-700">
+                  <Link href={localizedHref(`/category/${benefit.category.slug}`, locale)} className="hover:text-brand-700">
                     {benefit.category.name}
                   </Link>
                 </>
@@ -231,7 +248,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
                 return (
                   <Link
                     key={h.slug}
-                    href={`/benefits/${h.slug}`}
+                    href={localizedHref(`/benefits/${h.slug}`, locale)}
                     className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
                       active
                         ? "bg-slate-900 text-white"
@@ -319,7 +336,7 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               {relatedBenefits.map((related) => (
-                <BenefitCard key={related.id} benefit={related} dict={dict} />
+                <BenefitCard key={related.id} benefit={related} dict={dict} locale={locale} />
               ))}
             </div>
           </section>

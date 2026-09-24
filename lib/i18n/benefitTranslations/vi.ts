@@ -186,7 +186,7 @@ const vi: BenefitTranslationMap = {
   "gyeonggi-basic-income-youth-2023": {
     title: "Thu nhập cơ bản cho thanh niên tỉnh Gyeonggi (năm 2023)",
     summary: "Đây là chế độ thu nhập cơ bản cho thanh niên tỉnh Gyeonggi áp dụng cho năm 2023.",
-    eligibility: "Tính đến ngày nộp đơn, thanh niên đủ 24 tuổi có đăng ký cư trú tại tỉnh Gyeonggi và đã cư trú liên tục từ 3 năm trở lên gần nhất, hoặc cư trú cộng dồn từ 10 năm trở lên, có thể đăng ký. Trong lần khảo sát này, chưa xác nhận được thông tin về các địa phương bị loại trừ riêng của năm này. Vui lòng liên hệ Văn phòng tỉnh Gyeonggi để biết thông tin chính xác.",
+    eligibility: "Tính đến ngày nộp đơn, thanh niên đủ 24 tuổi có đăng ký cư trú tại tỉnh Gyeonggi và đã cư trú liên tục từ 3 năm trở lên gần nhất, hoặc cư trú cộng dồn từ 10 năm trở lên, có thể đăng ký. Trong lần khảo sát này, chưa xác nhận được thông tin về các địa phương bị loại trừ riêng của năm này. Vui lòng liên hệ Ủy ban Nhân dân tỉnh Gyeonggi để biết thông tin chính xác.",
     support_content: "Đã chi trả 250.000 won mỗi quý, tối đa 1.000.000 won mỗi năm, dưới dạng tiền tệ địa phương.",
     application_method: "Đã đăng ký trực tuyến qua kênh đăng ký liên kết với Cổng thông tin Thanh niên Gyeonggi.",
     required_documents: ["Giấy tờ tùy thân (để xác minh danh tính)", "Bản trích lục đăng ký cư trú (nếu không đồng ý sử dụng MyData)"],
@@ -200,7 +200,7 @@ const vi: BenefitTranslationMap = {
   "gyeonggi-basic-income-youth-2022": {
     title: "Thu nhập cơ bản cho thanh niên tỉnh Gyeonggi (năm 2022)",
     summary: "Đây là chế độ thu nhập cơ bản cho thanh niên tỉnh Gyeonggi áp dụng cho năm 2022.",
-    eligibility: "Tính đến ngày nộp đơn, thanh niên đủ 24 tuổi có đăng ký cư trú tại tỉnh Gyeonggi và đã cư trú liên tục từ 3 năm trở lên gần nhất, hoặc cư trú cộng dồn từ 10 năm trở lên, có thể đăng ký. Trong lần khảo sát này, chưa xác nhận được thông tin về các địa phương bị loại trừ riêng của năm này. Vui lòng liên hệ Văn phòng tỉnh Gyeonggi để biết thông tin chính xác.",
+    eligibility: "Tính đến ngày nộp đơn, thanh niên đủ 24 tuổi có đăng ký cư trú tại tỉnh Gyeonggi và đã cư trú liên tục từ 3 năm trở lên gần nhất, hoặc cư trú cộng dồn từ 10 năm trở lên, có thể đăng ký. Trong lần khảo sát này, chưa xác nhận được thông tin về các địa phương bị loại trừ riêng của năm này. Vui lòng liên hệ Ủy ban Nhân dân tỉnh Gyeonggi để biết thông tin chính xác.",
     support_content: "Đã chi trả 250.000 won mỗi quý, tối đa 1.000.000 won mỗi năm, dưới dạng tiền tệ địa phương.",
     application_method: "Đã đăng ký trực tuyến qua kênh đăng ký liên kết với Cổng thông tin Thanh niên Gyeonggi.",
     required_documents: ["Giấy tờ tùy thân (để xác minh danh tính)", "Bản trích lục đăng ký cư trú (nếu không đồng ý sử dụng MyData)"],
@@ -382,9 +382,9 @@ const vi: BenefitTranslationMap = {
   "suwon-youth-housing-package": {
     title: "Gói hỗ trợ nhà ở cho thanh niên TP. Suwon",
     summary: "Đây là gói hỗ trợ chi phí nhà ở của TP. Suwon, kết hợp hỗ trợ tiền thuê nhà, chi phí chuyển nhà và phí môi giới cho thanh niên.",
-    eligibility: "Đối tượng là thanh niên cư trú tại TP. Suwon. Tiêu chuẩn độ tuổi và thu nhập chính xác cần được xác nhận qua thông báo của Văn phòng TP. Suwon.",
+    eligibility: "Đối tượng là thanh niên cư trú tại TP. Suwon. Tiêu chuẩn độ tuổi và thu nhập chính xác cần được xác nhận qua thông báo của Ủy ban Nhân dân TP. Suwon.",
     support_content: "Hỗ trợ tối đa 1.000.000 won cho mỗi người. Tiền thuê nhà hàng tháng được hỗ trợ 100.000 won mỗi tháng trong tối đa 5 tháng (tối đa 500.000 won), chi phí chuyển nhà và phí môi giới được hỗ trợ theo chi phí thực tế tối đa 500.000 won.",
-    application_method: "Đăng ký trực tuyến trên trang chủ Văn phòng TP. Suwon, sau đó nộp giấy tờ chứng minh điều kiện đủ tư cách qua email.",
+    application_method: "Đăng ký trực tuyến trên trang chủ Ủy ban Nhân dân TP. Suwon, sau đó nộp giấy tờ chứng minh điều kiện đủ tư cách qua email.",
     required_documents: ["Hợp đồng thuê nhà", "Biên lai chi phí chuyển nhà và phí môi giới", "Bản sao đăng ký cư trú"],
     checklist: ["Hạn mức hỗ trợ tiền thuê nhà và chi phí chuyển nhà khác nhau, đừng nhầm lẫn", "Giấy tờ phải được nộp riêng qua email"],
     faq: [
@@ -964,7 +964,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ liên quan đến khai sinh, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng huyện Ulju, TP. Ulsan để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân huyện Ulju, TP. Ulsan để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "chungnam-boryeong-marriage-grant": {
@@ -972,7 +972,7 @@ const vi: BenefitTranslationMap = {
     summary: "Đây là chế độ chi trả tiền khuyến khích kết hôn cho các cặp vợ chồng đăng ký kết hôn tại TP. Boryeong, tỉnh Chungcheongnam-do. Đây là dự án riêng của TP. Boryeong, không áp dụng cho toàn tỉnh Chungcheongnam-do.",
     eligibility: "Đối tượng là các cặp vợ chồng đã đăng ký kết hôn từ ngày 10 tháng 9 năm 2025 trở đi và duy trì đăng ký cư trú tại TP. Boryeong từ 1 năm trở lên, cả hai người đều phải từ đủ 18 đến 45 tuổi. Nếu chỉ một trong hai người kết hôn lần đầu thì chỉ được nhận 50% số tiền chi trả.",
     support_content: "Chi trả tối đa 3.000.000 won, chia đều 1.000.000 won mỗi năm trong 3 năm.",
-    application_method: "Đăng ký qua Văn phòng TP. Boryeong hoặc Trung tâm Phúc lợi Hành chính phường/xã quản lý.",
+    application_method: "Đăng ký qua Ủy ban Nhân dân TP. Boryeong hoặc Trung tâm Phúc lợi Hành chính phường/xã quản lý.",
     required_documents: ["Giấy chứng nhận quan hệ hôn nhân", "Bản sao đăng ký cư trú"],
     checklist: ["Chế độ này chỉ dành cho người cư trú tại TP. Boryeong, không áp dụng cho toàn tỉnh Chungcheongnam-do", "Chỉ áp dụng cho các trường hợp đăng ký kết hôn từ ngày 10 tháng 9 năm 2025 trở đi", "Nếu chỉ một người kết hôn lần đầu thì số tiền chi trả giảm một nửa"],
     faq: [
@@ -992,7 +992,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ liên quan đến khai sinh, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Cheonan, tỉnh Chungcheongnam-do để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Cheonan, tỉnh Chungcheongnam-do để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "gangwon-youth-job-prep-coupon": {
@@ -1006,7 +1006,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Làm thế nào để xác nhận tiêu chuẩn thu nhập?", answer: "Bạn cần đáp ứng điều kiện từ đủ 18 đến 34 tuổi trên 120% đến dưới 180% mức thu nhập trung vị chuẩn / từ đủ 35 đến 45 tuổi từ 180% trở xuống. Để biết cách tính thu nhập chính xác, bạn nên xác nhận qua công cụ tính thử trên trang Bokjiro (phúc lợi trực tuyến) hoặc liên hệ trực tiếp với cơ quan phụ trách." },
       { question: "Độ tuổi được tính theo tuổi đầy đủ (tuổi quốc tế) phải không?", answer: "Có, độ tuổi áp dụng là từ đủ 18 đến 45 tuổi, thường được tính theo ngày thông báo hoặc ngày nộp đơn. Vui lòng kiểm tra lại ngày chuẩn chính xác trong thông báo chính thức." },
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Cục Việc làm và Kinh tế, Văn phòng tỉnh đặc biệt tự trị Gangwon." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Cục Việc làm và Kinh tế, Ủy ban Nhân dân tỉnh đặc biệt tự trị Gangwon." },
     ],
   },
   "jeju-youth-hope-ladder-savings": {
@@ -1025,8 +1025,8 @@ const vi: BenefitTranslationMap = {
   },
   "chungnam-youth-settlement-plus-account": {
     title: "Tài khoản định cư Plus dành cho thanh niên Chungnam",
-    summary: "Đây là chế độ tiết kiệm đối ứng hỗ trợ tích lũy tài sản cho thanh niên đang làm việc tại các doanh nghiệp vừa, nhỏ và vừa lớn trong ngành công nghiệp chủ lực của tỉnh Chungcheongnam-do.",
-    eligibility: "Đối tượng là thanh niên từ đủ 19 đến 39 tuổi (người đã hoàn thành nghĩa vụ quân sự tối đa 42 tuổi) cư trú tại tỉnh Chungcheongnam-do, đang làm việc từ 25 đến 60 tháng tại doanh nghiệp vừa, nhỏ và vừa lớn liên quan đến ngành công nghiệp chủ lực trong tỉnh như bán dẫn, ô tô, màn hình. Thu nhập hộ gia đình phải từ 180% mức thu nhập trung vị chuẩn trở xuống (hộ gia đình một người từ 4.616.000 won mỗi tháng trở xuống).",
+    summary: "Đây là chế độ tiết kiệm đối ứng hỗ trợ tích lũy tài sản cho thanh niên đang làm việc tại các doanh nghiệp nhỏ và vừa, doanh nghiệp cỡ trung trong ngành công nghiệp chủ lực của tỉnh Chungcheongnam-do.",
+    eligibility: "Đối tượng là thanh niên từ đủ 19 đến 39 tuổi (người đã hoàn thành nghĩa vụ quân sự tối đa 42 tuổi) cư trú tại tỉnh Chungcheongnam-do, đang làm việc từ 25 đến 60 tháng tại doanh nghiệp nhỏ và vừa, doanh nghiệp cỡ trung liên quan đến ngành công nghiệp chủ lực trong tỉnh như bán dẫn, ô tô, màn hình. Thu nhập hộ gia đình phải từ 180% mức thu nhập trung vị chuẩn trở xuống (hộ gia đình một người từ 4.616.000 won mỗi tháng trở xuống).",
     support_content: "Trong 24 tháng, mỗi tháng bản thân đóng 100.000 won, tỉnh Chungcheongnam-do đóng 100.000 won. Khi đáo hạn, cộng tiền tích lũy của bản thân 2.400.000 won, tiền hỗ trợ của tỉnh 2.400.000 won và tiền mừng đáo hạn 200.000 won, có thể nhận tổng cộng 5.000.000 won cùng với lãi suất.",
     application_method: "Đăng ký qua Cơ quan Xúc tiến Kinh tế Chungnam (cepa.or.kr) hoặc Cổng thông tin Thanh niên Chungnam (youth.chungnam.go.kr).",
     required_documents: ["Giấy xác nhận đang làm việc", "Giấy tờ chứng minh thu nhập", "Bản sao đăng ký cư trú"],
@@ -1067,8 +1067,8 @@ const vi: BenefitTranslationMap = {
   },
   "gyeongbuk-youth-love-dream-allowance": {
     title: "Trợ cấp \"Youth Love Dream\" Gyeongbuk",
-    summary: "Đây là chế độ chi trả tiền mặt theo từng giai đoạn cho thanh niên phỏng vấn, làm việc hoặc đang làm việc tại các doanh nghiệp vừa, nhỏ và vừa lớn trong tỉnh Gyeongbuk.",
-    eligibility: "Đối tượng là thanh niên từ đủ 19 đến 40 tuổi, đang phỏng vấn, làm việc hoặc đang làm việc tại doanh nghiệp vừa, nhỏ và vừa lớn trong tỉnh Gyeongsangbuk-do. Trợ cấp khuyến khích duy trì làm việc chỉ được chi trả khi làm việc từ 1 năm trở lên và duy trì đăng ký cư trú trong tỉnh Gyeongsangbuk-do.",
+    summary: "Đây là chế độ chi trả tiền mặt theo từng giai đoạn cho thanh niên phỏng vấn, làm việc hoặc đang làm việc tại các doanh nghiệp nhỏ và vừa, doanh nghiệp cỡ trung trong tỉnh Gyeongbuk.",
+    eligibility: "Đối tượng là thanh niên từ đủ 19 đến 40 tuổi, đang phỏng vấn, làm việc hoặc đang làm việc tại doanh nghiệp nhỏ và vừa, doanh nghiệp cỡ trung trong tỉnh Gyeongsangbuk-do. Trợ cấp khuyến khích duy trì làm việc chỉ được chi trả khi làm việc từ 1 năm trở lên và duy trì đăng ký cư trú trong tỉnh Gyeongsangbuk-do.",
     support_content: "Trợ cấp phỏng vấn 70.000 won mỗi lần, tối đa 5 lần (tối đa 350.000 won); tiền mừng thành công tìm việc 500.000 won (1 lần); trong thời gian làm việc, trợ cấp khuyến khích duy trì làm việc 300.000 won mỗi quý, tối đa 4 lần (tối đa 1.200.000 won). Nếu nhận đủ cả ba khoản thì tối đa là 2.050.000 won.",
     application_method: "Đăng ký qua trang chủ trợ cấp \"Youth Love Dream\" hoặc Trung tâm Việc làm Tổng hợp Gyeongbuk; có thể kết thúc sớm khi ngân sách cạn kiệt.",
     required_documents: ["Giấy xác nhận phỏng vấn hoặc giấy xác nhận đang làm việc", "Bản sao đăng ký cư trú"],
@@ -1146,7 +1146,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Làm thế nào để xác nhận tiêu chuẩn thu nhập?", answer: "Bạn cần đáp ứng điều kiện thu nhập từ 180% mức thu nhập trung vị chuẩn trở xuống (hộ gia đình 2 người 7.079.000 won mỗi tháng). Để biết cách tính thu nhập chính xác, bạn nên xác nhận qua công cụ tính thử trên trang Bokjiro (phúc lợi trực tuyến) hoặc liên hệ trực tiếp với cơ quan phụ trách." },
       { question: "Nếu không phải là vợ chồng mới cưới thì có thể đăng ký không?", answer: "Chế độ này áp dụng theo tiêu chuẩn dành cho vợ chồng mới cưới, vì vậy bạn phải đáp ứng điều kiện đó mới có thể đăng ký. Vui lòng liên hệ cơ quan phụ trách để biết tiêu chuẩn xác định chính xác." },
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Văn phòng TP. Changwon." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Ủy ban Nhân dân TP. Changwon." },
     ],
   },
   "changwon-birth-celebration-grant": {
@@ -1160,7 +1160,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ liên quan đến khai sinh, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Changwon để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Changwon để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "changwon-youth-rent-support": {
@@ -1172,9 +1172,9 @@ const vi: BenefitTranslationMap = {
     required_documents: ["Hợp đồng thuê nhà", "Bản sao đăng ký cư trú", "Giấy tờ chứng minh thu nhập"],
     checklist: ["Số lượng tuyển chọn có giới hạn nên đừng bỏ lỡ thời gian đăng ký", "Khi được chọn sẽ được truy lĩnh từ khoản tiền tháng 1"],
     faq: [
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Văn phòng TP. Changwon." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Ủy ban Nhân dân TP. Changwon." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có hợp đồng thuê nhà, bản sao đăng ký cư trú, giấy tờ chứng minh thu nhập. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Changwon để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Changwon để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "gimhae-newlywed-jeonse-interest-support": {
@@ -1182,12 +1182,12 @@ const vi: BenefitTranslationMap = {
     summary: "Đây là chế độ hỗ trợ lãi suất khoản vay tiền jeonse - thuê hàng tháng cho vợ chồng mới cưới không sở hữu nhà cư trú tại TP. Gimhae.",
     eligibility: "Tính đến ngày thông báo, đối tượng là vợ chồng mới cưới không sở hữu nhà, cùng cư trú tại một địa chỉ tại TP. Gimhae, ngày đăng ký kết hôn trong khoảng từ ngày 1 tháng 1 năm 2019 đến ngày 31 tháng 12 năm 2025 (trong vòng 7 năm).",
     support_content: "Hỗ trợ tối đa 1.500.000 won mỗi năm 1 lần trong phạm vi 1,5% số dư khoản vay tiền jeonse - thuê hàng tháng. Năm 2026 được vận hành với quy mô 621 hộ gia đình.",
-    application_method: "Đăng ký qua Văn phòng TP. Gimhae hoặc Dịch vụ Gyeongnam Baro.",
+    application_method: "Đăng ký qua Ủy ban Nhân dân TP. Gimhae hoặc Dịch vụ Gyeongnam Baro.",
     required_documents: ["Giấy chứng nhận quan hệ hôn nhân", "Hợp đồng thuê nhà jeonse - thuê hàng tháng", "Giấy tờ liên quan đến khoản vay"],
     checklist: ["Phải trong vòng 7 năm kể từ khi đăng ký kết hôn mới có thể đăng ký", "Vợ chồng phải cùng cư trú tại một địa chỉ"],
     faq: [
       { question: "Nếu không phải là vợ chồng mới cưới thì có thể đăng ký không?", answer: "Chế độ này áp dụng theo tiêu chuẩn dành cho vợ chồng mới cưới, vì vậy bạn phải đáp ứng điều kiện đó mới có thể đăng ký. Vui lòng liên hệ cơ quan phụ trách để biết tiêu chuẩn xác định chính xác." },
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Văn phòng TP. Gimhae." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Ủy ban Nhân dân TP. Gimhae." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy chứng nhận quan hệ hôn nhân, hợp đồng thuê nhà jeonse - thuê hàng tháng, giấy tờ liên quan đến khoản vay. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
     ],
   },
@@ -1202,7 +1202,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ liên quan đến khai sinh, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Gimhae để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Gimhae để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "gimhae-youth-rent-support": {
@@ -1210,7 +1210,7 @@ const vi: BenefitTranslationMap = {
     summary: "Đây là chế độ hỗ trợ tiền thuê nhà cho thanh niên không sở hữu nhà tại TP. Gimhae, từ nửa cuối năm 2025 đã mở rộng độ tuổi hỗ trợ lên đến 45 tuổi.",
     eligibility: "Đối tượng là thanh niên không sở hữu nhà từ đủ 19 đến 45 tuổi sống riêng với cha mẹ. Phải có đăng ký cư trú tại TP. Gimhae, sống trong nhà ở có tiền đặt cọc thuê từ 100 triệu won trở xuống, tiền thuê hàng tháng từ 600.000 won trở xuống. Thu nhập hộ gia đình phải trên 60% đến dưới 150% mức thu nhập trung vị chuẩn.",
     support_content: "Hỗ trợ tối đa 200.000 won mỗi tháng trong 12 tháng (tối đa 2.400.000 won mỗi năm).",
-    application_method: "Đăng ký trực tuyến qua Dịch vụ Gyeongnam Baro hoặc đến trực tiếp Phòng Chính sách Dân số và Thanh niên, Văn phòng TP. Gimhae.",
+    application_method: "Đăng ký trực tuyến qua Dịch vụ Gyeongnam Baro hoặc đến trực tiếp Phòng Chính sách Dân số và Thanh niên, Ủy ban Nhân dân TP. Gimhae.",
     required_documents: ["Hợp đồng thuê nhà", "Bản sao đăng ký cư trú", "Giấy tờ chứng minh thu nhập và tài sản"],
     checklist: ["Từ nửa cuối năm 2025, độ tuổi hỗ trợ đã được mở rộng lên đến 45 tuổi", "Số người được tuyển chọn có giới hạn nên hãy kiểm tra thời gian đăng ký"],
     faq: [
@@ -1229,7 +1229,7 @@ const vi: BenefitTranslationMap = {
     checklist: ["Có thể đăng ký tối đa 2 lần mỗi năm nên hãy giữ kỹ biên lai", "Có thể kết thúc sớm khi ngân sách cạn kiệt"],
     faq: [
       { question: "Độ tuổi được tính theo tuổi đầy đủ (tuổi quốc tế) phải không?", answer: "Có, độ tuổi áp dụng là từ đủ 18 đến 39 tuổi, thường được tính theo ngày thông báo hoặc ngày nộp đơn. Vui lòng kiểm tra lại ngày chuẩn chính xác trong thông báo chính thức." },
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Văn phòng TP. Jinju." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Ủy ban Nhân dân TP. Jinju." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có biên lai thi chứng chỉ, giấy tờ chứng minh thu nhập. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
     ],
   },
@@ -1238,13 +1238,13 @@ const vi: BenefitTranslationMap = {
     summary: "Đây là chế độ hỗ trợ lãi suất vay cho vợ chồng mới cưới đã mua nhà tại TP. Jinju, nếu đáp ứng điều kiện có thể đăng ký lại mỗi năm trong tối đa 5 năm.",
     eligibility: "Đối tượng là các cặp vợ chồng đã đăng ký kết hôn từ ngày 1 tháng 1 năm 2018 trở đi, đã mua nhà tại TP. Jinju và có đăng ký cư trú tại đó. Tổng thu nhập năm của hai vợ chồng phải từ 100 triệu won trở xuống, áp dụng cho nhà ở có diện tích sử dụng từ 85㎡ trở xuống, giá mua từ 600 triệu won trở xuống.",
     support_content: "Hỗ trợ 3% số dư khoản vay mua nhà (hạn mức 50 triệu won), tối đa 1.500.000 won mỗi năm, nếu đáp ứng điều kiện có thể đăng ký lại mỗi năm trong tối đa 5 năm.",
-    application_method: "Đăng ký bằng cách đến trực tiếp Phòng Cảnh quan Nhà ở, Văn phòng TP. Jinju hoặc trực tuyến qua Dịch vụ Gyeongnam Baro.",
+    application_method: "Đăng ký bằng cách đến trực tiếp Phòng Cảnh quan Nhà ở, Ủy ban Nhân dân TP. Jinju hoặc trực tuyến qua Dịch vụ Gyeongnam Baro.",
     required_documents: ["Giấy chứng nhận quan hệ hôn nhân", "Hợp đồng mua bán nhà", "Giấy tờ liên quan đến khoản vay"],
     checklist: ["Phải đăng ký lại mỗi năm trong tối đa 5 năm mới tiếp tục được hỗ trợ", "Phải mua nhà trong khoảng thời gian nhất định trước và sau ngày đăng ký kết hôn"],
     faq: [
       { question: "Làm thế nào để xác nhận tiêu chuẩn thu nhập?", answer: "Bạn cần đáp ứng điều kiện tổng thu nhập năm của hai vợ chồng từ 100 triệu won trở xuống. Để biết cách tính thu nhập chính xác, bạn nên xác nhận qua công cụ tính thử trên trang Bokjiro (phúc lợi trực tuyến) hoặc liên hệ trực tiếp với cơ quan phụ trách." },
       { question: "Nếu không phải là vợ chồng mới cưới thì có thể đăng ký không?", answer: "Chế độ này áp dụng theo tiêu chuẩn dành cho vợ chồng mới cưới, vì vậy bạn phải đáp ứng điều kiện đó mới có thể đăng ký. Vui lòng liên hệ cơ quan phụ trách để biết tiêu chuẩn xác định chính xác." },
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Phòng Cảnh quan Nhà ở, Văn phòng TP. Jinju." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Phòng Cảnh quan Nhà ở, Ủy ban Nhân dân TP. Jinju." },
     ],
   },
   "jinju-birth-celebration-grant": {
@@ -1258,7 +1258,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ liên quan đến khai sinh, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Jinju để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Jinju để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "jinju-youth-rent-support": {
@@ -1285,7 +1285,7 @@ const vi: BenefitTranslationMap = {
     checklist: ["Phải không có kinh nghiệm việc làm, giáo dục, đào tạo trong 6 tháng gần nhất mới có thể đăng ký", "Số tiền chi trả khác nhau theo từng giai đoạn của chương trình"],
     faq: [
       { question: "Độ tuổi được tính theo tuổi đầy đủ (tuổi quốc tế) phải không?", answer: "Có, độ tuổi áp dụng là từ đủ 18 đến 34 tuổi, thường được tính theo ngày thông báo hoặc ngày nộp đơn. Vui lòng kiểm tra lại ngày chuẩn chính xác trong thông báo chính thức." },
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Văn phòng TP. Pohang." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Ủy ban Nhân dân TP. Pohang." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ xác nhận chưa có việc làm, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
     ],
   },
@@ -1314,7 +1314,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ liên quan đến khai sinh, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Pohang để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Pohang để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "pohang-youth-rent-support": {
@@ -1336,13 +1336,13 @@ const vi: BenefitTranslationMap = {
     summary: "Đây là gói chính sách thanh niên năm 2026 của TP. Gumi, kết hợp tiền chuẩn bị việc làm, tiền thuê nhà và trợ cấp khuyến khích học tập cho thanh niên.",
     eligibility: "Đối tượng là thanh niên cư trú tại TP. Gumi. Tiêu chuẩn độ tuổi, thu nhập chi tiết có thể xem trong thông báo chính sách thanh niên TP. Gumi.",
     support_content: "Tổng cộng hỗ trợ tối đa 3.550.000 won, gồm tiền chuẩn bị việc làm 350.000 won, tiền thuê nhà 2.400.000 won, trợ cấp khuyến khích học tập 800.000 won.",
-    application_method: "Đăng ký qua Hệ thống Đặt lịch Tổng hợp, Văn phòng TP. Gumi trực tuyến hoặc thông báo chính sách thanh niên.",
+    application_method: "Đăng ký qua Hệ thống Đặt lịch Tổng hợp, Ủy ban Nhân dân TP. Gumi trực tuyến hoặc thông báo chính sách thanh niên.",
     required_documents: ["Giấy tờ chứng minh thu nhập", "Giấy tờ liên quan đến việc đang học/đang làm"],
     checklist: ["Có thể phải đăng ký riêng cho từng hạng mục trong 3 hạng mục (tiền chuẩn bị việc làm, tiền thuê nhà, trợ cấp khuyến khích học tập) nên hãy kiểm tra kỹ thông báo"],
     faq: [
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Văn phòng TP. Gumi." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Ủy ban Nhân dân TP. Gumi." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ chứng minh thu nhập, giấy tờ liên quan đến việc đang học/đang làm. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Gumi để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Gumi để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "gumi-marriage-encouragement-grant": {
@@ -1356,7 +1356,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Độ tuổi được tính theo tuổi đầy đủ (tuổi quốc tế) phải không?", answer: "Có, độ tuổi áp dụng là đủ 45 tuổi, thường được tính theo ngày thông báo hoặc ngày nộp đơn. Vui lòng kiểm tra lại ngày chuẩn chính xác trong thông báo chính thức." },
       { question: "Nếu không phải là vợ chồng mới cưới thì có thể đăng ký không?", answer: "Chế độ này áp dụng theo tiêu chuẩn dành cho vợ chồng mới cưới, vì vậy bạn phải đáp ứng điều kiện đó mới có thể đăng ký. Vui lòng liên hệ cơ quan phụ trách để biết tiêu chuẩn xác định chính xác." },
-      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Văn phòng TP. Gumi." },
+      { question: "Có thể đăng ký vào bất kỳ thời điểm nào không?", answer: "Không, chế độ này chỉ nhận đăng ký trong một khoảng thời gian nhất định trong năm. Vui lòng xác nhận thời gian đăng ký chính xác qua thông báo của Ủy ban Nhân dân TP. Gumi." },
     ],
   },
   "gumi-birth-celebration-grant": {
@@ -1370,7 +1370,7 @@ const vi: BenefitTranslationMap = {
     faq: [
       { question: "Có thể đăng ký thường xuyên, không giới hạn thời gian không?", answer: "Có, chế độ này có thể đăng ký thường xuyên, không có thời hạn cố định. Tuy nhiên, nếu ngân sách cạn kiệt thì có thể kết thúc sớm, vì vậy bạn nên đăng ký càng sớm càng tốt." },
       { question: "Khi đăng ký cần những giấy tờ gì?", answer: "Cần có giấy tờ liên quan đến khai sinh, bản sao đăng ký cư trú. Vui lòng kiểm tra lại danh mục giấy tờ chính xác trong hướng dẫn chính thức trước khi đăng ký." },
-      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Văn phòng TP. Gumi để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
+      { question: "Có thể nhận đồng thời với các khoản hỗ trợ khác không?", answer: "Khả năng nhận trùng với các chế độ khác tùy theo từng chương trình. Vui lòng liên hệ Ủy ban Nhân dân TP. Gumi để xác nhận có thể nhận đồng thời với các khoản hỗ trợ khác hay không." },
     ],
   },
   "gumi-youth-rent-support": {
@@ -1378,7 +1378,7 @@ const vi: BenefitTranslationMap = {
     summary: "Đây là chế độ hỗ trợ tiền thuê nhà trong tối đa 24 tháng cho thanh niên hộ gia đình một người, chưa kết hôn, không sở hữu nhà tại TP. Gumi.",
     eligibility: "Đối tượng là thanh niên hộ gia đình một người, chưa kết hôn, không sở hữu nhà, từ đủ 19 đến 39 tuổi, thu nhập từ 120% mức thu nhập trung vị chuẩn trở xuống, tài sản từ 122.200.000 won trở xuống.",
     support_content: "Hỗ trợ tối đa 100.000 won mỗi tháng trong tối đa 24 tháng.",
-    application_method: "Đăng ký trực tuyến qua Hệ thống Đặt lịch Tổng hợp, Văn phòng TP. Gumi hoặc đến trực tiếp Trung tâm Phúc lợi Hành chính.",
+    application_method: "Đăng ký trực tuyến qua Hệ thống Đặt lịch Tổng hợp, Ủy ban Nhân dân TP. Gumi hoặc đến trực tiếp Trung tâm Phúc lợi Hành chính.",
     required_documents: ["Hợp đồng thuê nhà", "Bản sao đăng ký cư trú", "Giấy tờ chứng minh thu nhập và tài sản"],
     checklist: ["Chỉ dành cho hộ gia đình một người chưa kết hôn", "Từ năm 2025, ngân sách được mở rộng và vận hành với quy mô tổng cộng 2.500 người"],
     faq: [
