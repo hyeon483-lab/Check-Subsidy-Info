@@ -2,6 +2,7 @@ import type { Benefit, Category, Region } from "../types";
 import type { Locale } from "./config";
 import { regionNames } from "./regionNames";
 import { categoryNames } from "./categoryNames";
+import { householdTypeTranslations, incomeConditionTranslations } from "./conditionTranslations";
 import en from "./benefitTranslations/en";
 import ja from "./benefitTranslations/ja";
 import zh from "./benefitTranslations/zh";
@@ -32,6 +33,13 @@ export function localizeBenefit(benefit: Benefit, locale: Locale): Benefit {
   };
 
   if (locale === "ko") return localized;
+
+  localized.income_condition = benefit.income_condition
+    ? (incomeConditionTranslations[locale]?.[benefit.income_condition] ?? benefit.income_condition)
+    : benefit.income_condition;
+  localized.household_type = benefit.household_type
+    ? (householdTypeTranslations[locale]?.[benefit.household_type] ?? benefit.household_type)
+    : benefit.household_type;
 
   const translation = benefitTranslationsByLocale[locale]?.[benefit.slug];
   if (!translation) return localized;
