@@ -4,7 +4,8 @@ import { join } from "node:path";
 import { getBenefitBySlug } from "@/lib/data";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+// OG 이미지는 로케일과 무관해 실제로 캐시가 걸립니다 (24시간).
+export const revalidate = 86400;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

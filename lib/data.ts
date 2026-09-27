@@ -13,6 +13,15 @@ import { Benefit, BenefitFilters, Category, Region } from "./types";
 const BENEFIT_LIST_COLUMNS =
   "id, slug, title, summary, eligibility, agency_name, region_id, category_id, income_condition, age_min, age_max, household_type, application_start_date, application_end_date, is_ongoing, source_updated_at, is_published, is_current, fiscal_year, program_slug";
 
+/**
+ * 지원금 데이터 조회 결과를 요청 간(인스턴스 간)에도 이 시간(초) 동안 재사용합니다.
+ * force-dynamic 페이지는 로케일 감지(getLocale → headers())가 매 요청 렌더링을
+ * 강제하지만, Supabase 조회 자체는 이 캐시로 여러 요청/여러 방문자가 공유하므로
+ * egress가 실제로 줄어듭니다. 관리자가 콘텐츠를 수정해도 최대 이 시간만큼만
+ * 지연 반영되는 트레이드오프가 있습니다.
+ */
+const BENEFIT_CACHE_SECONDS = 1800;
+
 function attachRelations(benefit: Benefit, regions: Region[], categories: Category[]): Benefit {
   return {
     ...benefit,
@@ -92,11 +101,39 @@ export async function getCategoryBySlug(slug: string): Promise<Category | undefi
   return categories.find((c) => c.slug === slug);
 }
 
+const fetchBenefitListFromSupabase = unstable_cache(
+  async (regionSlug?: string, categorySlug?: string): Promise<Benefit[] | null> => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
+
+    let query = supabase
+      .from("benefits")
+      .select(BENEFIT_LIST_COLUMNS)
+      .eq("is_published", true)
+      .eq("is_current", true);
+
+    if (regionSlug) {
+      const ids = matchingRegionIds(regionSlug, regions);
+      if (ids.length > 0) query = query.in("region_id", ids);
+    }
+    if (categorySlug) {
+      const category = categories.find((c) => c.slug === categorySlug);
+      if (category) query = query.eq("category_id", category.id);
+    }
+
+    const { data, error } = await query.order("created_at", { ascending: false });
+    if (error || !data) return [];
+    return data as Benefit[];
+  },
+  ["benefit-list-v1"],
+  { revalidate: BENEFIT_CACHE_SECONDS }
+);
+
 const getBenefitsCached = cache(async (regionSlug?: string, categorySlug?: string): Promise<Benefit[]> => {
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
-  const supabase = getSupabaseClient();
 
-  if (!supabase) {
+  if (!getSupabaseClient()) {
     let results = seedBenefits.filter((b) => b.is_published && b.is_current);
     if (regionSlug) {
       const ids = matchingRegionIds(regionSlug, regions);
@@ -109,71 +146,76 @@ const getBenefitsCached = cache(async (regionSlug?: string, categorySlug?: strin
     return results.map((b) => attachRelations(b, regions, categories));
   }
 
-  let query = supabase
-    .from("benefits")
-    .select(BENEFIT_LIST_COLUMNS)
-    .eq("is_published", true)
-    .eq("is_current", true);
-
-  if (regionSlug) {
-    const ids = matchingRegionIds(regionSlug, regions);
-    if (ids.length > 0) query = query.in("region_id", ids);
-  }
-  if (categorySlug) {
-    const category = categories.find((c) => c.slug === categorySlug);
-    if (category) query = query.eq("category_id", category.id);
-  }
-
-  const { data, error } = await query.order("created_at", { ascending: false });
-  if (error || !data) return [];
-  return (data as Benefit[]).map((b) => attachRelations(b, regions, categories));
+  const data = await fetchBenefitListFromSupabase(regionSlug, categorySlug);
+  if (!data) return [];
+  return data.map((b) => attachRelations(b, regions, categories));
 });
 
 export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit[]> {
   return getBenefitsCached(filters.regionSlug, filters.categorySlug);
 }
 
+const fetchBenefitHistoryFromSupabase = unstable_cache(
+  async (programSlug: string): Promise<Benefit[] | null> => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    const { data, error } = await supabase
+      .from("benefits")
+      .select("*")
+      .eq("is_published", true)
+      .eq("program_slug", programSlug)
+      .order("fiscal_year", { ascending: false });
+    if (error || !data) return [];
+    return data as Benefit[];
+  },
+  ["benefit-history-v1"],
+  { revalidate: BENEFIT_CACHE_SECONDS }
+);
+
 /** 같은 제도의 연도별 버전을 최신순으로 반환합니다 (히스토리 표시용). */
 export const getBenefitHistory = cache(async (programSlug: string): Promise<Benefit[]> => {
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
-  const supabase = getSupabaseClient();
 
-  if (!supabase) {
+  if (!getSupabaseClient()) {
     return seedBenefits
       .filter((b) => b.is_published && b.program_slug === programSlug)
       .sort((a, b) => b.fiscal_year - a.fiscal_year)
       .map((b) => attachRelations(b, regions, categories));
   }
 
-  const { data, error } = await supabase
-    .from("benefits")
-    .select("*")
-    .eq("is_published", true)
-    .eq("program_slug", programSlug)
-    .order("fiscal_year", { ascending: false });
-
-  if (error || !data) return [];
-  return (data as Benefit[]).map((b) => attachRelations(b, regions, categories));
+  const data = await fetchBenefitHistoryFromSupabase(programSlug);
+  if (!data) return [];
+  return data.map((b) => attachRelations(b, regions, categories));
 });
 
+const fetchBenefitBySlugFromSupabase = unstable_cache(
+  async (slug: string): Promise<Benefit | null> => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    const { data, error } = await supabase
+      .from("benefits")
+      .select("*")
+      .eq("slug", slug)
+      .eq("is_published", true)
+      .maybeSingle();
+    if (error || !data) return null;
+    return data as Benefit;
+  },
+  ["benefit-by-slug-v1"],
+  { revalidate: BENEFIT_CACHE_SECONDS }
+);
+
 export const getBenefitBySlug = cache(async (slug: string): Promise<Benefit | undefined> => {
-  const supabase = getSupabaseClient();
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
 
-  if (!supabase) {
+  if (!getSupabaseClient()) {
     const benefit = seedBenefits.find((b) => b.slug === slug && b.is_published);
     return benefit ? attachRelations(benefit, regions, categories) : undefined;
   }
 
-  const { data, error } = await supabase
-    .from("benefits")
-    .select("*")
-    .eq("slug", slug)
-    .eq("is_published", true)
-    .maybeSingle();
-
-  if (error || !data) return undefined;
-  return attachRelations(data as Benefit, regions, categories);
+  const data = await fetchBenefitBySlugFromSupabase(slug);
+  if (!data) return undefined;
+  return attachRelations(data, regions, categories);
 });
 
 /**

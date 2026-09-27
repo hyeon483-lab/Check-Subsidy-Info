@@ -1,8 +1,8 @@
 import { getBenefits } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
 
-// Supabase 데이터가 바뀌면 재배포 없이 즉시 반영되도록 매 요청마다 새로 생성합니다.
-export const dynamic = "force-dynamic";
+// 로케일 감지(headers())를 쓰지 않아 실제로 캐시가 걸립니다 (1시간).
+export const revalidate = 3600;
 
 const siteName = "내 지원금 찾기";
 const feedDescription = "결혼, 출산·육아, 아동·청소년, 청년, 주거, 어르신, 다문화 등 지역별 정부·지자체 지원금 최신 정보";
