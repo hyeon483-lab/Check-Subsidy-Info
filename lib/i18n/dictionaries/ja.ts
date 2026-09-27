@@ -73,9 +73,6 @@ const ja: Dictionary = {
     youthCenterTitle: "オントンチョンニョン(青年統合情報)",
     youthCenterDescription: "青年政策統合情報プラットフォーム",
   },
-  recentlyViewed: {
-    heading: "最近見た支援金",
-  },
   filterBar: {
     regionLabel: "地域",
     allRegions: "全地域",

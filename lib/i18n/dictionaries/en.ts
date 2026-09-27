@@ -73,9 +73,6 @@ const en: Dictionary = {
     youthCenterTitle: "On-tong Youth (온통청년)",
     youthCenterDescription: "Integrated youth policy information platform",
   },
-  recentlyViewed: {
-    heading: "Recently viewed",
-  },
   filterBar: {
     regionLabel: "Region",
     allRegions: "All regions",

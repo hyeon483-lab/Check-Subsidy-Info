@@ -72,9 +72,6 @@ const zh: Dictionary = {
     youthCenterTitle: "全青年（온통청년）",
     youthCenterDescription: "青年政策综合信息平台",
   },
-  recentlyViewed: {
-    heading: "最近浏览的补贴金",
-  },
   filterBar: {
     regionLabel: "地区",
     allRegions: "全部地区",

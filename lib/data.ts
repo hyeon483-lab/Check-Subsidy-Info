@@ -1,6 +1,17 @@
+import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { getSupabaseClient } from "./supabase";
 import { seedBenefits, seedCategories, seedRegions } from "./seedData";
 import { Benefit, BenefitFilters, Category, Region } from "./types";
+
+/**
+ * 목록/카드 화면(홈, 카테고리, 지역, 검색, 파인더, RSS)에서는 상세 텍스트 필드가
+ * 전혀 쓰이지 않으므로 egress 절감을 위해 select 범위를 제한합니다.
+ * (support_content/application_method/required_documents/checklist/faq/agency_url/
+ * source_name은 상세 페이지의 getBenefitBySlug/getBenefitHistory에서만 select("*")로 가져옵니다.)
+ */
+const BENEFIT_LIST_COLUMNS =
+  "id, slug, title, summary, eligibility, agency_name, region_id, category_id, income_condition, age_min, age_max, household_type, application_start_date, application_end_date, is_ongoing, source_updated_at, is_published, is_current, fiscal_year, program_slug";
 
 function attachRelations(benefit: Benefit, regions: Region[], categories: Category[]): Benefit {
   return {
@@ -31,23 +42,45 @@ function matchingRegionIds(regionSlug: string, regions: Region[]): string[] {
   return ids;
 }
 
-export async function getRegions(): Promise<Region[]> {
-  const supabase = getSupabaseClient();
-  if (!supabase) return seedRegions;
+/**
+ * 지역/카테고리는 사실상 정적인 참조 데이터라 요청마다 새로 조회할 필요가 없어
+ * unstable_cache로 인스턴스 간(요청 간) 캐싱까지 적용합니다. 지원금(benefits)
+ * 본문은 최신성이 중요해 이 캐시를 적용하지 않고 React cache()로 "같은 요청 내
+ * 중복 호출 제거"만 적용합니다.
+ */
+const fetchRegionsFromSupabase = unstable_cache(
+  async (): Promise<Region[] | null> => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    const { data, error } = await supabase.from("regions").select("*").order("name");
+    if (error || !data) return null;
+    return data as Region[];
+  },
+  ["regions-v1"],
+  { revalidate: 3600 }
+);
 
-  const { data, error } = await supabase.from("regions").select("*").order("name");
-  if (error || !data) return seedRegions;
-  return data as Region[];
-}
+const fetchCategoriesFromSupabase = unstable_cache(
+  async (): Promise<Category[] | null> => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    const { data, error } = await supabase.from("categories").select("*").order("sort_order");
+    if (error || !data) return null;
+    return data as Category[];
+  },
+  ["categories-v1"],
+  { revalidate: 3600 }
+);
 
-export async function getCategories(): Promise<Category[]> {
-  const supabase = getSupabaseClient();
-  if (!supabase) return seedCategories;
+export const getRegions = cache(async (): Promise<Region[]> => {
+  const data = await fetchRegionsFromSupabase();
+  return data ?? seedRegions;
+});
 
-  const { data, error } = await supabase.from("categories").select("*").order("sort_order");
-  if (error || !data) return seedCategories;
-  return data as Category[];
-}
+export const getCategories = cache(async (): Promise<Category[]> => {
+  const data = await fetchCategoriesFromSupabase();
+  return data ?? seedCategories;
+});
 
 export async function getRegionBySlug(slug: string): Promise<Region | undefined> {
   const regions = await getRegions();
@@ -59,41 +92,49 @@ export async function getCategoryBySlug(slug: string): Promise<Category | undefi
   return categories.find((c) => c.slug === slug);
 }
 
-export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit[]> {
+const getBenefitsCached = cache(async (regionSlug?: string, categorySlug?: string): Promise<Benefit[]> => {
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
   const supabase = getSupabaseClient();
 
   if (!supabase) {
     let results = seedBenefits.filter((b) => b.is_published && b.is_current);
-    if (filters.regionSlug) {
-      const ids = matchingRegionIds(filters.regionSlug, regions);
+    if (regionSlug) {
+      const ids = matchingRegionIds(regionSlug, regions);
       results = results.filter((b) => ids.includes(b.region_id));
     }
-    if (filters.categorySlug) {
-      const category = categories.find((c) => c.slug === filters.categorySlug);
+    if (categorySlug) {
+      const category = categories.find((c) => c.slug === categorySlug);
       results = results.filter((b) => b.category_id === category?.id);
     }
     return results.map((b) => attachRelations(b, regions, categories));
   }
 
-  let query = supabase.from("benefits").select("*").eq("is_published", true).eq("is_current", true);
+  let query = supabase
+    .from("benefits")
+    .select(BENEFIT_LIST_COLUMNS)
+    .eq("is_published", true)
+    .eq("is_current", true);
 
-  if (filters.regionSlug) {
-    const ids = matchingRegionIds(filters.regionSlug, regions);
+  if (regionSlug) {
+    const ids = matchingRegionIds(regionSlug, regions);
     if (ids.length > 0) query = query.in("region_id", ids);
   }
-  if (filters.categorySlug) {
-    const category = categories.find((c) => c.slug === filters.categorySlug);
+  if (categorySlug) {
+    const category = categories.find((c) => c.slug === categorySlug);
     if (category) query = query.eq("category_id", category.id);
   }
 
   const { data, error } = await query.order("created_at", { ascending: false });
   if (error || !data) return [];
   return (data as Benefit[]).map((b) => attachRelations(b, regions, categories));
+});
+
+export async function getBenefits(filters: BenefitFilters = {}): Promise<Benefit[]> {
+  return getBenefitsCached(filters.regionSlug, filters.categorySlug);
 }
 
 /** 같은 제도의 연도별 버전을 최신순으로 반환합니다 (히스토리 표시용). */
-export async function getBenefitHistory(programSlug: string): Promise<Benefit[]> {
+export const getBenefitHistory = cache(async (programSlug: string): Promise<Benefit[]> => {
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
   const supabase = getSupabaseClient();
 
@@ -113,9 +154,9 @@ export async function getBenefitHistory(programSlug: string): Promise<Benefit[]>
 
   if (error || !data) return [];
   return (data as Benefit[]).map((b) => attachRelations(b, regions, categories));
-}
+});
 
-export async function getBenefitBySlug(slug: string): Promise<Benefit | undefined> {
+export const getBenefitBySlug = cache(async (slug: string): Promise<Benefit | undefined> => {
   const supabase = getSupabaseClient();
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
 
@@ -133,7 +174,7 @@ export async function getBenefitBySlug(slug: string): Promise<Benefit | undefine
 
   if (error || !data) return undefined;
   return attachRelations(data as Benefit, regions, categories);
-}
+});
 
 /**
  * 지원금 상세 페이지 하단의 "관련 지원금" 추천용입니다. 같은 지역의 다른

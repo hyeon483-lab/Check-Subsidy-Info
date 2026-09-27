@@ -10,7 +10,6 @@ import ScrollTopButton from "@/components/ScrollTopButton";
 import AdSlot from "@/components/AdSlot";
 import BenefitCard from "@/components/BenefitCard";
 import ShareButton from "@/components/ShareButton";
-import RecordRecentlyViewed from "@/components/RecordRecentlyViewed";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeBenefit, localizeBenefits } from "@/lib/i18n/localize";
@@ -368,12 +367,6 @@ export default async function BenefitDetailPage({ params }: { params: Promise<{ 
       </div>
 
       <ScrollTopButton />
-      <RecordRecentlyViewed
-        slug={benefit.slug}
-        title={benefit.title}
-        categoryName={benefit.category?.name}
-        regionName={benefit.region?.name}
-      />
     </div>
   );
 }

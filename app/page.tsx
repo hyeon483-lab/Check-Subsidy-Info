@@ -10,7 +10,6 @@ import AdSlot from "@/components/AdSlot";
 import ToolsShowcase from "@/components/ToolsShowcase";
 import CategoryGrid from "@/components/CategoryGrid";
 import OfficialLinks from "@/components/OfficialLinks";
-import RecentlyViewedSection from "@/components/RecentlyViewedSection";
 import HomeIntro from "@/components/HomeIntro";
 import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -90,8 +89,6 @@ export default async function HomePage({
         <div className="mb-12">
           <ToolsShowcase dict={dict} locale={locale} />
         </div>
-
-        <RecentlyViewedSection dict={dict} locale={locale} />
 
         <div className="mb-12">
           <CategoryGrid categories={localizedCategoriesWithCount} dict={dict} locale={locale} />

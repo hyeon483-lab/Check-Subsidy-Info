@@ -63,9 +63,6 @@ export interface Dictionary {
     youthCenterTitle: string;
     youthCenterDescription: string;
   };
-  recentlyViewed: {
-    heading: string;
-  };
   filterBar: {
     regionLabel: string;
     allRegions: string;

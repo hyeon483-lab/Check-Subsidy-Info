@@ -73,9 +73,6 @@ const th: Dictionary = {
     youthCenterTitle: "On-tong Youth (온통청년)",
     youthCenterDescription: "แพลตฟอร์มข้อมูลนโยบายคนหนุ่มสาวแบบรวมศูนย์",
   },
-  recentlyViewed: {
-    heading: "ดูล่าสุด",
-  },
   filterBar: {
     regionLabel: "พื้นที่",
     allRegions: "ทุกพื้นที่",

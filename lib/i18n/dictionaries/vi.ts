@@ -73,9 +73,6 @@ const vi: Dictionary = {
     youthCenterTitle: "On-tong Youth (온통청년)",
     youthCenterDescription: "Nền tảng thông tin chính sách thanh niên tổng hợp",
   },
-  recentlyViewed: {
-    heading: "Đã xem gần đây",
-  },
   filterBar: {
     regionLabel: "Khu vực",
     allRegions: "Tất cả khu vực",

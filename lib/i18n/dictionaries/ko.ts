@@ -72,9 +72,6 @@ const ko: Dictionary = {
     youthCenterTitle: "온통청년",
     youthCenterDescription: "청년정책 통합 정보 플랫폼",
   },
-  recentlyViewed: {
-    heading: "최근 본 지원금",
-  },
   filterBar: {
     regionLabel: "지역",
     allRegions: "전체 지역",
