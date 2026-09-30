@@ -6518,4 +6518,106 @@ export const seedBenefits: Benefit[] = [
     fiscal_year: 2026,
     is_current: true,
   },
+  {
+    id: "b-youth-future-savings-account",
+    slug: "youth-future-savings-account",
+    title: "청년미래적금",
+    summary:
+      "만 19~34세 청년의 자산형성을 돕기 위해 2026년 신설된 정부 매칭 적금으로, 3년간 납입액의 6~12%를 정부가 얹어줍니다.",
+    region_id: "r-nationwide",
+    category_id: "c-youth",
+    eligibility:
+      "만 19~34세 청년 중 일반형은 총급여 6,000만원 이하(종합소득 4,800만원 이하) 또는 연매출 3억원 이하 소상공인이 대상이며, 가구소득이 기준 중위소득 200% 이하여야 합니다. 우대형은 소득이 더 낮은 구간에 적용됩니다.",
+    support_content:
+      "월 최대 50만원까지 자유롭게 납입하는 3년 만기 자유적립식 적금입니다. 기본금리는 연 5% 수준이며 총급여 3,600만원 이하 청년 등에게 우대금리가 추가됩니다. 여기에 납입액 대비 정부기여금이 매칭되고(일반형 6%, 우대형 12%), 이자소득 비과세 혜택도 함께 적용됩니다. 정확한 금리와 취급 은행은 참여 은행 확정 후 최종 공지됩니다.",
+    application_method:
+      "별도 방문 없이 취급 은행 앱에서 비대면으로 신청합니다. 신청 시기와 취급 은행은 순차적으로 안내되니 금융위원회 및 서민금융진흥원 공지를 확인하세요.",
+    required_documents: ["신분증", "소득 증빙서류(원천징수영수증 등)"],
+    checklist: [
+      "일반형·우대형 여부에 따라 정부기여금 매칭 비율(6%/12%)이 다릅니다",
+      "3년 만기를 채워야 정부기여금과 비과세 혜택을 온전히 받을 수 있으니 취급 은행 약관을 확인하세요",
+    ],
+    faq: [
+      {
+        question: "일반형과 우대형은 무엇이 다른가요?",
+        answer:
+          "일반형은 총급여 6,000만원 이하(종합소득 4,800만원 이하) 소득자가 대상이며 정부기여금 6%를 받습니다. 우대형은 소득이 더 낮은 구간에 적용되며 정부기여금 12%를 받습니다. 정확한 구간 기준은 취급 은행 안내에서 확인하세요.",
+      },
+      {
+        question: "월 납입 한도와 만기는 어떻게 되나요?",
+        answer: "월 최대 50만원까지 자유롭게 납입할 수 있는 자유적립식 상품이며, 만기는 3년입니다.",
+      },
+      {
+        question: "신청은 어떻게 하나요?",
+        answer:
+          "별도 방문 없이 취급 은행 앱에서 비대면으로 신청합니다. 신청 시기와 취급 은행은 순차적으로 안내되니 금융위원회·서민금융진흥원 공지를 확인하세요.",
+      },
+    ],
+    agency_name: "금융위원회",
+    agency_url: "https://www.fsc.go.kr/",
+    income_condition: "기준 중위소득 200% 이하",
+    age_min: 19,
+    age_max: 34,
+    household_type: null,
+    application_start_date: null,
+    application_end_date: null,
+    is_ongoing: true,
+    source_name: "금융위원회 및 언론 보도(이투데이·한국경제 등) 기준 정리",
+    source_updated_at: "2026-09-30",
+    is_published: true,
+    program_slug: "youth-future-savings-account",
+    fiscal_year: 2026,
+    is_current: true,
+  },
+  {
+    id: "b-idolbom-night-emergency-care-allowance",
+    slug: "idolbom-night-emergency-care-allowance",
+    title: "아이돌봄서비스 야간·긴급돌봄 수당(2026년 신설)",
+    summary:
+      "2026년부터 아이돌봄서비스에 새로 생긴 제도로, 야간이나 긴급 상황에 아이돌보미를 이용하면 하루 5,000원의 추가 수당이 지원됩니다.",
+    region_id: "r-nationwide",
+    category_id: "c-birth",
+    eligibility:
+      "기존 아이돌봄서비스 이용 대상 가구 중 야간 또는 긴급 상황에 아이돌봄서비스를 이용하는 가구가 대상입니다. 2026년부터 아이돌봄서비스 자체의 지원 기준도 기준 중위소득 200% 이하에서 250% 이하로 완화됩니다.",
+    support_content:
+      "야간·긴급 돌봄 이용 시 기존 아이돌봄 이용요금 지원과 별도로 하루 5,000원의 수당이 추가 지원됩니다. 아이돌보미에게 지급되는 시간당 활동수당도 2026년부터 11,120원으로 인상되며, 아이돌보미 자격제도 함께 도입됩니다.",
+    application_method:
+      "기존 아이돌봄서비스와 동일하게 아이돌봄서비스 홈페이지(idolbom.go.kr) 또는 복지로에서 신청합니다. 야간·긴급형 이용 방법과 세부 기준은 지자체별로 다를 수 있어 신청 전 확인이 필요합니다.",
+    required_documents: ["아이돌봄서비스 이용 신청서", "가구원 소득·재산 증빙서류"],
+    checklist: [
+      "2026년 신설 제도라 지자체별 시행 시기와 세부 운영 방식이 다를 수 있습니다",
+      "기존 아이돌봄서비스 지원 기준(중위소득)도 2026년부터 250% 이하로 완화됩니다",
+    ],
+    faq: [
+      {
+        question: "언제부터 시행되나요?",
+        answer: "2026년부터 시행되며, 아이돌보미 자격제 등과 함께 순차 적용됩니다. 정확한 시행 일정은 아이돌봄서비스 공지를 확인하세요.",
+      },
+      {
+        question: "기존 아이돌봄서비스와 별도로 신청해야 하나요?",
+        answer:
+          "별도의 신청 절차보다는 기존 아이돌봄서비스 이용 중 야간·긴급 상황에 해당할 때 추가로 지원되는 수당입니다. 정확한 이용 방법은 아이돌봄서비스(idolbom.go.kr)에서 확인하세요.",
+      },
+      {
+        question: "소득 기준이 어떻게 되나요?",
+        answer:
+          "2026년부터 아이돌봄서비스 지원 대상 기준이 기준 중위소득 250% 이하로 완화됩니다. 정확한 본인부담금 구간은 아이돌봄서비스 홈페이지에서 확인하세요.",
+      },
+    ],
+    agency_name: "여성가족부(→성평등가족부)",
+    agency_url: "https://idolbom.go.kr/",
+    income_condition: "기준 중위소득 250% 이하(2026년 기준)",
+    age_min: null,
+    age_max: null,
+    household_type: null,
+    application_start_date: null,
+    application_end_date: null,
+    is_ongoing: true,
+    source_name: "아주경제 등 언론 보도 및 여성가족부 2026년 예산안 기준 정리",
+    source_updated_at: "2026-09-30",
+    is_published: true,
+    program_slug: "idolbom-night-emergency-care-allowance",
+    fiscal_year: 2026,
+    is_current: true,
+  },
 ];
