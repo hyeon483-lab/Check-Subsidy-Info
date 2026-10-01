@@ -6620,4 +6620,55 @@ export const seedBenefits: Benefit[] = [
     fiscal_year: 2026,
     is_current: true,
   },
+  {
+    id: "b-youth-rent-special-support-nationwide",
+    slug: "youth-rent-special-support-nationwide",
+    title: "청년월세 특별지원(전국)",
+    summary:
+      "만 19~34세 무주택 청년에게 월세를 최장 24개월간 지원하는 국토교통부 전국 제도로, 2026년부터 한시사업에서 계속사업으로 전환되었습니다.",
+    region_id: "r-nationwide",
+    category_id: "c-housing",
+    eligibility:
+      "신청 당시 만 19~34세(2026년 기준 1991~2007년생)인 무주택 청년으로, 부모와 별도로 거주하는 독립가구여야 합니다. 분양권·입주권을 포함해 주택을 소유하지 않아야 하며, 임차보증금 5,000만원 이하·월세 60만원 이하 주택에 거주해야 합니다. 청년가구 소득은 기준 중위소득 60% 이하, 부모를 포함한 원가구 소득은 기준 중위소득 100% 이하여야 합니다.",
+    support_content:
+      "실제 납부하는 월세를 기준으로 월 최대 20만원, 최장 24개월(총 최대 480만원)을 매월 25일 현금으로 지원합니다. 2026년부터 한시사업에서 계속사업으로 전환되어 매년 반복해서 신규 신청을 받습니다.",
+    application_method:
+      "복지로(bokjiro.go.kr) 온라인 신청 또는 주소지 관할 행정복지센터를 방문해 신청합니다. 신규 신청 기간은 매년 공고되며(2026년은 3월 30일~5월 29일 접수), 연도별로 기간이 달라질 수 있어 복지로 공지를 확인해야 합니다.",
+    required_documents: ["임대차계약서", "가족관계증명서", "소득·재산 증빙서류"],
+    checklist: [
+      "거주 중인 지자체 자체 청년월세 지원사업과는 별도 제도이니 중복 수혜 가능 여부를 확인하세요",
+      "청년가구 소득뿐 아니라 부모를 포함한 원가구 소득 기준도 함께 충족해야 합니다",
+    ],
+    faq: [
+      {
+        question: "지자체 청년월세 지원과 동시에 받을 수 있나요?",
+        answer:
+          "지자체별로 중복 수혜 가능 여부가 다릅니다. 거주 중인 시·군·구에 자체 청년월세 지원사업이 있다면 이 전국 제도와 중복 신청이 가능한지 반드시 확인하세요.",
+      },
+      {
+        question: "소득 기준은 어떻게 확인하나요?",
+        answer:
+          "청년가구(본인) 소득은 기준 중위소득 60% 이하, 부모를 포함한 원가구 소득은 기준 중위소득 100% 이하 조건을 모두 충족해야 합니다. 정확한 금액 기준은 복지로 모의계산으로 확인하는 것이 안전합니다.",
+      },
+      {
+        question: "신청 기간을 놓치면 어떻게 하나요?",
+        answer: "2026년부터 계속사업으로 전환되어 매년 신규 신청 기간이 다시 열립니다. 정확한 신청 기간은 복지로 공지사항에서 매년 확인해야 합니다.",
+      },
+    ],
+    agency_name: "국토교통부",
+    agency_url: "https://www.bokjiro.go.kr/",
+    income_condition: "청년가구 기준 중위소득 60% 이하, 원가구(부모 포함) 기준 중위소득 100% 이하",
+    age_min: 19,
+    age_max: 34,
+    household_type: null,
+    application_start_date: null,
+    application_end_date: null,
+    is_ongoing: true,
+    source_name: "복지로 2026년 청년월세 특별지원 공고 및 언론 보도 기준 정리",
+    source_updated_at: "2026-10-01",
+    is_published: true,
+    program_slug: "youth-rent-special-support-nationwide",
+    fiscal_year: 2026,
+    is_current: true,
+  },
 ];
