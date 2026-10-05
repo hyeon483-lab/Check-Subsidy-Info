@@ -1,12 +1,12 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { FilterIcon, LogoMark, SearchIcon } from "./icons";
-import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizedHref } from "@/lib/i18n/href";
+import type { Locale } from "@/lib/i18n/config";
 import LanguageToggle from "./LanguageToggle";
 
-export default async function Header() {
-  const locale = await getLocale();
+export default function Header({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
 
   return (
@@ -62,7 +62,9 @@ export default async function Header() {
           >
             {dict.header.navContact}
           </Link>
-          <LanguageToggle />
+          <Suspense fallback={<div className="h-[29px] w-[86px] shrink-0 animate-pulse rounded-full bg-slate-100" />}>
+            <LanguageToggle />
+          </Suspense>
         </nav>
       </div>
     </header>

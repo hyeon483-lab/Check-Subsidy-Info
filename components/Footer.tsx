@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { InfoIcon, LogoMark } from "./icons";
 import { getCategories } from "@/lib/data";
-import { getLocale } from "@/lib/i18n/getLocale";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizeCategories } from "@/lib/i18n/localize";
 import { localizedHref } from "@/lib/i18n/href";
+import type { Locale } from "@/lib/i18n/config";
 
-export default async function Footer() {
-  const locale = await getLocale();
+export default async function Footer({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const categories = localizeCategories(await getCategories(), locale);
 
