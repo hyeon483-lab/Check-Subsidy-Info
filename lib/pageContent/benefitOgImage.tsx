@@ -5,6 +5,9 @@ import { getBenefitBySlug } from "@/lib/data";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+// Next.js의 opengraph-image alt는 정적 문자열만 지원해 slug별 동적 텍스트는
+// 불가능하지만, 제목 없는 일반 설명보다는 나아서 추가합니다.
+export const alt = "내 지원금 찾기 - 지원금 상세 안내 이미지";
 
 function truncate(text: string, max: number) {
   return text.length > max ? `${text.slice(0, max)}…` : text;
