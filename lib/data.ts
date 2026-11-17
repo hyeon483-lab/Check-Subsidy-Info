@@ -18,9 +18,15 @@ const BENEFIT_LIST_COLUMNS =
  * 홈/카테고리/지역/검색 페이지는 searchParams를 읽어 여전히 매 요청 렌더링되지만,
  * Supabase 조회 자체는 이 캐시로 여러 요청/여러 방문자가 공유하므로 egress가
  * 실제로 줄어듭니다. 관리자가 콘텐츠를 수정해도 최대 이 시간만큼만 지연
- * 반영되는 트레이드오프가 있습니다.
+ * 반영되는 트레이드오프가 있습니다. (2026-11: Supabase 무료 플랜 비활성화
+ * 일시정지에서 복귀한 뒤 egress/CPU 여유를 더 두기 위해 30분→1시간으로 연장)
  */
-const BENEFIT_CACHE_SECONDS = 1800;
+const BENEFIT_CACHE_SECONDS = 3600;
+
+/**
+ * 지역/카테고리는 사실상 정적인 참조 데이터라 더 길게 캐싱합니다.
+ */
+const REFERENCE_CACHE_SECONDS = 21600;
 
 function attachRelations(benefit: Benefit, regions: Region[], categories: Category[]): Benefit {
   return {
@@ -56,6 +62,15 @@ function matchingRegionIds(regionSlug: string, regions: Region[]): string[] {
  * unstable_cache로 인스턴스 간(요청 간) 캐싱까지 적용합니다. 지원금(benefits)
  * 본문은 최신성이 중요해 이 캐시를 적용하지 않고 React cache()로 "같은 요청 내
  * 중복 호출 제거"만 적용합니다.
+ *
+ * 아래 fetch*FromSupabase 함수들은 전부 "실패하면 null(또는 단일 조회는 null,
+ * 목록 조회는 null)을 반환"하도록 통일했습니다 — Supabase가 설정 안 됐을 때뿐
+ * 아니라, 설정은 됐는데 프로젝트가 일시정지·오류 등으로 응답을 못 줄 때도
+ * 반드시 null을 반환해야, 호출부에서 "진짜 결과가 0건"과 "조회 자체가
+ * 실패함"을 구분해 후자일 때만 로컬 시드 데이터로 폴백할 수 있습니다.
+ * (이 구분이 빠져 있던 게 Supabase 일시정지 중 사이트에 콘텐츠가 전부
+ * 사라져 보였던 원인이었습니다 — 빈 배열은 "falsy"가 아니라서 과거 코드의
+ * `if (!data)` 체크를 통과하지 못했습니다.)
  */
 const fetchRegionsFromSupabase = unstable_cache(
   async (): Promise<Region[] | null> => {
@@ -66,7 +81,7 @@ const fetchRegionsFromSupabase = unstable_cache(
     return data as Region[];
   },
   ["regions-v1"],
-  { revalidate: 3600 }
+  { revalidate: REFERENCE_CACHE_SECONDS }
 );
 
 const fetchCategoriesFromSupabase = unstable_cache(
@@ -78,7 +93,7 @@ const fetchCategoriesFromSupabase = unstable_cache(
     return data as Category[];
   },
   ["categories-v1"],
-  { revalidate: 3600 }
+  { revalidate: REFERENCE_CACHE_SECONDS }
 );
 
 export const getRegions = cache(async (): Promise<Region[]> => {
@@ -99,6 +114,19 @@ export async function getRegionBySlug(slug: string): Promise<Region | undefined>
 export async function getCategoryBySlug(slug: string): Promise<Category | undefined> {
   const categories = await getCategories();
   return categories.find((c) => c.slug === slug);
+}
+
+function seedBenefitList(regionSlug: string | undefined, categorySlug: string | undefined, regions: Region[], categories: Category[]): Benefit[] {
+  let results = seedBenefits.filter((b) => b.is_published && b.is_current);
+  if (regionSlug) {
+    const ids = matchingRegionIds(regionSlug, regions);
+    results = results.filter((b) => ids.includes(b.region_id));
+  }
+  if (categorySlug) {
+    const category = categories.find((c) => c.slug === categorySlug);
+    results = results.filter((b) => b.category_id === category?.id);
+  }
+  return results.map((b) => attachRelations(b, regions, categories));
 }
 
 const fetchBenefitListFromSupabase = unstable_cache(
@@ -123,7 +151,7 @@ const fetchBenefitListFromSupabase = unstable_cache(
     }
 
     const { data, error } = await query.order("created_at", { ascending: false });
-    if (error || !data) return [];
+    if (error || !data) return null;
     return data as Benefit[];
   },
   ["benefit-list-v1"],
@@ -134,20 +162,11 @@ const getBenefitsCached = cache(async (regionSlug?: string, categorySlug?: strin
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
 
   if (!getSupabaseClient()) {
-    let results = seedBenefits.filter((b) => b.is_published && b.is_current);
-    if (regionSlug) {
-      const ids = matchingRegionIds(regionSlug, regions);
-      results = results.filter((b) => ids.includes(b.region_id));
-    }
-    if (categorySlug) {
-      const category = categories.find((c) => c.slug === categorySlug);
-      results = results.filter((b) => b.category_id === category?.id);
-    }
-    return results.map((b) => attachRelations(b, regions, categories));
+    return seedBenefitList(regionSlug, categorySlug, regions, categories);
   }
 
   const data = await fetchBenefitListFromSupabase(regionSlug, categorySlug);
-  if (!data) return [];
+  if (data === null) return seedBenefitList(regionSlug, categorySlug, regions, categories);
   return data.map((b) => attachRelations(b, regions, categories));
 });
 
@@ -165,26 +184,30 @@ const fetchBenefitHistoryFromSupabase = unstable_cache(
       .eq("is_published", true)
       .eq("program_slug", programSlug)
       .order("fiscal_year", { ascending: false });
-    if (error || !data) return [];
+    if (error || !data) return null;
     return data as Benefit[];
   },
   ["benefit-history-v1"],
   { revalidate: BENEFIT_CACHE_SECONDS }
 );
 
+function seedBenefitHistory(programSlug: string, regions: Region[], categories: Category[]): Benefit[] {
+  return seedBenefits
+    .filter((b) => b.is_published && b.program_slug === programSlug)
+    .sort((a, b) => b.fiscal_year - a.fiscal_year)
+    .map((b) => attachRelations(b, regions, categories));
+}
+
 /** 같은 제도의 연도별 버전을 최신순으로 반환합니다 (히스토리 표시용). */
 export const getBenefitHistory = cache(async (programSlug: string): Promise<Benefit[]> => {
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
 
   if (!getSupabaseClient()) {
-    return seedBenefits
-      .filter((b) => b.is_published && b.program_slug === programSlug)
-      .sort((a, b) => b.fiscal_year - a.fiscal_year)
-      .map((b) => attachRelations(b, regions, categories));
+    return seedBenefitHistory(programSlug, regions, categories);
   }
 
   const data = await fetchBenefitHistoryFromSupabase(programSlug);
-  if (!data) return [];
+  if (data === null) return seedBenefitHistory(programSlug, regions, categories);
   return data.map((b) => attachRelations(b, regions, categories));
 });
 
@@ -208,13 +231,15 @@ const fetchBenefitBySlugFromSupabase = unstable_cache(
 export const getBenefitBySlug = cache(async (slug: string): Promise<Benefit | undefined> => {
   const [regions, categories] = await Promise.all([getRegions(), getCategories()]);
 
-  if (!getSupabaseClient()) {
+  const seedFallback = () => {
     const benefit = seedBenefits.find((b) => b.slug === slug && b.is_published);
     return benefit ? attachRelations(benefit, regions, categories) : undefined;
-  }
+  };
+
+  if (!getSupabaseClient()) return seedFallback();
 
   const data = await fetchBenefitBySlugFromSupabase(slug);
-  if (!data) return undefined;
+  if (data === null) return seedFallback();
   return attachRelations(data, regions, categories);
 });
 
@@ -251,17 +276,18 @@ export async function getAllBenefitSlugs(): Promise<string[]> {
 export async function getAllBenefitsMeta(): Promise<{ slug: string; updatedAt: string | null }[]> {
   const supabase = getSupabaseClient();
 
-  if (!supabase) {
-    return seedBenefits
+  const seedFallback = () =>
+    seedBenefits
       .filter((b) => b.is_published)
       .map((b) => ({ slug: b.slug, updatedAt: b.source_updated_at }));
-  }
+
+  if (!supabase) return seedFallback();
 
   const { data, error } = await supabase
     .from("benefits")
     .select("slug, source_updated_at")
     .eq("is_published", true);
-  if (error || !data) return [];
+  if (error || !data) return seedFallback();
   return (data as { slug: string; source_updated_at: string | null }[]).map((b) => ({
     slug: b.slug,
     updatedAt: b.source_updated_at,

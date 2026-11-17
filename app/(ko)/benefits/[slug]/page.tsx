@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { benefitDetailMetadata, BenefitDetailPageContent } from "@/lib/pageContent/benefitDetail";
 
-export const revalidate = 1800;
+export const revalidate = 3600;
 
 // Empty array on purpose: this just marks the route as static-generation-eligible
 // (dynamicParams defaults to true) so Next.js caches each slug after its first
