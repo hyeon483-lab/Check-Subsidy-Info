@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { finderMetadata, FinderPageContent } from "@/lib/pageContent/finder";
 
-export const revalidate = 3600;
+export const revalidate = 14400;
 
 export function generateMetadata(): Metadata {
   return finderMetadata("ko");

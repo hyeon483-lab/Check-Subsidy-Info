@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { isLocale, defaultLocale } from "@/lib/i18n/config";
 import { finderMetadata, FinderPageContent } from "@/lib/pageContent/finder";
 
-export const revalidate = 3600;
+export const revalidate = 14400;
 
 export async function generateMetadata({
   params,

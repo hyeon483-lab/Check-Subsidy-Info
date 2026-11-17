@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { isLocale, defaultLocale } from "@/lib/i18n/config";
 import { benefitDetailMetadata, BenefitDetailPageContent } from "@/lib/pageContent/benefitDetail";
 
-export const revalidate = 3600;
+export const revalidate = 14400;
 
 // Empty array on purpose: this just marks the route as static-generation-eligible
 // (dynamicParams defaults to true) so Next.js caches each slug after its first

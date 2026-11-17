@@ -19,14 +19,14 @@ const BENEFIT_LIST_COLUMNS =
  * Supabase 조회 자체는 이 캐시로 여러 요청/여러 방문자가 공유하므로 egress가
  * 실제로 줄어듭니다. 관리자가 콘텐츠를 수정해도 최대 이 시간만큼만 지연
  * 반영되는 트레이드오프가 있습니다. (2026-11: Supabase 무료 플랜 비활성화
- * 일시정지에서 복귀한 뒤 egress/CPU 여유를 더 두기 위해 30분→1시간으로 연장)
+ * 일시정지에서 복귀한 뒤 egress/CPU 여유를 더 두기 위해 30분→1시간→4시간으로 연장)
  */
-const BENEFIT_CACHE_SECONDS = 3600;
+const BENEFIT_CACHE_SECONDS = 14400;
 
 /**
  * 지역/카테고리는 사실상 정적인 참조 데이터라 더 길게 캐싱합니다.
  */
-const REFERENCE_CACHE_SECONDS = 21600;
+const REFERENCE_CACHE_SECONDS = 43200;
 
 function attachRelations(benefit: Benefit, regions: Region[], categories: Category[]): Benefit {
   return {
@@ -80,7 +80,7 @@ const fetchRegionsFromSupabase = unstable_cache(
     if (error || !data) return null;
     return data as Region[];
   },
-  ["regions-v1"],
+  ["regions-v2"],
   { revalidate: REFERENCE_CACHE_SECONDS }
 );
 
@@ -92,7 +92,7 @@ const fetchCategoriesFromSupabase = unstable_cache(
     if (error || !data) return null;
     return data as Category[];
   },
-  ["categories-v1"],
+  ["categories-v2"],
   { revalidate: REFERENCE_CACHE_SECONDS }
 );
 
@@ -154,7 +154,7 @@ const fetchBenefitListFromSupabase = unstable_cache(
     if (error || !data) return null;
     return data as Benefit[];
   },
-  ["benefit-list-v1"],
+  ["benefit-list-v2"],
   { revalidate: BENEFIT_CACHE_SECONDS }
 );
 
@@ -187,7 +187,7 @@ const fetchBenefitHistoryFromSupabase = unstable_cache(
     if (error || !data) return null;
     return data as Benefit[];
   },
-  ["benefit-history-v1"],
+  ["benefit-history-v2"],
   { revalidate: BENEFIT_CACHE_SECONDS }
 );
 
@@ -224,7 +224,7 @@ const fetchBenefitBySlugFromSupabase = unstable_cache(
     if (error || !data) return null;
     return data as Benefit;
   },
-  ["benefit-by-slug-v1"],
+  ["benefit-by-slug-v2"],
   { revalidate: BENEFIT_CACHE_SECONDS }
 );
 
